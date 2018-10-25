@@ -1,0 +1,197 @@
+﻿  stdafx.cpp
+  20180820.cpp
+  animation.cpp
+  bullet.cpp
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\bullet.cpp(90): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\bullet.cpp(129): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\bullet.cpp(128): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\bullet.cpp(139): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\bullet.cpp(163): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\bullet.cpp(226): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  bulletManger.cpp
+  button.cpp
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\button.cpp(13): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\button.cpp(14): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  CreatorScene.cpp
+  editor.cpp
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\editor.cpp(245): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\editor.cpp(486): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\editor.cpp(485): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  effect.cpp
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\effect.cpp(52): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  effectManager.cpp
+  EndingScene.cpp
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\endingscene.cpp(36): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  gameNode.cpp
+  image.cpp
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\image.cpp(274): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\image.cpp(306): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\image.cpp(318): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\image.cpp(336): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\image.cpp(331): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\image.cpp(350): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\image.cpp(345): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\image.cpp(412): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\image.cpp(422): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\image.cpp(421): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\image.cpp(441): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\image.cpp(436): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\image.cpp(457): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\image.cpp(456): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\image.cpp(451): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\image.cpp(450): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\image.cpp(517): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\image.cpp(530): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\image.cpp(542): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  imageManager.cpp
+  item.cpp
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(66): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(117): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(116): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(128): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(127): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(126): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(125): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(136): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(135): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(134): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(133): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(153): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(152): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(161): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(160): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(171): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(170): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(179): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(178): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(251): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(283): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(282): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(291): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(290): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(299): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(298): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(305): warning C4838: 'float'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(302): warning C4244: '초기화 중': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(303): warning C4244: '초기화 중': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(304): warning C4244: '초기화 중': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\item.cpp(305): warning C4244: '초기화 중': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  itemManager.cpp
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\itemmanager.cpp(26): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\itemmanager.cpp(27): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\itemmanager.cpp(28): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\itemmanager.cpp(29): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\itemmanager.cpp(30): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\itemmanager.cpp(39): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\itemmanager.cpp(41): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\itemmanager.cpp(43): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  keyManager.cpp
+  loadingScene.cpp
+  mainGame.cpp
+  MapCamera.cpp
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\mapcamera.cpp(50): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\mapcamera.cpp(54): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\mapcamera.cpp(58): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\mapcamera.cpp(62): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  monster.cpp
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\monster.cpp(79): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\monster.cpp(106): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\monster.cpp(131): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\monster.cpp(365): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\monster.cpp(505): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\monster.cpp(504): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  monsterManger.cpp
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\monstermanger.cpp(16): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\monstermanger.cpp(18): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\monstermanger.cpp(20): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\monstermanger.cpp(25): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\monstermanger.cpp(26): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  PlayerCharacter.cpp
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(13): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(14): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(65): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(148): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(175): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(174): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(183): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(182): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(190): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(189): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(228): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(239): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(389): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(398): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(402): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(406): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(410): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(414): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(418): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(422): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(426): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(430): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(434): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(438): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(525): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(534): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(543): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(555): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\playercharacter.cpp(518): warning C4101: 'temp_rc' :참조되지 않은 지역 변수입니다.
+  progressBar.cpp
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\progressbar.cpp(13): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\progressbar.cpp(16): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\progressbar.cpp(18): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\progressbar.cpp(33): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\progressbar.cpp(35): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\progressbar.cpp(34): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  scene.cpp
+  sceneManager.cpp
+  ScrollMgr.cpp
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\scrollmgr.cpp(20): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\scrollmgr.cpp(21): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\scrollmgr.cpp(32): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\scrollmgr.cpp(33): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\scrollmgr.cpp(34): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\scrollmgr.cpp(35): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  soundManager.cpp
+  stageScene.cpp
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(121): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(228): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(229): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(291): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(292): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(298): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(423): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(422): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(447): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(446): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(457): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(456): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(552): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(625): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(662): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(734): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(773): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(830): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(831): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(870): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\stagescene.cpp(871): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  tileMap.cpp
+  timeManager.cpp
+  timer.cpp
+  titleScene.cpp
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\titlescene.cpp(66): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\titlescene.cpp(191): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\titlescene.cpp(194): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\titlescene.cpp(196): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  txtData.cpp
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\txtdata.cpp(50): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\txtdata.cpp(53): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  uiManager.cpp
+  uiTxt.cpp
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\uitxt.cpp(48): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  utils.cpp
+  코드를 생성하고 있습니다...
+c:\users\5_kga_4\desktop\개인포폴\견본\20180820\txtdata.cpp(57): warning C4172: 지역 변수 또는 임시: str의 주소를 반환하고 있습니다.
+  20180820.vcxproj -> C:\Users\5_KGA_4\Desktop\개인포폴\견본\Debug\20180820.exe
