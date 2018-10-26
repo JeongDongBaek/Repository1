@@ -7,4 +7,3 @@ public:
 	Fox();
 	~Fox();
 };
-

@@ -168,6 +168,9 @@
     <ClInclude Include="CreatorScene.h">
       <Filter>MainGame\GameScene</Filter>
     </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>MainGame\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -265,6 +268,9 @@
     </ClCompile>
     <ClCompile Include="EndingScene.cpp">
       <Filter>MainGame\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>MainGame\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

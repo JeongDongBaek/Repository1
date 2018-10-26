@@ -84,8 +84,10 @@ public:
 
 	// ·»´õ
 	void render(HDC hdc, int destX, int destY);
+	void render(HDC hdc, int destX, int destY, int scalar);
 	void render(HDC hdc, int destX, int destY,
 		int sourX, int sourY, int sourWidth, int sourHeight, float scalar = 1.0f);
+
 	void render(HDC hdc, int destX, int destY,
 		int sourX, int sourY, int sourWidth, int sourHeight, float scalar, BYTE alpha);
 
