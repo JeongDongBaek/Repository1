@@ -13,6 +13,7 @@ class Editor_Scene : public scene
 	image * m_pImg_tileset1;
 	image * m_pImg_tileset1_div;
 	image * m_pImg_UIopen;
+	image * m_pImg_TextBox;
 	button * m_pButton_Terrains;
 	button * m_pButton_Units;
 	button * m_pButton_Else;
@@ -20,9 +21,13 @@ class Editor_Scene : public scene
 	image * m_pImg_Enemy[NUMBER_OF_KIND_UNITS];
 	animation * m_pAni_Enemy[NUMBER_OF_KIND_UNITS];
 
-	tagTILE m_pTiles[TILE_MAX_COUNTX * TILE_MAX_COUNTY];
+	tagTILE m_pTiles[TILE_MAX_COUNTX * TILE_MAX_COUNTY * 2];
+	tagSampleTile m_pSampleTiles[MAX_SAMPLEX * MAX_SAMPLEY];
 	RECT m_rcSelectedTile;
+	RECT m_EnemyBoxRect[NUMBER_OF_KIND_UNITS - 4];
+
 	tagEDITOR_STATE m_editorState;
+	tagMOUSE_STATE st_mouse;
 
 	bool m_bIsMiniMapOn;
 	bool m_bIsHelpOn;
@@ -46,6 +51,9 @@ public:
 	void update_once();
 	void KeyEvent();
 	void buttonUpdate();
+	void mouseEvent_Terrains();
+	void mouseEvent_Units();
+	void tileReset();
 
 	void release();
 	void render(HDC hdc);

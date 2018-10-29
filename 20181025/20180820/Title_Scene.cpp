@@ -28,7 +28,7 @@ HRESULT Title_Scene::init()
 	IMAGEMANAGER->addImage("frog_jump", "image/enemy/frog_jump_ani.bmp", 105, 35, 3, 1, true, RGB(255, 255, 255));
 	IMAGEMANAGER->addImage("oposum_idle", "image/enemy/oposum_idle_ani.bmp", 216, 28, 6, 1, true, RGB(255, 255, 255));
 	IMAGEMANAGER->addImage("enemy_box", "image/enemy_box.bmp", 120, 110, true, RGB(255,255,255));
-
+	IMAGEMANAGER->addImage("text", "image/text.bmp", 260, 210, true, RGB(255, 0, 255));
 
 	m_pImg_Menu[0] = IMAGEMANAGER->addImage("sc_gamestart", "image/button/sc_gamestart.bmp", 500, 120, true, RGB(255,255,255));
 	m_pImg_Menu[1] = IMAGEMANAGER->addImage("sc_editor", "image/button/sc_editor.bmp", 500, 120, true, RGB(255,255,255));

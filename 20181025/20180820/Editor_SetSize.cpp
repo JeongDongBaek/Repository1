@@ -9,7 +9,7 @@ HRESULT Editor_SetSize::init()
 {
 	Enter_Number = 0;
 	m_pImg_BG = IMAGEMANAGER->findImage("black");
-	m_nTileCountX = 128;
+	m_nTileCountX = 64;
 	m_nTileCountY = 32;
 
 	return S_OK;
@@ -33,16 +33,16 @@ void Editor_SetSize::KeyEvent()
 	switch (Enter_Number)
 	{
 	case 0:
-		if (KEYMANAGER->isOnceKeyDown(VK_LEFT) && m_nTileCountX > 64)
-			m_nTileCountX -= 32;
-		if (KEYMANAGER->isOnceKeyDown(VK_RIGHT) && m_nTileCountX < 256)
-			m_nTileCountX += 32;
+		if (KEYMANAGER->isOnceKeyDown(VK_LEFT) && m_nTileCountX > 48)
+			m_nTileCountX -= 16;
+		if (KEYMANAGER->isOnceKeyDown(VK_RIGHT) && m_nTileCountX < 128)
+			m_nTileCountX += 16;
 		break;
 	case 1:
 		if (KEYMANAGER->isOnceKeyDown(VK_LEFT) && m_nTileCountY > 32)
-			m_nTileCountY -= 32;
-		if (KEYMANAGER->isOnceKeyDown(VK_RIGHT) && m_nTileCountY < 128)
-			m_nTileCountY += 32;
+			m_nTileCountY -= 16;
+		if (KEYMANAGER->isOnceKeyDown(VK_RIGHT) && m_nTileCountY < 64)
+			m_nTileCountY += 16;
 		break;
 	case 2:
 		g_saveData.gTileMaxCountX = m_nTileCountX;
