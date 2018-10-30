@@ -1,71 +1,57 @@
 #include "stdafx.h"
-#include "enemyManager.h"
-#include "spaceShip.h"
+#include "EnemyManager.h"
+#include "Enemy.h"
 
-
-HRESULT enemyManager::init()
+HRESULT EnemyManager::init(int m_nMaxLimitNumber)
 {
+	m_vec.reserve(m_nMaxLimitNumber); // Limit
+	
+
 	return S_OK;
 }
 
-void enemyManager::release()
+void EnemyManager::release()
 {
-	// vector의 첫 원소부터 마지막 원소까지 순회하며 각 원소를 delete한다
-	for (m_iter = m_vecEnemy.begin(); m_iter != m_vecEnemy.end(); m_iter++)
+	if (g_saveData.gGamePause) false;
+
+	for (m_iter = m_vec.begin(); m_iter != m_vec.end(); m_iter++) // 중간에 end가 바뀌면 안된다.
 	{
-		delete (*m_iter);
+		//(*m_iter)->release();
+		delete (*m_iter);  // 공간은 두되 원소 개개인의 값을 초기화시킨다.
+		// 자세히 설명하자면 : 포인터를 메모리 해제시킨다. 하지만 실제로 가리키는 클래스 변수에는 영향을 미치지 않는다.
+		// 그리고 Limit변수에 따라 언제나 다시 메모리 할당을 할 수 있다.
 	}
-	// vector 자체를 삭제한다
-	m_vecEnemy.clear();
+	m_vec.clear(); // 공간은 두되 원소들의 값을 초기화시킨다.
+	
 }
 
-void enemyManager::update()
+void EnemyManager::update()
 {
-	// vector의 첫 원소부터 마지막 원소까지 순회하며 각 원소를 update한다
-	for (m_iter = m_vecEnemy.begin(); m_iter != m_vecEnemy.end(); m_iter++)
-	{
-		(*m_iter)->update();
-	}
-}
+	if (g_saveData.gGamePause) false;
 
-void enemyManager::render(HDC hdc)
-{
-	// vector의 첫 원소부터 마지막 원소까지 순회하며 각 원소를 render한다
-	for (m_iter = m_vecEnemy.begin(); m_iter != m_vecEnemy.end(); m_iter++)
+	for (m_iter = m_vec.begin(); m_iter != m_vec.end(); m_iter++)
 	{
-		(*m_iter)->render(hdc);
+		if((*m_iter)->getIsAlive() == true )
+			(*m_iter)->update();
 	}
 }
 
-void enemyManager::setEnemy(int countX, int countY)
+void EnemyManager::render(HDC hdc)
 {
-	for (int i = 0; i < countY; i++)
-	{
-		for (int j = 0; j < countX; j++)
-		{
-			enemy* pEnemy;
-			pEnemy = new enemy;
-			pEnemy->init("image/ufo.bmp", PointMake(130 + 70 * j, 100 + 60 * i));
+	if (g_saveData.gGamePause) false;
 
-			// vector의 마지막 원소 뒤에 새로운 데이터를 추가한다
-			m_vecEnemy.push_back(pEnemy);
-		}
+	for (m_iter = m_vec.begin(); m_iter != m_vec.end(); m_iter++)
+	{
+		if ((*m_iter)->getIsAlive() == true)
+			(*m_iter)->render(hdc);
 	}
 }
 
-void enemyManager::setTarget(spaceShip * pTarget)
-{
-	for (m_iter = m_vecEnemy.begin(); m_iter != m_vecEnemy.end(); m_iter++)
-	{
-		(*m_iter)->setTarget(pTarget);
-	}
-}
-
-enemyManager::enemyManager()
+EnemyManager::EnemyManager()
 {
 }
 
 
-enemyManager::~enemyManager()
+EnemyManager::~EnemyManager()
 {
 }

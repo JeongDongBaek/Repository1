@@ -2,10 +2,10 @@
 #include "mainGame.h"
 #include "loadingScene.h"
 #include "EndingScene.h"
-#include "CreatorScene.h"
 #include "Editor_Scene.h"
 #include "Editor_SetSize.h"
 #include "Title_Scene.h"
+#include "StageScene.h"
 
 
 void mainGame::setBackBuffer()
@@ -35,9 +35,6 @@ HRESULT mainGame::init()
 
 	m_pEndingScene = new EndingScene;
 	SCENEMANAGER->addScene("ending", m_pEndingScene);
-
-	m_pCreatorScene = new CreatorScene;
-	SCENEMANAGER->addScene("creator", m_pCreatorScene);
 	
 	m_pEditorScene = new Editor_Scene;
 	SCENEMANAGER->addScene("editor", m_pEditorScene);
@@ -48,6 +45,8 @@ HRESULT mainGame::init()
 	m_pTitleScene = new Title_Scene;
 	SCENEMANAGER->addScene("title", m_pTitleScene);
 
+	m_pStageScene = new StageScene;
+	SCENEMANAGER->addScene("stage", m_pStageScene);
 
 	SCENEMANAGER->changeScene("title");
 

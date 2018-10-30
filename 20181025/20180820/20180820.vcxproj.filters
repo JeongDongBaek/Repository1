@@ -55,6 +55,9 @@
     <Filter Include="MainGame\GameScene">
       <UniqueIdentifier>{bc1fdc95-0132-41e4-aa25-336cc2de3d9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\GameObject\Enemy">
+      <UniqueIdentifier>{3bd37fd8-4386-455c-8bc4-682488038859}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -165,11 +168,14 @@
     <ClInclude Include="EndingScene.h">
       <Filter>MainGame\GameScene</Filter>
     </ClInclude>
-    <ClInclude Include="CreatorScene.h">
-      <Filter>MainGame\GameScene</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>MainGame\GameObject</Filter>
+      <Filter>MainGame\GameObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>MainGame\GameObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="StageScene.h">
+      <Filter>MainGame\GameScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -263,14 +269,17 @@
     <ClCompile Include="loadingScene.cpp">
       <Filter>MainGame\GameScene</Filter>
     </ClCompile>
-    <ClCompile Include="CreatorScene.cpp">
-      <Filter>MainGame\GameScene</Filter>
-    </ClCompile>
     <ClCompile Include="EndingScene.cpp">
       <Filter>MainGame\GameScene</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>MainGame\GameObject</Filter>
+      <Filter>MainGame\GameObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>MainGame\GameObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="StageScene.cpp">
+      <Filter>MainGame\GameScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -30,6 +30,30 @@ HRESULT Title_Scene::init()
 	IMAGEMANAGER->addImage("enemy_box", "image/enemy_box.bmp", 120, 110, true, RGB(255,255,255));
 	IMAGEMANAGER->addImage("text", "image/text.bmp", 260, 210, true, RGB(255, 0, 255));
 
+	// Player///////////
+	IMAGEMANAGER->addImage("fox_idle", "image/fox/player-idle-1-horz.bmp", 132, 32, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("fox_jump", "image/fox/player-jump-1-horz.bmp", 66, 32, 2, 1, true, RGB(255, 0, 255)); // 1은 점프 // 2는 하강
+	IMAGEMANAGER->addImage("fox_run", "image/fox/player-run-1-horz.bmp", 198, 32, 6, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("fox_hurt", "image/fox/player-hurt-1-horz.bmp", 66, 32, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("fox_climb", "image/fox/player-climb-1-horz.bmp", 99, 32, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("fox_crouch", "image/fox/player-crouch-1-horz.bmp", 66, 32, 2, 1, true, RGB(255, 0, 255));
+
+
+	IMAGEMANAGER->addImage("rabbit_idle", "image/rabbit/player-idle-1-horz.bmp", 333, 32, 9, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("rabbit_jump", "image/rabbit/player-jump-1-horz.bmp", 148, 32, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("rabbit_run", "image/rabbit/player-run-1-horz.bmp", 296, 32, 8, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("rabbit_hurt", "image/rabbit/player-hurt-1-horz.bmp", 74, 32, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("rabbit_climb", "image/rabbit/player-climb-1-horz.bmp", 148, 32, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("rabbit_fall", "image/rabbit/player-fall-1-horz.bmp", 148, 32, 4, 1, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addImage("squirrel_idle", "image/squirrel/player-idle-1-horz.bmp", 720, 58, 8, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("squirrel_round", "image/squirrel/player-round-1-horz.bmp", 360, 58, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("squirrel_run", "image/squirrel/player-run-1-horz.bmp", 540, 58, 6, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("squirrel_hurt", "image/squirrel/player-hurt-1-horz.bmp", 180, 58, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("squirrel_crouch", "image/squirrel/player-crouch-1-horz.bmp", 180, 58, 2, 1, true, RGB(255, 0, 255));
+
+	///////////////////
+
 	m_pImg_Menu[0] = IMAGEMANAGER->addImage("sc_gamestart", "image/button/sc_gamestart.bmp", 500, 120, true, RGB(255,255,255));
 	m_pImg_Menu[1] = IMAGEMANAGER->addImage("sc_editor", "image/button/sc_editor.bmp", 500, 120, true, RGB(255,255,255));
 	m_pImg_Menu[2] = IMAGEMANAGER->addImage("sc_option", "image/button/sc_option.bmp", 500, 120, true, RGB(255,255,255));

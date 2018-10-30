@@ -61,6 +61,11 @@ private:
 	BLENDFUNCTION	m_blendFunc;	// 알파 블렌드를 위한 정보
 	LPIMAGE_INFO	m_pBlendImage;	// 알파 블렌드를 사용하기 위한 중간 이미지
 
+									// 피격 블렌드
+	BLENDFUNCTION	m_blendFuncHit;		// 피격 블렌드를 위한 정보
+	LPIMAGE_INFO	m_pBlendImageHit;	// 피격 블렌드를 사용하기 위한 생성 이미지
+	LPIMAGE_INFO	m_pTempImageHit;	// 피격 블렌드를 사용하기 위한 임시 이미지
+
 public:
 	image();
 	~image();
@@ -90,7 +95,8 @@ public:
 
 	void render(HDC hdc, int destX, int destY,
 		int sourX, int sourY, int sourWidth, int sourHeight, float scalar, BYTE alpha);
-
+	void hitRender(HDC hdc, int destX, int destY, COLORREF color);
+	void hitFrameRender(HDC hdc, int destX, int destY, int currFrameX, int currFrameY, COLORREF color);
 
 	// 프레임 렌더
 	void frameRender(HDC hdc, int destX, int destY,	int currFrameX, int currFrameY);

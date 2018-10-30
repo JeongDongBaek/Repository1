@@ -111,6 +111,8 @@ void Editor_Scene::LoadEvent()
 
 HRESULT Editor_Scene::init()
 {
+
+	m_rcSelectedUnit = 99; // 없다는뜻
 	m_bIsMiniMapOn = false;
 	m_bIsHelpOn = false;
 	m_bIsAutoOn = false;
@@ -118,7 +120,9 @@ HRESULT Editor_Scene::init()
 	m_bIsSel = false;
 	m_bIsTextOn = false;
 	m_editorState = st_Terrains;
-
+	m_rcSelectedTile.rc.left = 130;
+	m_rcSelectedTile.rc.top = 0;
+	m_rcSelectedTile.terrain = isEmpty;
 	init_image();
 	SCROLL_MAP->init();
 	m_pButton_Terrains = new button;
@@ -152,7 +156,7 @@ HRESULT Editor_Scene::init()
 		m_pAni_Enemy[i] = new animation;
 		m_pAni_Enemy[i]->init(m_pImg_Enemy[i]->getWidth(), m_pImg_Enemy[i]->getHeight(), m_pImg_Enemy[i]->getFrameWidth(), m_pImg_Enemy[i]->getFrameHeight());
 		m_pAni_Enemy[i]->setDefPlayFrame(false, true);
-		m_pAni_Enemy[i]->setFPS(13);
+		m_pAni_Enemy[i]->setFPS(12);
 		m_pAni_Enemy[i]->start();
 	}
 
@@ -171,30 +175,7 @@ HRESULT Editor_Scene::init()
 	init_tileset();
 
 
-	for (int j = 0; j < MAX_SAMPLEX; ++j)
-	{
-		m_pSampleTiles[j ].frameX = j; //8까지
-		m_pSampleTiles[j ].frameY = 0; 
-		switch ( (j+0) / 33)
-		{
-		case 0:
-			m_pSampleTiles[j ].rc = RectMake(105  + j * TILESIZEX,
-				(WINSIZEY / 2 + 0) , TILESIZEX, TILESIZEY);
-			break;
-		case 1:
-			m_pSampleTiles[j ].rc = RectMake(105  + (j - 33) * TILESIZEX,
-				(WINSIZEY / 2 + 56) , TILESIZEX, TILESIZEY);
-			break;
-		case 2:
-			m_pSampleTiles[j ].rc = RectMake(105  + (j - 66) * TILESIZEX,
-				(WINSIZEY / 2 + 112) , TILESIZEX, TILESIZEY);
-			break;
-		case 3:
-			m_pSampleTiles[j ].rc = RectMake(105  + (j - 99) * TILESIZEX,
-				(WINSIZEY / 2 + 168) , TILESIZEX, TILESIZEY);
-			break;
-		}
-	}
+	
 
 
 	return S_OK;
@@ -208,30 +189,87 @@ void Editor_Scene::init_image()
 	m_pImg_tileset1_div = IMAGEMANAGER->findImage("tileset1_div");
 	m_pImg_EnemyBox = IMAGEMANAGER->findImage("enemy_box");
 	m_pImg_TextBox = IMAGEMANAGER->findImage("text");
+	m_pHelp_UI = IMAGEMANAGER->findImage("parchment");
 }
 
 void Editor_Scene::init_tileset()
 {
+	Sample_tileSetting();
 	tileReset();
+}
+
+void Editor_Scene::Sample_tileSetting()
+{
+	for (int j = 0; j < MAX_SAMPLEX; ++j)
+	{
+		m_pSampleTiles[j].terrain = isBlock;
+		m_pSampleTiles[j].frameX = j; //8까지
+		m_pSampleTiles[j].frameY = 0;
+		switch ((j + 0) / 33)
+		{
+		case 0:
+			m_pSampleTiles[j].rc = RectMake(105 + j * TILESIZEX,
+				(WINSIZEY / 2 + 0), TILESIZEX, TILESIZEY);
+			break;
+		case 1:
+			m_pSampleTiles[j].rc = RectMake(105 + (j - 33) * TILESIZEX,
+				(WINSIZEY / 2 + 56), TILESIZEX, TILESIZEY);
+			break;
+		case 2:
+			m_pSampleTiles[j].rc = RectMake(105 + (j - 66) * TILESIZEX,
+				(WINSIZEY / 2 + 112), TILESIZEX, TILESIZEY);
+			break;
+		case 3:
+			m_pSampleTiles[j].rc = RectMake(105 + (j - 99) * TILESIZEX,
+				(WINSIZEY / 2 + 168), TILESIZEX, TILESIZEY);
+			break;
+		}
+
+
+		if (j == 7 || j == 11)
+			m_pSampleTiles[j].terrain = isUpHill1;
+		if (j == 8 || j == 12)
+			m_pSampleTiles[j].terrain = isUpHill2;
+		if (j == 9 || j == 13)
+			m_pSampleTiles[j].terrain = isDownHill1;
+		if (j == 10 || j == 14)
+			m_pSampleTiles[j].terrain = isDownHill2;
+		if (j == 30 || j == 32)
+			m_pSampleTiles[j].terrain = isUpHill3;
+		if (j == 31 || j == 34)
+			m_pSampleTiles[j].terrain = isDownHill3;
+		if (j == 44 || j == 45 || j == 47 || j == 48)
+			m_pSampleTiles[j].terrain = isEmpty;
+		if (j == 60)
+			m_pSampleTiles[j].terrain = isladder;
+		if (j == 72 || j == 73 || j == 74 ||
+			j == 82 || (j >= 84 && j <=90) || (j >= 95 && j <= 97) )
+			m_pSampleTiles[j].terrain = isEmpty;
+
+
+	}
 }
 
 void Editor_Scene::tileReset()
 {
 	
 	// 기본 타일 정보 셋팅
-	for (int x = 0; x < g_saveData.gTileMaxCountX; x++)
+	for (int y = 0; y < g_saveData.gTileMaxCountY; y++)
 	{
-		for (int y = 0; y < g_saveData.gTileMaxCountY ; y++)
+		for (int x = 0; x < g_saveData.gTileMaxCountX ; x++)
 		{
-			m_pTiles[x * g_saveData.gTileMaxCountX + y].rc = RectMake(0 + x * TILESIZEX, 0 + y * TILESIZEY, TILESIZEX, TILESIZEY);
-			m_pTiles[x * g_saveData.gTileMaxCountX + y].terrainFrameX = 130;
-			m_pTiles[x * g_saveData.gTileMaxCountX + y].terrainFrameY = 0;  // 29
+			m_pTiles[y * g_saveData.gTileMaxCountX + x].rc = RectMake(0 + y * TILESIZEX, 0 + x * TILESIZEY, TILESIZEX, TILESIZEY);
+			m_pTiles[y * g_saveData.gTileMaxCountX + x].terrainFrameX = 130;
+			m_pTiles[y * g_saveData.gTileMaxCountX + x].terrainFrameY = 0;  // 29
 		}
 	}
 }
 
 void Editor_Scene::update()
 {
+
+
+
 	SCROLL_MAP->update();
 
 	for (int i = 0; i < NUMBER_OF_KIND_UNITS - 4; ++i)
@@ -247,11 +285,11 @@ void Editor_Scene::update()
 	if (m_editorState == st_Units)
 		mouseEvent_Units();
 
-	for (int x = 0; x < g_saveData.gTileMaxCountX; x++)
+	for (int y = 0; y < g_saveData.gTileMaxCountY; y++)
 	{
-		for (int y = 0; y < g_saveData.gTileMaxCountY; y++)
+		for (int x = 0; x < g_saveData.gTileMaxCountX; x++)
 		{
-			m_pTiles[x * g_saveData.gTileMaxCountX + y].rc = RectMake(x * TILESIZEX - SCROLL_MAP->GetX(), y * TILESIZEY - SCROLL_MAP->GetY(), TILESIZEX, TILESIZEY);
+			m_pTiles[y * g_saveData.gTileMaxCountX + x].rc = RectMake(x * TILESIZEX - SCROLL_MAP->GetX(), y * TILESIZEY - SCROLL_MAP->GetY(), TILESIZEX, TILESIZEY);
 		}
 	}
 
@@ -260,6 +298,14 @@ void Editor_Scene::update()
 
 void Editor_Scene::KeyEvent()
 {
+	if (KEYMANAGER->isOnceKeyDown(VK_F1))
+	{
+		if (m_bIsHelpOn == true)
+			m_bIsHelpOn = false;
+		else
+			m_bIsHelpOn = true;
+	}
+
 	if (KEYMANAGER->isOnceKeyDown(VK_F2))
 	{
 		if (m_bIsUIOpen == true)
@@ -283,6 +329,15 @@ void Editor_Scene::KeyEvent()
 		else
 			m_bIsMiniMapOn = true;
 	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_F9))
+	{
+		if (m_bTileNumberOn == true)
+			m_bTileNumberOn = false;
+		else
+			m_bTileNumberOn = true;
+	}
+
 }
 
 void Editor_Scene::buttonUpdate()
@@ -321,8 +376,9 @@ void Editor_Scene::mouseEvent_Terrains()
 			if (PtInRect(&m_pSampleTiles[i].rc, g_ptMouse))
 			{
 				st_mouse = tagMOUSE_STATE::st_MouseUp;
-				m_rcSelectedTile.left = m_pSampleTiles[i].frameX;
-				m_rcSelectedTile.top = m_pSampleTiles[i].frameY;
+				m_rcSelectedTile.rc.left = m_pSampleTiles[i].frameX;
+				m_rcSelectedTile.rc.top = m_pSampleTiles[i].frameY;
+				m_rcSelectedTile.terrain = m_pSampleTiles[i].terrain;
 				m_bIsSel = true;
 			}
 			else
@@ -341,19 +397,56 @@ void Editor_Scene::mouseEvent_Terrains()
 
 			if (PtInRect(&m_pTiles[i].rc, g_ptMouse))
 			{
-				m_pTiles[i].terrainFrameX = m_rcSelectedTile.left;
-				m_pTiles[i].terrainFrameY = m_rcSelectedTile.top;
+				m_pTiles[i].terrainFrameX = m_rcSelectedTile.rc.left;
+				m_pTiles[i].terrainFrameY = m_rcSelectedTile.rc.top;
+				m_pTiles[i].terrain = m_rcSelectedTile.terrain;
 			}
 
 		}
 	}
 
-
 }
 
 void Editor_Scene::mouseEvent_Units()
 {
-		
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	{
+		st_mouse = tagMOUSE_STATE::st_MouseDown;
+	}
+	else if (KEYMANAGER->isOnceKeyUp(VK_LBUTTON) && st_mouse == tagMOUSE_STATE::st_MouseDown && m_bIsUIOpen == true)
+	{
+		for (int i = 0; i < NUMBER_OF_KIND_UNITS - 4; ++i)
+		{
+			if (PtInRect(&m_EnemyBoxRect[i], g_ptMouse))
+			{
+				st_mouse = tagMOUSE_STATE::st_MouseUp;
+				m_rcSelectedUnit = i;
+				m_bIsSel = true;
+			}
+			else
+			{
+				st_mouse = tagMOUSE_STATE::st_MouseIdle;
+			}
+		}
+	}
+
+
+
+	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON) && m_bIsSel == true && m_bIsUIOpen == false)
+	{
+		for (int i = 0; i < g_saveData.gTileMaxCountX * g_saveData.gTileMaxCountY; ++i)
+		{
+
+			if (PtInRect(&m_pTiles[i].rc, g_ptMouse))
+			{
+				//
+			}
+
+		}
+	}
+	else {
+		m_bIsSel = false;
+	}
 
 
 }
@@ -374,16 +467,52 @@ void Editor_Scene::render(HDC hdc)
 {
 	m_pImg_BG->render(hdc, 0, 0);
 
-	for (int x = 0; x < g_saveData.gTileMaxCountX; x++)
+
+	char SzText3[24];
+	SetBkMode(hdc, TRANSPARENT);
+	SetTextColor(hdc, RGB(255, 244, 210));
+	MY_UTIL::FontOption(hdc, 11, 0);
+	for (int y = 0; y < g_saveData.gTileMaxCountY; y++)
 	{
-		for (int y = 0; y < g_saveData.gTileMaxCountY; y++)
+		for (int x = 0; x < g_saveData.gTileMaxCountX; x++)
 		{
 			// 길쭉한 타일셋을 프레임렌더링한다.
-			m_pImg_tileset1->frameRender(hdc,
-				m_pTiles[x *  g_saveData.gTileMaxCountX + y].rc.left ,
-				m_pTiles[x *  g_saveData.gTileMaxCountX + y].rc.top ,
-				m_pTiles[x *  g_saveData.gTileMaxCountX + y].terrainFrameX,
-				m_pTiles[x *  g_saveData.gTileMaxCountX + y].terrainFrameY);
+			if (m_pTiles[y *  g_saveData.gTileMaxCountX + x].terrain == isEmpty)
+			{
+				m_pImg_tileset1->frameAlphaRender(hdc,
+					m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left,
+					m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top,
+					m_pTiles[y *  g_saveData.gTileMaxCountX + x].terrainFrameX,
+					m_pTiles[y *  g_saveData.gTileMaxCountX + x].terrainFrameY, 1.0f, 166);
+			}
+			else
+			{
+				m_pImg_tileset1->frameRender(hdc,
+					m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left,
+					m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top,
+					m_pTiles[y *  g_saveData.gTileMaxCountX + x].terrainFrameX,
+					m_pTiles[y *  g_saveData.gTileMaxCountX + x].terrainFrameY);
+			}
+			
+
+			if (m_bTileNumberOn == true)
+			{
+				sprintf_s(SzText3, "%d %d", m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left / TILESIZEX, m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top / TILESIZEY);
+				TextOut(hdc, m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left, m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top, SzText3, strlen(SzText3));
+			}
+
+			if (m_bIsMiniMapOn == true)
+			{
+				m_pImg_tileset1->RatioRender(hdc,
+					(WINSIZEX - 500) + (m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left / MINIMAP_RATIO + SCROLL_MAP->GetX() / MINIMAP_RATIO), // 750은 미니맵 시작X좌표 + 미니맵에 렌더할 객체의 위치left값 / 죽척값 ( 축소될 비율 8~ 10이 적당 ) + 카메라좌표X / 죽척값
+					30 + (m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top / MINIMAP_RATIO + SCROLL_MAP->GetY() / MINIMAP_RATIO), // 30은 미니맵 시작Y좌표 + 미니맵에 렌더할 객체의 위치top값 / 죽척값 ( 축소될 비율 8~ 10이 적당 ) + 카메라좌표Y / 죽척값
+																																	 // update에서 객체의 위치값이 카메라값에 의해 유동적인경우,  미니맵은 고정될 수 있게 + 스크롤값을 해주어 움직임이 상쇄되게 해주어야한다.
+					m_pTiles[y *  g_saveData.gTileMaxCountX + x].terrainFrameX, // 렌더링되는 대상
+					m_pTiles[y *  g_saveData.gTileMaxCountX + x].terrainFrameY, // 렌더링되는 대상. 보통의 이미지의 경우 0 으로 해도된다.
+					MINIMAP_RATIO, // 죽척값
+					TILESIZEX, // 객체 이미지 사이즈 X
+					TILESIZEY); // 객체 이미지 사이즈 Y
+			}
 
 		}
 	}
@@ -403,24 +532,28 @@ void Editor_Scene::render(HDC hdc)
 		}
 	}
 
-
-
 	if (m_bIsUIOpen == true)
 	{
 		m_pImg_UIopen->render(hdc, WINSIZEX / 2 - m_pImg_UIopen->getWidth() / 2, WINSIZEY / 2 - m_pImg_UIopen->getHeight() / 2);
 		if(m_editorState == st_Terrains)
 		{
 			int temp = 56;
-			m_pImg_tileset1_div->frameRender(hdc, 105, WINSIZEY / 2 , 0, 1);
-			m_pImg_tileset1_div->frameRender(hdc, 105, WINSIZEY / 2 + temp, 1, 1); temp += 56;
-			m_pImg_tileset1_div->frameRender(hdc, 105, WINSIZEY / 2 + temp, 2, 1); temp += 56;
-			m_pImg_tileset1_div->frameRender(hdc, 105, WINSIZEY / 2 + temp, 3, 1); 
+			m_pImg_tileset1_div->frameRender(hdc, 105, WINSIZEY / 2 , 0, 0);
+			m_pImg_tileset1_div->frameRender(hdc, 105, WINSIZEY / 2 + temp, 1, 0); temp += 56;
+			m_pImg_tileset1_div->frameRender(hdc, 105, WINSIZEY / 2 + temp, 2, 0); temp += 56;
+			m_pImg_tileset1_div->frameRender(hdc, 105, WINSIZEY / 2 + temp, 3, 0); 
+
+			char SzText5[24];
+			
 		}
 		else if (m_editorState == st_Units)
 		{
-			for (int i = 0; i < 8; ++i)
+			for (int i = 0; i <NUMBER_OF_KIND_UNITS - 4; ++i)
 			{
-				m_pImg_EnemyBox->render(hdc, m_EnemyBoxRect[i].left, m_EnemyBoxRect[i].top);
+				if (m_rcSelectedUnit == i)
+					m_pImg_EnemyBox->hitRender(hdc, m_EnemyBoxRect[i].left, m_EnemyBoxRect[i].top, RGB(255, 0, 255));
+				else
+					m_pImg_EnemyBox->render(hdc, m_EnemyBoxRect[i].left, m_EnemyBoxRect[i].top);
 			}
 
 			int tempC = 0, tempD = 0;
@@ -445,30 +578,12 @@ void Editor_Scene::render(HDC hdc)
 	}
 
 
-	if (m_bIsMiniMapOn == true)
-	{
-		for (int x = 0; x < g_saveData.gTileMaxCountX; x++)
-		{
-			for (int y = 0; y < g_saveData.gTileMaxCountY; y++)
-			{
-
-				m_pImg_tileset1->RatioRender(hdc,
-					750 + (m_pTiles[x *  g_saveData.gTileMaxCountX + y].rc.left / MINIMAP_RATIO + SCROLL_MAP->GetX() / MINIMAP_RATIO ) , // 750은 미니맵 시작X좌표 + 미니맵에 렌더할 객체의 위치left값 / 죽척값 ( 축소될 비율 8~ 10이 적당 ) + 카메라좌표X / 죽척값
-					30 + (m_pTiles[x *  g_saveData.gTileMaxCountX + y].rc.top / MINIMAP_RATIO + SCROLL_MAP->GetY() / MINIMAP_RATIO) , // 30은 미니맵 시작Y좌표 + 미니맵에 렌더할 객체의 위치top값 / 죽척값 ( 축소될 비율 8~ 10이 적당 ) + 카메라좌표Y / 죽척값
-					// update에서 객체의 위치값이 카메라값에 의해 유동적인경우,  미니맵은 고정될 수 있게 + 스크롤값을 해주어 움직임이 상쇄되게 해주어야한다.
-					m_pTiles[x *  g_saveData.gTileMaxCountX + y].terrainFrameX, // 렌더링되는 대상
-					m_pTiles[x *  g_saveData.gTileMaxCountX + y].terrainFrameY, // 렌더링되는 대상. 보통의 이미지의 경우 0 으로 해도된다.
-					MINIMAP_RATIO, // 죽척값
-					TILESIZEX, // 객체 이미지 사이즈 X
-					TILESIZEY); // 객체 이미지 사이즈 Y
-			}
-		}
-	}
-
 	for (int i = 0; i < NUMBER_OF_KIND_UNITS - 4; ++i )
 	{
 		if (PtInRect(&m_EnemyBoxRect[i], g_ptMouse) && m_editorState == st_Units && m_bIsUIOpen == true)
 		{
+
+
 			m_pImg_TextBox->alphaRender(hdc, m_EnemyBoxRect[i].left + 75, m_EnemyBoxRect[i].top - 135,200);
 			
 			char SzText1[256];
@@ -504,7 +619,7 @@ void Editor_Scene::render(HDC hdc)
 				TextOut(hdc, m_EnemyBoxRect[i].left + 118, m_EnemyBoxRect[i].top - 110, SzText1, strlen(SzText1));
 				MY_UTIL::FontOption(hdc, 21, 0);
 				SetTextColor(hdc, RGB(55, 32, 83));
-				sprintf_s(SzText1, "집게벌꿀은 날카로운 집게로 우리를 공격하려 합니다.  공격력은 3, 체력은 6, 이동속도는 2.2입니다. ");
+				sprintf_s(SzText1, "크로버드는 날아다니면서 집요하게 우리를 공격합니다.  공격력은 3, 체력은 6, 이동속도는 2.2입니다. ");
 				break;
 			case 3:
 				sprintf_s(SzText1, "%s : ", "3. 베짱이 ");
@@ -544,16 +659,50 @@ void Editor_Scene::render(HDC hdc)
 			}
 			DrawText(hdc, SzText1, strlen(SzText1), &temp_rc, DT_WORDBREAK);
 		}
+
 	}
 
 
 	if (m_editorState == st_Terrains )
 	{
 		m_pImg_tileset1->frameRender(hdc,
-			g_ptMouse.x, g_ptMouse.y, m_rcSelectedTile.left, m_rcSelectedTile.top);
+			g_ptMouse.x, g_ptMouse.y, m_rcSelectedTile.rc.left, m_rcSelectedTile.rc.top);
 
 	}
+
+	char SzText2[30];
+	RECT temp_rc2 = RectMake(
+		WINSIZEX / 2 - 100,
+		15,
+		200,
+		90
+	);;
+	MY_UTIL::FontOption(hdc, 42, 0);
+	SetTextColor(hdc, RGB(240, 200, 98));
+	sprintf_s(SzText2, "도움말 : F1");
+	DrawText(hdc, SzText2, strlen(SzText2), &temp_rc2, DT_WORDBREAK);
 	
+	if (m_bIsHelpOn == true)
+	{
+		m_pHelp_UI->render(hdc, WINSIZEX / 2 - m_pHelp_UI->getWidth() / 2, 130);
+
+		char SzText9[64];
+		int tempG = 0;
+		MY_UTIL::FontOption(hdc, 36, 0);
+		SetTextColor(hdc, RGB(40, 10, 20));
+		sprintf_s(SzText9, "UI창 ON / OFF : F2");
+		TextOut(hdc, WINSIZEX / 2 - 135, 160, SzText9, strlen(SzText9)); tempG += 77;
+
+		sprintf_s(SzText9, "격자선 ON / OFF : F7");
+		TextOut(hdc, WINSIZEX / 2 - 135, 160 + tempG, SzText9, strlen(SzText9)); tempG += 77;
+
+		sprintf_s(SzText9, "미니맵 ON / OFF : F8");
+		TextOut(hdc, WINSIZEX / 2 - 135, 160 + tempG, SzText9, strlen(SzText9)); tempG += 77;
+
+		sprintf_s(SzText9, "타일넘버링 ON / OFF : F9");
+		TextOut(hdc, WINSIZEX / 2 - 135, 160 + tempG, SzText9, strlen(SzText9)); tempG += 77;
+	}
+
 }
 
 

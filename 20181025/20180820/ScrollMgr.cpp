@@ -16,6 +16,7 @@ void ScrollMgr::release()
 void ScrollMgr::update(float playerX, float playerY)
 {
 	if (m_isFirst)
+	if (m_isFirst)
 	{
 		m_fMaxofX = g_saveData.gTileMaxCountX * TILESIZEX;
 		m_fMaxofY = g_saveData.gTileMaxCountY * TILESIZEY;

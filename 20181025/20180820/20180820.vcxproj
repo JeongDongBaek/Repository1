@@ -152,13 +152,13 @@
     <ClInclude Include="animation.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="commonMacroFunction.h" />
-    <ClInclude Include="CreatorScene.h" />
     <ClInclude Include="Editor_Scene.h" />
     <ClInclude Include="Editor_SetSize.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="EndingScene.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="Fox.h" />
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="GameObject.h" />
@@ -177,6 +177,7 @@
     <ClInclude Include="singletonBase.h" />
     <ClInclude Include="soundManager.h" />
     <ClInclude Include="Squirrel.h" />
+    <ClInclude Include="StageScene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="timeManager.h" />
@@ -191,13 +192,13 @@
     <ClCompile Include="20180820.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="button.cpp" />
-    <ClCompile Include="CreatorScene.cpp" />
     <ClCompile Include="Editor_Scene.cpp" />
     <ClCompile Include="Editor_SetSize.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="EndingScene.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Fox.cpp" />
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -213,6 +214,7 @@
     <ClCompile Include="ScrollMgr_Map.cpp" />
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="Squirrel.cpp" />
+    <ClCompile Include="StageScene.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

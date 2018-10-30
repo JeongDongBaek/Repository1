@@ -5,6 +5,7 @@ class CreatorScene;
 class Editor_Scene;
 class Title_Scene;
 class Editor_SetSize;
+class StageScene;
 
 class mainGame
 {
@@ -22,7 +23,7 @@ private:
 
 	Editor_Scene * m_pEditorScene;
 	Editor_SetSize * m_pEditorSetSize;
-
+	StageScene * m_pStageScene;
 	loadingScene * m_pLoadingScene;
 	Title_Scene * m_pTitleScene;
 	EndingScene * m_pEndingScene;
