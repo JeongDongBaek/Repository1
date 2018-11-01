@@ -29,11 +29,16 @@ void Editor_Scene::ButtonEvent(HWND hWnd, UINT iMessage, WPARAM wParam)
 	{
 	case 32788: //Save
 		MessageBox(hWnd, "Save Button Clicked", "Button", MB_OK);
+		m_pTiles[0].unitID = g_saveData.gTileMaxCountX; // 임시로 저장 // 하나의 구조체 외에 저장이 되지않는다....
+		m_pTiles[1].unitID = g_saveData.gTileMaxCountY; // 타일의 0번째와 1번쨰는 무조건 비우자
 		SaveEvent();
 		break;
 	case 32791: // Load
 		MessageBox(hWnd, "Load Button Clicked", "Button", MB_OK);
+		tileReset();
 		LoadEvent();
+		g_saveData.gTileMaxCountX = m_pTiles[0].unitID;
+		g_saveData.gTileMaxCountY = m_pTiles[1].unitID;
 		break;
 	case 32781: // Save and Start
 		MessageBox(hWnd, "Save Button Clicked", "Button", MB_OK);
@@ -94,8 +99,7 @@ void Editor_Scene::LoadEvent()
 		SetWindowText(hEditFileToBeOpened, ofn.lpstrFile);
 		TXTDATA->getSingleton()->mapLoad(szFileName_1, m_pTiles);
 	}
-	g_saveData.gTileMaxCountX = m_pTiles[0].terrain;
-	g_saveData.gTileMaxCountY = m_pTiles[0].terrain;
+
 }
 
 
@@ -114,6 +118,7 @@ HRESULT Editor_Scene::init()
 
 	m_rcSelectedUnit = 99; // 없다는뜻
 	m_bIsMiniMapOn = false;
+	m_bPlayerSetting = false;
 	m_bIsHelpOn = false;
 	m_bIsAutoOn = false;
 	m_bIsUIOpen = false;
@@ -150,8 +155,10 @@ HRESULT Editor_Scene::init()
 	m_pImg_Enemy[tempB] = IMAGEMANAGER->findImage("frog_idle"); tempB++;
 	//m_pImg_Enemy[tempB] = IMAGEMANAGER->findImage("frog_jump"); tempB++;
 	m_pImg_Enemy[tempB] = IMAGEMANAGER->findImage("oposum_idle"); tempB++;
+	m_pImg_Enemy[tempB] = IMAGEMANAGER->findImage("rabbit_idle"); tempB++;
 
-	for (int i = 0; i < NUMBER_OF_KIND_UNITS - 4; ++i)
+
+	for (int i = 0; i < NUMBER_OF_KIND_UNITS - 3; ++i)
 	{
 		m_pAni_Enemy[i] = new animation;
 		m_pAni_Enemy[i]->init(m_pImg_Enemy[i]->getWidth(), m_pImg_Enemy[i]->getHeight(), m_pImg_Enemy[i]->getFrameWidth(), m_pImg_Enemy[i]->getFrameHeight());
@@ -172,6 +179,9 @@ HRESULT Editor_Scene::init()
 	m_EnemyBoxRect[6] = RectMake(WINSIZEX / 2 - (m_pImg_EnemyBox->getWidth() / 2) + tempF, WINSIZEY / 2 + 100, m_pImg_EnemyBox->getWidth(), m_pImg_EnemyBox->getHeight()); tempF += 150;
 	m_EnemyBoxRect[7] = RectMake(WINSIZEX / 2 - (m_pImg_EnemyBox->getWidth() / 2) + tempF, WINSIZEY / 2 + 100, m_pImg_EnemyBox->getWidth(), m_pImg_EnemyBox->getHeight());
 
+	tempF = -224;
+	m_EnemyBoxRect[8] = RectMake(WINSIZEX / 2 - (m_pImg_EnemyBox->getWidth() / 2) + tempF, WINSIZEY / 2 - 300, m_pImg_EnemyBox->getWidth(), m_pImg_EnemyBox->getHeight());
+	
 	init_tileset();
 
 
@@ -202,7 +212,9 @@ void Editor_Scene::Sample_tileSetting()
 {
 	for (int j = 0; j < MAX_SAMPLEX; ++j)
 	{
+		
 		m_pSampleTiles[j].terrain = isBlock;
+		m_pSampleTiles[j].unitID = UNIT_NULL;
 		m_pSampleTiles[j].frameX = j; //8까지
 		m_pSampleTiles[j].frameY = 0;
 		switch ((j + 0) / 33)
@@ -261,6 +273,8 @@ void Editor_Scene::tileReset()
 			m_pTiles[y * g_saveData.gTileMaxCountX + x].rc = RectMake(0 + y * TILESIZEX, 0 + x * TILESIZEY, TILESIZEX, TILESIZEY);
 			m_pTiles[y * g_saveData.gTileMaxCountX + x].terrainFrameX = 130;
 			m_pTiles[y * g_saveData.gTileMaxCountX + x].terrainFrameY = 0;  // 29
+			m_pTiles[y * g_saveData.gTileMaxCountX + x].unitID = UNIT_NULL;  // 29
+
 		}
 	}
 }
@@ -272,7 +286,7 @@ void Editor_Scene::update()
 
 	SCROLL_MAP->update();
 
-	for (int i = 0; i < NUMBER_OF_KIND_UNITS - 4; ++i)
+	for (int i = 0; i < NUMBER_OF_KIND_UNITS - 3; ++i)
 	{
 		m_pAni_Enemy[i]->frameUpdate(TIMEMANAGER->getElapsedTime());
 	}
@@ -290,6 +304,8 @@ void Editor_Scene::update()
 		for (int x = 0; x < g_saveData.gTileMaxCountX; x++)
 		{
 			m_pTiles[y * g_saveData.gTileMaxCountX + x].rc = RectMake(x * TILESIZEX - SCROLL_MAP->GetX(), y * TILESIZEY - SCROLL_MAP->GetY(), TILESIZEX, TILESIZEY);
+
+
 		}
 	}
 
@@ -415,7 +431,7 @@ void Editor_Scene::mouseEvent_Units()
 	}
 	else if (KEYMANAGER->isOnceKeyUp(VK_LBUTTON) && st_mouse == tagMOUSE_STATE::st_MouseDown && m_bIsUIOpen == true)
 	{
-		for (int i = 0; i < NUMBER_OF_KIND_UNITS - 4; ++i)
+		for (int i = 0; i < NUMBER_OF_KIND_UNITS - 3; ++i)
 		{
 			if (PtInRect(&m_EnemyBoxRect[i], g_ptMouse))
 			{
@@ -439,15 +455,12 @@ void Editor_Scene::mouseEvent_Units()
 
 			if (PtInRect(&m_pTiles[i].rc, g_ptMouse))
 			{
-				//
+				if (m_pTiles[i].terrain == isEmpty)
+					m_pTiles[i].unitID = m_rcSelectedUnit;
 			}
 
 		}
 	}
-	else {
-		m_bIsSel = false;
-	}
-
 
 }
 
@@ -493,6 +506,15 @@ void Editor_Scene::render(HDC hdc)
 					m_pTiles[y *  g_saveData.gTileMaxCountX + x].terrainFrameX,
 					m_pTiles[y *  g_saveData.gTileMaxCountX + x].terrainFrameY);
 			}
+			
+			if (m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID <= 8)
+			{
+				m_pImg_Enemy[m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID]->aniRender
+				(hdc, m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left - (m_pImg_EnemyBox->getWidth() / 4) , m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top - 48, m_pAni_Enemy[m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID], 2.5f, false, 100);
+		
+			}
+		
+
 			
 
 			if (m_bTileNumberOn == true)
@@ -548,7 +570,7 @@ void Editor_Scene::render(HDC hdc)
 		}
 		else if (m_editorState == st_Units)
 		{
-			for (int i = 0; i <NUMBER_OF_KIND_UNITS - 4; ++i)
+			for (int i = 0; i <NUMBER_OF_KIND_UNITS - 3; ++i)
 			{
 				if (m_rcSelectedUnit == i)
 					m_pImg_EnemyBox->hitRender(hdc, m_EnemyBoxRect[i].left, m_EnemyBoxRect[i].top, RGB(255, 0, 255));
@@ -557,11 +579,21 @@ void Editor_Scene::render(HDC hdc)
 			}
 
 			int tempC = 0, tempD = 0;
-			for (int i = 0; i < NUMBER_OF_KIND_UNITS - 4; ++i)
+			for (int i = 0; i < NUMBER_OF_KIND_UNITS - 3; ++i)
 			{
-				m_pImg_Enemy[i]->aniRender(hdc, WINSIZEX / 2 - (m_pImg_EnemyBox->getWidth() / 2) -224 + tempC, WINSIZEY / 2 - 48 + tempD, m_pAni_Enemy[i], 2.5f, false, 100); tempC += 150;
-				if (i == 3)
-					tempC = 0, tempD += 148;
+				if (i == 8)
+				{
+					m_pImg_Enemy[i]->aniRender(hdc, WINSIZEX / 2 - (m_pImg_EnemyBox->getWidth() / 2)  - 200,
+						WINSIZEY / 2 - 450 + tempD, m_pAni_Enemy[i], 2.5f, false, 100); tempC += 150;
+				}
+				else
+				{
+					m_pImg_Enemy[i]->aniRender(hdc, WINSIZEX / 2 - (m_pImg_EnemyBox->getWidth() / 2) - 224 + tempC, WINSIZEY / 2 - 48 + tempD, m_pAni_Enemy[i], 2.5f, false, 100); tempC += 150;
+					if (i == 3)
+						tempC = 0, tempD += 148;
+
+				}
+			
 			}
 
 			m_pImg_EnemyBox->render(hdc, WINSIZEX / 2 - 120, WINSIZEY / 2 - 290, 2);
@@ -578,7 +610,7 @@ void Editor_Scene::render(HDC hdc)
 	}
 
 
-	for (int i = 0; i < NUMBER_OF_KIND_UNITS - 4; ++i )
+	for (int i = 0; i < NUMBER_OF_KIND_UNITS - 3; ++i )
 	{
 		if (PtInRect(&m_EnemyBoxRect[i], g_ptMouse) && m_editorState == st_Units && m_bIsUIOpen == true)
 		{
@@ -656,6 +688,13 @@ void Editor_Scene::render(HDC hdc)
 				SetTextColor(hdc, RGB(55, 32, 83));
 				sprintf_s(SzText1, "포켓마우스는 재빠른 이동속도로 순식간에 플레이어를 공격합니다.  공격력은 3, 체력은 9, 이동속도는 2.1입니다. ");
 				break;
+			case 8:
+				sprintf_s(SzText1, "%s : ", "플레이어 ");
+				TextOut(hdc, m_EnemyBoxRect[i].left + 118, m_EnemyBoxRect[i].top - 110, SzText1, strlen(SzText1));
+				MY_UTIL::FontOption(hdc, 21, 0);
+				SetTextColor(hdc, RGB(55, 32, 83));
+				sprintf_s(SzText1, "지정하는 위치에서 플레이어가 생성됩니다! ");
+				break;
 			}
 			DrawText(hdc, SzText1, strlen(SzText1), &temp_rc, DT_WORDBREAK);
 		}
@@ -667,7 +706,6 @@ void Editor_Scene::render(HDC hdc)
 	{
 		m_pImg_tileset1->frameRender(hdc,
 			g_ptMouse.x, g_ptMouse.y, m_rcSelectedTile.rc.left, m_rcSelectedTile.rc.top);
-
 	}
 
 	char SzText2[30];

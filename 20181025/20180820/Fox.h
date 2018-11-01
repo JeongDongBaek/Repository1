@@ -1,17 +1,20 @@
 #pragma once
-#include "GameObject.h"
+#include "MyHero.h"
 
 class image;
 class animation;
 
-class Fox : public GameObject
+class Fox : public MyHero
 {
 private:
-	image * m_pImage_Jump;
-	image * m_pImage_Run;
-	image * m_pImage_Hurt;
-	image * m_pImage_Climb;
-	image * m_pImage_Fall;
+	image * m_pImage[6];					//;
+											//_Jump;
+											//_Run;
+											//_Hurt;
+											//_Climb;
+											//_Fall;
+
+	animation * m_pAni[6];
 
 public:
 	virtual HRESULT init();

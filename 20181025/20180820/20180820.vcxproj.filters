@@ -31,9 +31,6 @@
     <Filter Include="2DGameFramework\timer">
       <UniqueIdentifier>{f65c73bd-abf5-4b51-b991-63eef58db419}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2DGameFramework\progressBar">
-      <UniqueIdentifier>{187dad5a-3e25-4cc6-9ca5-2ff8fdc55aa5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2DGameFramework\animation">
       <UniqueIdentifier>{720c5024-d6a7-4d00-80d3-7a49a00539cd}</UniqueIdentifier>
     </Filter>
@@ -57,6 +54,9 @@
     </Filter>
     <Filter Include="MainGame\GameObject\Enemy">
       <UniqueIdentifier>{3bd37fd8-4386-455c-8bc4-682488038859}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DGameFramework\progressBar">
+      <UniqueIdentifier>{87f7aea9-7739-4629-93ad-7dde9c8e2677}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +177,12 @@
     <ClInclude Include="StageScene.h">
       <Filter>MainGame\GameScene</Filter>
     </ClInclude>
+    <ClInclude Include="MyHero.h">
+      <Filter>MainGame\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="progressBar.h">
+      <Filter>2DGameFramework\progressBar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -280,6 +286,12 @@
     </ClCompile>
     <ClCompile Include="StageScene.cpp">
       <Filter>MainGame\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MyHero.cpp">
+      <Filter>MainGame\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="progressBar.cpp">
+      <Filter>2DGameFramework\progressBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -26,7 +26,7 @@ class Editor_Scene : public scene
 	tagSampleTile m_pSampleTiles[MAX_SAMPLEX * MAX_SAMPLEY];
 	tagTILE m_rcSelectedTile;
 	int m_rcSelectedUnit;
-	RECT m_EnemyBoxRect[NUMBER_OF_KIND_UNITS - 4];
+	RECT m_EnemyBoxRect[NUMBER_OF_KIND_UNITS - 3];
 
 	tagEDITOR_STATE m_editorState;
 	tagMOUSE_STATE st_mouse;
@@ -39,6 +39,7 @@ class Editor_Scene : public scene
 	bool m_bIsTextOn;
 	bool m_bIsGridOn;
 	bool m_bTileNumberOn;
+	bool m_bPlayerSetting;
 	static int m_editorStateNum;
 	
 

@@ -167,6 +167,8 @@
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="loadingScene.h" />
     <ClInclude Include="mainGame.h" />
+    <ClInclude Include="MyHero.h" />
+    <ClInclude Include="progressBar.h" />
     <ClInclude Include="Rabbit.h" />
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="Resource.h" />
@@ -207,6 +209,8 @@
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="loadingScene.cpp" />
     <ClCompile Include="mainGame.cpp" />
+    <ClCompile Include="MyHero.cpp" />
+    <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="Rabbit.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="sceneManager.cpp" />

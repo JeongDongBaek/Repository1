@@ -15,9 +15,13 @@ private:
 
 public:
 	HRESULT init();
-	virtual void update();
-	virtual void release();
-	virtual void render(HDC hdc);
+	void update();
+
+	void release();
+	void render(HDC hdc);
+
+	HRESULT Editor_Create(int EnemyNumber);
+
 
 	Enemy();
 	~Enemy();

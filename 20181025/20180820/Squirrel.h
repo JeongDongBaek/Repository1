@@ -1,15 +1,21 @@
 #pragma once
-#include "GameObject.h"
+#include "MyHero.h"
 
-class Squirrel : public GameObject
+class animation;
+class image;
+
+class Squirrel : public MyHero
 {
 private:
-	image * m_pImage_Jump;
-	image * m_pImage_Run;
-	image * m_pImage_Hurt;
-	//image * m_pImage_Climb;
-	image * m_pImage_Fall;
-	image * m_pImage_Round;
+	image * m_pImage[6];
+	
+	
+	
+	
+	
+	
+
+	animation * m_pAni[6];
 
 public:
 	virtual HRESULT init();

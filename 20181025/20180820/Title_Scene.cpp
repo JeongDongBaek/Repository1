@@ -6,8 +6,13 @@ HRESULT Title_Scene::init()
 {
 	m_nindex_Scene = 0;
 	m_bIsOptionOn = false;
+	m_bIsCreatorOn = false;
 
+	
+	IMAGEMANAGER->addImage("back", "image/back.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("middle", "image/middle.bmp", WINSIZEX , 1700, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("tileset1", "image/tileset1.bmp", 4224, 32, 132, 1, true, RGB(0, 0, 0));
+	IMAGEMANAGER->addImage("tileset1_Stage", "image/tileset1.bmp", 8448, 64, 132, 1, true, RGB(0, 0, 0));
 	IMAGEMANAGER->addImage("tileset1_div", "image/tileset1.bmp", 4224, 32, 4, 1, true, RGB(0, 0, 0)); // 위를 4개씩으로 쪼갠것
 	IMAGEMANAGER->addImage("black", "image/black.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("real_black", "image/real_black.bmp", WINSIZEX, true, RGB(255, 0, 255));
@@ -32,7 +37,8 @@ HRESULT Title_Scene::init()
 
 	// Player///////////
 	IMAGEMANAGER->addImage("fox_idle", "image/fox/player-idle-1-horz.bmp", 132, 32, 4, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("fox_jump", "image/fox/player-jump-1-horz.bmp", 66, 32, 2, 1, true, RGB(255, 0, 255)); // 1은 점프 // 2는 하강
+	IMAGEMANAGER->addImage("fox_jump", "image/fox/player-jump.bmp", 33, 32, 1, 1, true, RGB(255, 0, 255)); // 1은 점프 // 2는 하강
+	IMAGEMANAGER->addImage("fox_fall", "image/fox/player-fall.bmp", 33, 32, 1, 1, true, RGB(255, 0, 255)); // 1은 점프 // 2는 하강
 	IMAGEMANAGER->addImage("fox_run", "image/fox/player-run-1-horz.bmp", 198, 32, 6, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("fox_hurt", "image/fox/player-hurt-1-horz.bmp", 66, 32, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("fox_climb", "image/fox/player-climb-1-horz.bmp", 99, 32, 3, 1, true, RGB(255, 0, 255));
@@ -52,18 +58,29 @@ HRESULT Title_Scene::init()
 	IMAGEMANAGER->addImage("squirrel_hurt", "image/squirrel/player-hurt-1-horz.bmp", 180, 58, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("squirrel_crouch", "image/squirrel/player-crouch-1-horz.bmp", 180, 58, 2, 1, true, RGB(255, 0, 255));
 
-	///////////////////
+	IMAGEMANAGER->addImage("ui_bar_top", "image/ui/ui_bar_top.bmp", 200, 70, true, RGB(255, 255, 255));
+	IMAGEMANAGER->addImage("ui_bar_bottom", "image/ui/ui_bar_bottom.bmp", 200, 70, true, RGB(255, 255, 255));
+	IMAGEMANAGER->addImage("ui_character", "image/ui/ui_character.bmp", 360, 96, true, RGB(255, 255, 255));
+	IMAGEMANAGER->addImage("mini_Player", "image/ui/mini_Player.bmp", 32, 32, true, RGB(255, 255, 255));
+	IMAGEMANAGER->addImage("mini_Enemy", "image/ui/mini_Enemy.bmp", 32, 32, true, RGB(255, 255, 255));
+	IMAGEMANAGER->addImage("ui_fox", "image/ui/UI_fox.bmp", 76, 76,2,1,true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("ui_squirrel", "image/ui/UI_squirrel.bmp", 76, 76,2,1,true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("ui_rabbit", "image/ui/UI_rabbit.bmp", 76, 76, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("ui_minimap", "image/ui/ui_minimap.bmp", 374, 270,true, RGB(255, 255, 255));
 
+
+	
+	///////////////////
+	
 	m_pImg_Menu[0] = IMAGEMANAGER->addImage("sc_gamestart", "image/button/sc_gamestart.bmp", 500, 120, true, RGB(255,255,255));
 	m_pImg_Menu[1] = IMAGEMANAGER->addImage("sc_editor", "image/button/sc_editor.bmp", 500, 120, true, RGB(255,255,255));
 	m_pImg_Menu[2] = IMAGEMANAGER->addImage("sc_option", "image/button/sc_option.bmp", 500, 120, true, RGB(255,255,255));
 	m_pImg_Menu[3] = IMAGEMANAGER->addImage("sc_creator", "image/button/sc_creator.bmp", 500, 120, true, RGB(255,255,255));
 	m_pImg_Menu[4] = IMAGEMANAGER->addImage("sc_quit", "image/button/sc_quit.bmp", 500, 120, true, RGB(255,255,255));
+
 	m_pImg_BG = IMAGEMANAGER->addImage("black", "image/black.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	m_pImg_Parchment = IMAGEMANAGER->addImage("parchment", "image/parchment.bmp", (WINSIZEX / 4) * 3, (WINSIZEY / 4) * 3, true, RGB(255, 255, 255));
 	
-
-
 
 	AddFontResourceA("BMHANNAAir_ttf.ttf");
 
@@ -88,6 +105,7 @@ void Title_Scene::KeyEvent()
 		{
 		case 0:
 			SCENEMANAGER->changeScene("stage");
+			g_saveData.bIsCustomGame = false;
 			break;
 		case 1:
 			SCENEMANAGER->changeScene("editor_setsize");

@@ -7,20 +7,17 @@
 class ScrollMgr : public singletonBase<ScrollMgr>
 {
 private:
-	bool m_isFirst;
 	float m_fX;
 	float m_fY;
 	float m_fMaxofX;
 	float m_fMaxofY;
-
 	RECT m_rc;
+
 	
 public:
-	HRESULT init();
-
+	HRESULT init(float playerX, float playerY);
 	void release();
 	void update(float playerX, float playerY);
-
 	void render(HDC hdc);
 
 

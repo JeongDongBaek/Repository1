@@ -1,12 +1,13 @@
 #pragma once
 #include <vector>
 #include "Enemy.h"
+#include "singletonBase.h"
 
 class animation;
 class Enemy;
 class effectManager;
 
-class EnemyManager
+class EnemyManager : public singletonBase<EnemyManager>
 {
 private:
 	int m_nMaxLimitNumber;
