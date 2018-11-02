@@ -12,6 +12,11 @@ HRESULT Squirrel::init()
 	//m_pImage[4]	 = IMAGEMANAGER->findImage("squirrel_round");	//	_Fall
 	//m_pImage[5]	 = IMAGEMANAGER->findImage("squirrel_round");	//	_Round
 
+	m_pImage_left[0] = IMAGEMANAGER->findImage("left_squirrel_idle");
+	m_pImage_left[1] = IMAGEMANAGER->findImage("left_squirrel_round"); 	//_Jump
+	m_pImage_left[2] = IMAGEMANAGER->findImage("left_squirrel_run");		//_Run 
+	m_pImage_left[3] = IMAGEMANAGER->findImage("left_squirrel_hurt");	//	_Hurt
+
 	for (int i = 0; i < 4; ++i)
 	{
 		m_pAni[i] = new animation;
@@ -20,6 +25,13 @@ HRESULT Squirrel::init()
 		m_pAni[i]->setDefPlayFrame(false, true);
 		m_pAni[i]->setFPS(12);
 		m_pAni[i]->start();
+
+		m_pAni_left[i] = new animation;
+		m_pAni_left[i]->init(m_pImage[i]->getWidth(), m_pImage[i]->getHeight(),
+			m_pImage[i]->getFrameWidth(), m_pImage[i]->getFrameHeight());
+		m_pAni_left[i]->setDefPlayFrame(false, true);
+		m_pAni_left[i]->setFPS(12);
+		m_pAni_left[i]->start();
 	}
 	m_eState = st_isIdle;
 
@@ -51,38 +63,64 @@ void Squirrel::render(HDC hdc)
 	{
 		if (m_eState == st_isIdle)
 		{
-			m_pImage[0]->aniRender(hdc, m_fX, m_fY, m_pAni[0], PLAYER_RATIO, false, UNSELECTED_STATE);
+			if(m_bIsRight == true)
+				m_pImage[0]->aniRender(hdc, m_fX, m_fY, m_pAni[0], PLAYER_RATIO, false, UNSELECTED_STATE);
+			else
+				m_pImage_left[0]->aniRender(hdc, m_fX, m_fY, m_pAni[0], PLAYER_RATIO, false, UNSELECTED_STATE);
+
 		}
 		else if (m_eState == st_isJump || m_eState == st_isFall || m_eState == st_isRound)
 		{
-			m_pImage[1]->aniRender(hdc, m_fX, m_fY, m_pAni[1], PLAYER_RATIO, false, UNSELECTED_STATE);
+			if (m_bIsRight == true)
+				m_pImage[1]->aniRender(hdc, m_fX, m_fY, m_pAni[1], PLAYER_RATIO, false, UNSELECTED_STATE);
+			else
+				m_pImage_left[1]->aniRender(hdc, m_fX, m_fY, m_pAni[1], PLAYER_RATIO, false, UNSELECTED_STATE);
 		}
 		else if (m_eState == st_isRun)
 		{
-			m_pImage[2]->aniRender(hdc, m_fX, m_fY, m_pAni[2], PLAYER_RATIO, false, UNSELECTED_STATE);
+			if (m_bIsRight == true)
+				m_pImage[2]->aniRender(hdc, m_fX, m_fY, m_pAni[2], PLAYER_RATIO, false, UNSELECTED_STATE);
+			else
+				m_pImage_left[2]->aniRender(hdc, m_fX, m_fY, m_pAni[2], PLAYER_RATIO, false, UNSELECTED_STATE);
 		}
 		else if (m_eState == st_isHurt)
 		{
-			m_pImage[3]->aniRender(hdc, m_fX, m_fY, m_pAni[3], PLAYER_RATIO, false, UNSELECTED_STATE);
+			if (m_bIsRight == true)
+				m_pImage[3]->aniRender(hdc, m_fX, m_fY, m_pAni[3], PLAYER_RATIO, false, UNSELECTED_STATE);
+			else
+				m_pImage_left[3]->aniRender(hdc, m_fX, m_fY, m_pAni[3], PLAYER_RATIO, false, UNSELECTED_STATE);
 		}
 	}
 	else
 	{
 		if (m_eState == st_isIdle)
 		{
-			m_pImage[0]->aniRender(hdc, m_fX, m_fY, m_pAni[0], PLAYER_RATIO, true, UNSELECTED_STATE);
+			if (m_bIsRight == true)
+				m_pImage[0]->aniRender(hdc, m_fX, m_fY, m_pAni[0], PLAYER_RATIO, true, UNSELECTED_STATE);
+			else
+				m_pImage_left[0]->aniRender(hdc, m_fX, m_fY, m_pAni[0], PLAYER_RATIO, true, UNSELECTED_STATE);
+
 		}
 		else if (m_eState == st_isJump || m_eState == st_isFall || m_eState == st_isRound)
 		{
-			m_pImage[1]->aniRender(hdc, m_fX, m_fY, m_pAni[1], PLAYER_RATIO, true, UNSELECTED_STATE);
+			if (m_bIsRight == true)
+				m_pImage[1]->aniRender(hdc, m_fX, m_fY, m_pAni[1], PLAYER_RATIO, true, UNSELECTED_STATE);
+			else
+				m_pImage_left[1]->aniRender(hdc, m_fX, m_fY, m_pAni[1], PLAYER_RATIO, true, UNSELECTED_STATE);
 		}
 		else if (m_eState == st_isRun)
 		{
-			m_pImage[2]->aniRender(hdc, m_fX, m_fY, m_pAni[2], PLAYER_RATIO, true, UNSELECTED_STATE);
+			if (m_bIsRight == true)
+				m_pImage[2]->aniRender(hdc, m_fX, m_fY, m_pAni[2], PLAYER_RATIO, true, UNSELECTED_STATE);
+			else
+				m_pImage_left[2]->aniRender(hdc, m_fX, m_fY, m_pAni[2], PLAYER_RATIO, true, UNSELECTED_STATE);
 		}
 		else if (m_eState == st_isHurt)
 		{
-			m_pImage[3]->aniRender(hdc, m_fX, m_fY, m_pAni[3], PLAYER_RATIO, true, UNSELECTED_STATE);
+			if (m_bIsRight == true)
+				m_pImage[3]->aniRender(hdc, m_fX, m_fY, m_pAni[3], PLAYER_RATIO, true, UNSELECTED_STATE);
+			else
+				m_pImage_left[3]->aniRender(hdc, m_fX, m_fY, m_pAni[3], PLAYER_RATIO, true, UNSELECTED_STATE);
 		}
 	}
 }

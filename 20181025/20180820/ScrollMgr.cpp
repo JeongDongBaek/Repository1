@@ -19,7 +19,8 @@ void ScrollMgr::release()
 
 void ScrollMgr::update(float playerX, float playerY)
 {
-
+	m_fX = playerX - WINSIZEX / 2;
+	m_fY = playerY - WINSIZEY / 2;
 
 	if (m_fX < 0)
 		m_fX = 0;

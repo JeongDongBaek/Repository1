@@ -44,7 +44,16 @@ HRESULT Title_Scene::init()
 	IMAGEMANAGER->addImage("fox_climb", "image/fox/player-climb-1-horz.bmp", 99, 32, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("fox_crouch", "image/fox/player-crouch-1-horz.bmp", 66, 32, 2, 1, true, RGB(255, 0, 255));
 
+	IMAGEMANAGER->addImage("left_fox_idle", "image/fox/left_player-idle-1-horz.bmp", 132, 32, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_fox_jump", "image/fox/left_player-jump.bmp", 33, 32, 1, 1, true, RGB(255, 0, 255)); // 1은 점프 // 2는 하강
+	IMAGEMANAGER->addImage("left_fox_fall", "image/fox/left_player-fall.bmp", 33, 32, 1, 1, true, RGB(255, 0, 255)); // 1은 점프 // 2는 하강
+	IMAGEMANAGER->addImage("left_fox_run", "image/fox/left_player-run-1-horz.bmp", 198, 32, 6, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_fox_hurt", "image/fox/left_player-hurt-1-horz.bmp", 66, 32, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_fox_climb", "image/fox/left_player-climb-1-horz.bmp", 99, 32, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_fox_crouch", "image/fox/left_player-crouch-1-horz.bmp", 66, 32, 2, 1, true, RGB(255, 0, 255));
+	/////////////////////
 
+	////////////////////////
 	IMAGEMANAGER->addImage("rabbit_idle", "image/rabbit/player-idle-1-horz.bmp", 333, 32, 9, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("rabbit_jump", "image/rabbit/player-jump-1-horz.bmp", 148, 32, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("rabbit_run", "image/rabbit/player-run-1-horz.bmp", 296, 32, 8, 1, true, RGB(255, 0, 255));
@@ -52,17 +61,37 @@ HRESULT Title_Scene::init()
 	IMAGEMANAGER->addImage("rabbit_climb", "image/rabbit/player-climb-1-horz.bmp", 148, 32, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("rabbit_fall", "image/rabbit/player-fall-1-horz.bmp", 148, 32, 4, 1, true, RGB(255, 0, 255));
 
+	IMAGEMANAGER->addImage("left_rabbit_idle", "image/rabbit/left_player-idle-1-horz.bmp", 333, 32, 9, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_rabbit_jump", "image/rabbit/left_player-jump-1-horz.bmp", 148, 32, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_rabbit_run", "image/rabbit/left_player-run-1-horz.bmp", 296, 32, 8, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_rabbit_hurt", "image/rabbit/left_player-hurt-1-horz.bmp", 74, 32, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_rabbit_climb", "image/rabbit/left_player-climb-1-horz.bmp", 148, 32, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_rabbit_fall", "image/rabbit/left_player-fall-1-horz.bmp", 148, 32, 4, 1, true, RGB(255, 0, 255));
+	/////////////////		
+
+
+
+	///////////////////
 	IMAGEMANAGER->addImage("squirrel_idle", "image/squirrel/player-idle-1-horz.bmp", 720, 58, 8, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("squirrel_round", "image/squirrel/player-round-1-horz.bmp", 360, 58, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("squirrel_run", "image/squirrel/player-run-1-horz.bmp", 540, 58, 6, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("squirrel_hurt", "image/squirrel/player-hurt-1-horz.bmp", 180, 58, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("squirrel_crouch", "image/squirrel/player-crouch-1-horz.bmp", 180, 58, 2, 1, true, RGB(255, 0, 255));
 
+	IMAGEMANAGER->addImage("left_squirrel_idle", "image/squirrel/left_player-idle-1-horz.bmp", 720, 58, 8, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_squirrel_round", "image/squirrel/left_player-round-1-horz.bmp", 360, 58, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_squirrel_run", "image/squirrel/left_player-run-1-horz.bmp", 540, 58, 6, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_squirrel_hurt", "image/squirrel/left_player-hurt-1-horz.bmp", 180, 58, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_squirrel_crouch", "image/squirrel/left_player-crouch-1-horz.bmp", 180, 58, 2, 1, true, RGB(255, 0, 255));
+	///////////////////////
+
+
+
 	IMAGEMANAGER->addImage("ui_bar_top", "image/ui/ui_bar_top.bmp", 200, 70, true, RGB(255, 255, 255));
 	IMAGEMANAGER->addImage("ui_bar_bottom", "image/ui/ui_bar_bottom.bmp", 200, 70, true, RGB(255, 255, 255));
 	IMAGEMANAGER->addImage("ui_character", "image/ui/ui_character.bmp", 360, 96, true, RGB(255, 255, 255));
-	IMAGEMANAGER->addImage("mini_Player", "image/ui/mini_Player.bmp", 32, 32, true, RGB(255, 255, 255));
-	IMAGEMANAGER->addImage("mini_Enemy", "image/ui/mini_Enemy.bmp", 32, 32, true, RGB(255, 255, 255));
+	IMAGEMANAGER->addImage("mini_Player", "image/ui/mini_Player.bmp", 32, 32,1,1, true, RGB(255, 255, 255));
+	IMAGEMANAGER->addImage("mini_Enemy", "image/ui/mini_Enemy.bmp", 32, 32,1,1, true, RGB(255, 255, 255));
 	IMAGEMANAGER->addImage("ui_fox", "image/ui/UI_fox.bmp", 76, 76,2,1,true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("ui_squirrel", "image/ui/UI_squirrel.bmp", 76, 76,2,1,true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("ui_rabbit", "image/ui/UI_rabbit.bmp", 76, 76, 2, 1, true, RGB(255, 0, 255));

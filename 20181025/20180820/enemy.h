@@ -11,7 +11,8 @@ private:
 	tagEnemyPattern m_ePattern;
 	int m_nEnemyNum;
 	bool m_bIsMoving;
-	image * m_pImage;
+	image * m_pImage[2];
+	animation * m_pAni[2];
 
 public:
 	HRESULT init();

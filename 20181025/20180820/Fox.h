@@ -14,7 +14,10 @@ private:
 											//_Climb;
 											//_Fall;
 
+	image * m_pImage_left[6];
+
 	animation * m_pAni[6];
+	animation * m_pAni_left[6];
 
 public:
 	virtual HRESULT init();

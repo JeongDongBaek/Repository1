@@ -21,6 +21,9 @@ class StageScene : public scene
 private:
 
 	tagTILE m_pTiles[TILE_MAX_COUNTX * TILE_MAX_COUNTY];
+	
+	RECT m_Collide_Tiles[(TILE_MAX_COUNTX * TILE_MAX_COUNTY) / 2 ];
+
 	tagSelectedCharacter mySelectedCh;
 
 	Fox * m_pFox;
@@ -44,6 +47,9 @@ private:
 
 	int m_nNumberOfBlock;
 	int m_nNumberOfTemp;
+
+	bool m_bRectangleOn;
+	bool m_bMiniMapOn;
 
 public:
 	HRESULT init();

@@ -1,0 +1,8 @@
+﻿  Enemy.cpp
+  Rabbit.cpp
+c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\rabbit.cpp(46): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\rabbit.cpp(54): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\rabbit.cpp(60): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\rabbit.cpp(65): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
+  20180820.vcxproj -> C:\Users\5_KGA_4\Desktop\개인포폴\Repository1\20181025\Debug\20181025.exe

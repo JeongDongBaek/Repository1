@@ -5,7 +5,15 @@ class MyHero : public GameObject
 {
 protected:
 	bool m_bIsChoosed;
+	bool m_bIsJumped;
+
+	float m_fMana;
+	float m_fStamina;
+	float m_fJumpPower;
+	float m_fJumpTemp;
+
 	tagCharacterState m_eState;
+	int m_nJumpCount;
 
 public:
 	virtual HRESULT init();

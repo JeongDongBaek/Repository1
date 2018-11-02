@@ -14,7 +14,9 @@ protected:
 
 	bool m_bIsInvin; // 무적인지 아닌지
 	bool m_bIsAlive;
-	/////////////
+	bool m_bIsGravity; // 중력을 받고있는지 아닌지
+	bool m_bIsRight;
+	RECT m_rc;
 
 	image * m_pImage;
 	animation * m_pAni;
@@ -25,6 +27,10 @@ private:
 
 
 public:
+
+	inline RECT getRC() { return m_rc; }
+	inline void setRC(RECT rc) { m_rc = rc; }
+
 	inline float getX() { return m_fX; }
 	inline void setX(float fX) { m_fX = fX; }
 	inline float getY() { return m_fY; }
@@ -45,6 +51,8 @@ public:
 	inline bool getIsInvin() { return m_bIsInvin; }
 	inline void setIsInvin(bool bIsInvin) { m_bIsInvin = bIsInvin; }
 
+	inline bool getIsGravity() { return m_bIsGravity; }
+	inline void setIsGravity(bool bIsGravity) { m_bIsGravity = bIsGravity; }
 
 	virtual HRESULT init() = 0;
 	virtual void update() = 0;

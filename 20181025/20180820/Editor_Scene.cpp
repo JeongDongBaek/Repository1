@@ -240,23 +240,25 @@ void Editor_Scene::Sample_tileSetting()
 
 		if (j == 7 || j == 11)
 			m_pSampleTiles[j].terrain = isUpHill1;
-		if (j == 8 || j == 12)
+		else if (j == 8 || j == 12)
 			m_pSampleTiles[j].terrain = isUpHill2;
-		if (j == 9 || j == 13)
+		else if (j == 9 || j == 13)
 			m_pSampleTiles[j].terrain = isDownHill1;
-		if (j == 10 || j == 14)
+		else if (j == 10 || j == 14)
 			m_pSampleTiles[j].terrain = isDownHill2;
-		if (j == 30 || j == 32)
+		else if (j == 30 || j == 32)
 			m_pSampleTiles[j].terrain = isUpHill3;
-		if (j == 31 || j == 34)
+		else if (j == 31 || j == 34)
 			m_pSampleTiles[j].terrain = isDownHill3;
-		if (j == 44 || j == 45 || j == 47 || j == 48)
+		else if (j == 44 || j == 45 || j == 47 || j == 48)
 			m_pSampleTiles[j].terrain = isEmpty;
-		if (j == 60)
+		else if (j == 60)
 			m_pSampleTiles[j].terrain = isladder;
-		if (j == 72 || j == 73 || j == 74 ||
+		else if (j == 72 || j == 73 || j == 74 ||
 			j == 82 || (j >= 84 && j <=90) || (j >= 95 && j <= 97) )
 			m_pSampleTiles[j].terrain = isEmpty;
+		else
+			m_pSampleTiles[j].terrain = isBlock;
 
 
 	}
@@ -481,10 +483,6 @@ void Editor_Scene::render(HDC hdc)
 	m_pImg_BG->render(hdc, 0, 0);
 
 
-	char SzText3[24];
-	SetBkMode(hdc, TRANSPARENT);
-	SetTextColor(hdc, RGB(255, 244, 210));
-	MY_UTIL::FontOption(hdc, 11, 0);
 	for (int y = 0; y < g_saveData.gTileMaxCountY; y++)
 	{
 		for (int x = 0; x < g_saveData.gTileMaxCountX; x++)
@@ -519,8 +517,14 @@ void Editor_Scene::render(HDC hdc)
 
 			if (m_bTileNumberOn == true)
 			{
-				sprintf_s(SzText3, "%d %d", m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left / TILESIZEX, m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top / TILESIZEY);
-				TextOut(hdc, m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left, m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top, SzText3, strlen(SzText3));
+				char SzText3[24];
+				SetBkMode(hdc, TRANSPARENT);
+				SetTextColor(hdc, RGB(255, 244, 210));
+				MY_UTIL::FontOption(hdc, 11, 0);
+				sprintf_s(SzText3, "%d %d", m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left  , m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top  );
+				TextOut(hdc, m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left , m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top , SzText3, strlen(SzText3));
+				MY_UTIL::FontDelete(hdc);
+
 			}
 
 			if (m_bIsMiniMapOn == true)
@@ -697,6 +701,8 @@ void Editor_Scene::render(HDC hdc)
 				break;
 			}
 			DrawText(hdc, SzText1, strlen(SzText1), &temp_rc, DT_WORDBREAK);
+			MY_UTIL::FontDelete(hdc);
+
 		}
 
 	}
@@ -729,16 +735,23 @@ void Editor_Scene::render(HDC hdc)
 		MY_UTIL::FontOption(hdc, 36, 0);
 		SetTextColor(hdc, RGB(40, 10, 20));
 		sprintf_s(SzText9, "UI창 ON / OFF : F2");
-		TextOut(hdc, WINSIZEX / 2 - 135, 160, SzText9, strlen(SzText9)); tempG += 77;
+		TextOut(hdc, WINSIZEX / 2 - 180, 160, SzText9, strlen(SzText9)); tempG += 77;
 
 		sprintf_s(SzText9, "격자선 ON / OFF : F7");
-		TextOut(hdc, WINSIZEX / 2 - 135, 160 + tempG, SzText9, strlen(SzText9)); tempG += 77;
+		TextOut(hdc, WINSIZEX / 2 - 180, 160 + tempG, SzText9, strlen(SzText9)); tempG += 77;
 
 		sprintf_s(SzText9, "미니맵 ON / OFF : F8");
-		TextOut(hdc, WINSIZEX / 2 - 135, 160 + tempG, SzText9, strlen(SzText9)); tempG += 77;
+		TextOut(hdc, WINSIZEX / 2 - 180, 160 + tempG, SzText9, strlen(SzText9)); tempG += 77;
 
 		sprintf_s(SzText9, "타일넘버링 ON / OFF : F9");
-		TextOut(hdc, WINSIZEX / 2 - 135, 160 + tempG, SzText9, strlen(SzText9)); tempG += 77;
+		TextOut(hdc, WINSIZEX / 2 - 180, 160 + tempG, SzText9, strlen(SzText9)); tempG += 77;
+
+		sprintf_s(SzText9, "카메라속도 UP / DOWN : ");
+		TextOut(hdc, WINSIZEX / 2 - 180, 160 + tempG, SzText9, strlen(SzText9)); tempG += 33;
+
+		sprintf_s(SzText9, "PAGEUP / PAGEDOWN");
+		TextOut(hdc, WINSIZEX / 2 - 180, 160 + tempG, SzText9, strlen(SzText9)); tempG += 77;
+		MY_UTIL::FontDelete(hdc);
 	}
 
 }

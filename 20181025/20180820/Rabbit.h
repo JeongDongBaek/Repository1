@@ -14,13 +14,19 @@ private:
 												//_Hurt;
 												//_Climb;
 
+	image * m_pImage_left[6];
+
 	animation * m_pAni[6];
+	animation * m_pAni_left[6];
 
 public:
-	virtual HRESULT init();
-	virtual void update();
-	virtual void release();
-	virtual void render(HDC hdc);
+	HRESULT init();
+	void update();
+	void KeyEvent();
+	void JumpEvent();
+
+	void release();
+	void render(HDC hdc);
 
 	Rabbit();
 	~Rabbit();
