@@ -11,7 +11,7 @@ char szFileName1[512];
 
 void StageScene::FixedLoad()
 {
-	TXTDATA->getSingleton()->mapLoad("SaveFile/test10.map", m_pTiles);
+	TXTDATA->getSingleton()->mapLoad("SaveFile/main10.map", m_pTiles);
 
 }
 
@@ -76,6 +76,10 @@ HRESULT StageScene::init()
 	m_pImg_UIFox = IMAGEMANAGER->findImage("ui_fox");
 	m_pImg_UISquirrel = IMAGEMANAGER->findImage("ui_squirrel");
 	m_pImg_UIRabbit = IMAGEMANAGER->findImage("ui_rabbit");
+	for (int i = 0; i < 5; i++)
+	{
+		m_pImg_itemBox[i] = IMAGEMANAGER->findImage("item_box");
+	}
 
 	g_saveData.bIsCustomGame == false;// ÀÓ½Ã 
 	// m_Tiles ÃÊ±âÈ­
@@ -111,19 +115,17 @@ HRESULT StageScene::init()
 
 			if (m_pTiles[y * g_saveData.gTileMaxCountX + x].terrain == isBlock)
 			{
-				m_Collide_Tiles[m_nNumberOfBlock].left = m_pTiles[y * g_saveData.gTileMaxCountX + x].rc.left;
-				m_Collide_Tiles[m_nNumberOfBlock].top = m_pTiles[y * g_saveData.gTileMaxCountX + x].rc.top;
+				m_Collide_Tiles[m_nNumberOfBlock] = m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc;
 				m_nNumberOfBlock++;
 			}
 		}
 
 	}
 
+	g_saveData.gColiideCount = m_nNumberOfBlock;
+
 	SCROLL->init(m_pRabbit->getX(), m_pRabbit->getY());
 	ENEMYMANAGER->init(60);
-
-
-	m_nNumberOfBlock;
 
 
 
@@ -135,24 +137,44 @@ void StageScene::update()
 	SCROLL->update(m_pRabbit->getX(), m_pRabbit->getY());
 	m_pRabbit->update();
 
-	/*for (int y = 0; y < g_saveData.gTileMaxCountY; y++)
+	m_nNumberOfTemp = 0;
+	for (int y = 0; y < g_saveData.gTileMaxCountY; y++)
 	{
 		for (int x = 0; x < g_saveData.gTileMaxCountX; x++)
 		{
-			m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left - SCROLL->GetX();
-			m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top - SCROLL->GetY();
+			if (m_nNumberOfTemp < m_nNumberOfBlock &&m_pTiles[y *  g_saveData.gTileMaxCountX + x].terrain == isBlock)
+			{
+				m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc = RectMake(x * TILESIZEX_STAGE - SCROLL->GetX(), y * TILESIZEX_STAGE - SCROLL->GetY(), TILESIZEX_STAGE, TILESIZEY_STAGE);
+				m_Collide_Tiles[m_nNumberOfTemp] = RectMake(x * TILESIZEX_STAGE - SCROLL->GetX(), y * TILESIZEX_STAGE - SCROLL->GetY(), TILESIZEX_STAGE, TILESIZEY_STAGE);
+				m_nNumberOfTemp++;
+			}
+			else
+				m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc = RectMake(x * TILESIZEX_STAGE - SCROLL->GetX(), y * TILESIZEX_STAGE - SCROLL->GetY(), TILESIZEX_STAGE, TILESIZEY_STAGE);
+	
 		}
-	}*/
+	}
 
 	ChangeCharacter();
 	KeyEvent();
 	
 
-	// Áß·Â Ã³¸®
-	/*if (m_pRabbit->getIsGravity() == true)
-		m_pRabbit->setY(m_pRabbit->getY() + GRAVITY + m_pRabbit->getWeight());*/
+	for (int i = 0; i < m_nNumberOfBlock; ++i)
+	{
+		RECT temp_rc;
+		if (IntersectRect(&temp_rc, &(m_pRabbit->getRC()), &(m_Collide_Tiles[i]) ) )
+		{
+			if (m_pRabbit->getIsRected() == false)
+			{
+				m_pRabbit->setIsRected(true);
+				m_pRabbit->setY(m_pRabbit->getY() - 1);
+				if ((int)m_pRabbit->getY() % TILESIZEY_STAGE > 0)
+					m_pRabbit->setY((m_pRabbit->getY() - (int)m_pRabbit->getY() % TILESIZEY_STAGE));
+				else
+					m_pRabbit->setY((m_pRabbit->getY() + (int)m_pRabbit->getY() % TILESIZEY_STAGE));
 
-	// 
+			}
+		}
+	}
 
 }
 
@@ -200,15 +222,19 @@ void StageScene::KeyEvent()
 		mySelectedCh = sel_Squirrel;
 	
 	if (KEYMANAGER->isOnceKeyDown(VK_F7))
-		if(m_bRectangleOn == true)
+	{
+		if (m_bRectangleOn == true)
 			m_bRectangleOn = false;
 		else
 			m_bRectangleOn = true;
+	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F8))
+	{
 		if (m_bMiniMapOn == true)
 			m_bMiniMapOn = false;
 		else
 			m_bMiniMapOn = true;
+	}
 
 }
 
@@ -224,7 +250,7 @@ void StageScene::render(HDC hdc)
 {
 	m_pImg_Back->render(hdc, 0, 0);
 	m_pImg_Middle[0]->render(hdc, 0, 377);
-	m_pImg_Middle[1]->render(hdc, m_pImg_Middle[0]->getWidth(), 377);
+	m_pImg_Middle[1]->render(hdc, m_pImg_Middle[0]->getX() + m_pImg_Middle[1]->getWidth(), 377);
 	
 
 
@@ -234,14 +260,16 @@ void StageScene::render(HDC hdc)
 		{
 
 			m_pImg_TileSet->frameRender(hdc,
-				m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left - SCROLL->GetX(),
-				m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top - SCROLL->GetY(),
+				m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left ,
+				m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top ,
 				m_pTiles[y *  g_saveData.gTileMaxCountX + x].terrainFrameX,
 				m_pTiles[y *  g_saveData.gTileMaxCountX + x].terrainFrameY);
 
 
+
 			if (m_bMiniMapOn == true)
 			{
+
 				m_pImg_TileSet->RatioRender(hdc,
 					(WINSIZEX - 400) + (m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left / MINIMAP_RATIO), // 750Àº ¹Ì´Ï¸Ê ½ÃÀÛXÁÂÇ¥ + ¹Ì´Ï¸Ê¿¡ ·»´õÇÒ °´Ã¼ÀÇ À§Ä¡left°ª / Á×Ã´°ª ( Ãà¼ÒµÉ ºñÀ² 8~ 10ÀÌ Àû´ç ) + Ä«¸Þ¶óÁÂÇ¥X / Á×Ã´°ª
 					30 + (m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top / MINIMAP_RATIO), // 30Àº ¹Ì´Ï¸Ê ½ÃÀÛYÁÂÇ¥ + ¹Ì´Ï¸Ê¿¡ ·»´õÇÒ °´Ã¼ÀÇ À§Ä¡top°ª / Á×Ã´°ª ( Ãà¼ÒµÉ ºñÀ² 8~ 10ÀÌ Àû´ç ) + Ä«¸Þ¶óÁÂÇ¥Y / Á×Ã´°ª
@@ -254,8 +282,8 @@ void StageScene::render(HDC hdc)
 
 
 				m_pMiniPlayer->RatioRender(hdc,
-					(WINSIZEX - 400) + m_pRabbit->getRC().left / MINIMAP_RATIO + (SCROLL->GetX() / MINIMAP_RATIO),
-					30 + m_pRabbit->getRC().top / MINIMAP_RATIO + (SCROLL->GetY() / MINIMAP_RATIO),
+					(WINSIZEX - 400) + m_pRabbit->getRC().left / MINIMAP_RATIO ,
+					30 + m_pRabbit->getRC().top / MINIMAP_RATIO ,
 					m_pMiniPlayer->getFrameX(),
 					m_pMiniPlayer->getFrameY(),
 					MINIMAP_RATIO,
@@ -269,6 +297,10 @@ void StageScene::render(HDC hdc)
 	if (m_bRectangleOn == true)
 	{
 		Rectangle(hdc, m_pRabbit->getRC().left, m_pRabbit->getRC().top, m_pRabbit->getRC().right, m_pRabbit->getRC().bottom);
+
+		for (int i = 0; i < m_nNumberOfBlock; ++i)
+			Rectangle(hdc, m_Collide_Tiles[i].left, m_Collide_Tiles[i].top, m_Collide_Tiles[i].right, m_Collide_Tiles[i].bottom);
+
 		char SzText1[128];
 		// TRANSPARENT : Åõ¸í, OPAQUE : ºÒÅõ¸í
 		SetBkMode(hdc, TRANSPARENT);
@@ -301,8 +333,10 @@ void StageScene::render(HDC hdc)
 	else
 		m_pImg_UISquirrel->frameRender(hdc, 66 + 207, 22, 1, 0);
 	
-
-
+	for (int i = 0; i < 5; i++)
+	{
+		m_pImg_itemBox[i]->render(hdc, 385 + (i * 80), 20);
+	}
 	// ¹Ì´Ï¸Ê UI
 	//m_pImg_UIMiniMap->render(hdc, WINSIZEX - (IMAGEMANAGER->findImage("ui_minimap")->getWidth() + 3), 5);
 }

@@ -257,10 +257,8 @@ void Editor_Scene::Sample_tileSetting()
 		else if (j == 72 || j == 73 || j == 74 ||
 			j == 82 || (j >= 84 && j <=90) || (j >= 95 && j <= 97) )
 			m_pSampleTiles[j].terrain = isEmpty;
-		else
-			m_pSampleTiles[j].terrain = isBlock;
-
-
+		else if (j >= 128)
+			m_pSampleTiles[j].terrain = isEmpty;
 	}
 }
 

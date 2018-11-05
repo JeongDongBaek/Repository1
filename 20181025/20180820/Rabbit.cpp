@@ -38,9 +38,12 @@ HRESULT Rabbit::init()
 
 	m_eState = st_isIdle;
 	m_fSpeed = 4.0f;
-	m_fJumpPower = 20.0f;
-	m_fWeight = 4.5f;
+	m_fJumpPower = -24.0f;
+	m_fWeight = 0.7f;
 	m_bIsJumped = false;
+	m_bIsFloating = false;
+	m_bIsRected = false;
+	m_bIsFalling = false;
 	m_bIsAlive = true;
 	m_bIsGravity = true;
 	m_rc = RectMake(m_fX, m_fY, RABBIT_WIDTH, RABBIT_HEIGHT);
@@ -50,7 +53,8 @@ HRESULT Rabbit::init()
 
 void Rabbit::update()
 {
-
+	
+	
 	m_rc = RectMake(m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY(), RABBIT_WIDTH, RABBIT_HEIGHT);
 
 	// getIsAlive가 없어도 되는것들
@@ -79,13 +83,29 @@ void Rabbit::update()
 	////////////////////
 	KeyEvent();
 
-	if (m_eState == st_isJump)
-	{
-		m_nJumpCount++;
-		JumpEvent();
-		m_fY -= m_fJumpTemp;
 
-		if (m_fJumpTemp < 0) st_isIdle;
+	if (m_bIsFloating == true)
+	{
+		m_eState = st_isJump;
+		m_fY += m_fJumpTemp;
+		m_fJumpTemp += m_fWeight;
+
+		if (m_fJumpTemp >= 19)
+			m_fJumpTemp = 20;
+
+		if (m_fJumpTemp > 0)
+		{
+			m_bIsJumped = false;
+			m_eState = st_isFall;
+		}
+
+		if (m_bIsRected == true)
+		{
+			m_bIsFalling = false;
+			m_bIsFloating = false;
+			m_eState = st_isIdle;
+		}
+		
 	}
 
 	
@@ -94,37 +114,93 @@ void Rabbit::update()
 
 void Rabbit::JumpEvent()
 {
-	if (m_nJumpCount >= 60)
-	{
-		m_fJumpTemp -= m_fWeight;
-		m_nJumpCount++;
-	}
+	
 
 }
 
 void Rabbit::KeyEvent()
 {
-	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
-	{
-		m_fX -= m_fSpeed;
-		m_eState = st_isRun;
-		m_bIsRight = false;
-	}
-	if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
-		m_eState = st_isIdle;
 	if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
 	{
+		if (m_eState != st_isRun)
+		{
+			m_eState = st_isRun;
+			m_pAni[2]->start();
+			m_pAni[2]->setFPS(13);
+		}
 		m_fX += m_fSpeed;
-		m_eState = st_isRun;
 		m_bIsRight = true;
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
-		m_eState = st_isIdle;
-	if (KEYMANAGER->isStayKeyDown(VK_SPACE) && m_eState == st_isIdle)
 	{
-		m_eState = st_isJump;
+		m_eState = st_isIdle;
+	}
+
+	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+	{
+		if (m_eState != st_isRun)
+		{
+			m_eState = st_isRun;
+			m_pAni_left[2]->start();
+			m_pAni_left[2]->setFPS(13);
+		}
+		m_fX -= m_fSpeed;
+		m_bIsRight = false;
+	}
+	if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
+	{
+		m_eState = st_isIdle;
+	}
+
+
+
+
+	if (KEYMANAGER->isStayKeyDown(VK_SPACE) && m_bIsRight == false && m_bIsFloating == false)
+	{
+		if (m_eState != st_isJump && m_eState != st_isFall)
+		{
+			m_eState = st_isJump;
+			m_pAni_left[1]->start();
+			m_pAni_left[1]->setFPS(12);
+			m_bIsJumped = true;
+		}
+		m_bIsJumped = true;
+		m_bIsRected = false;
+		m_bIsFloating = true;
 		m_fJumpTemp = m_fJumpPower;
 	}
+	if (KEYMANAGER->isOnceKeyUp(VK_SPACE) && m_bIsRight == false && m_bIsJumped == true)
+	{
+		if (m_fJumpTemp < -4.0f)
+			m_fJumpTemp = -4.0f;
+	}
+
+
+
+
+	if (KEYMANAGER->isStayKeyDown(VK_SPACE) && m_bIsRight == true && m_bIsFloating == false)
+	{
+		if (m_eState != st_isJump && m_eState != st_isFall)
+		{
+			m_eState = st_isJump;
+			m_pAni[1]->start();
+			m_pAni[1]->setFPS(12);
+			m_bIsJumped = true;
+		}
+		m_bIsJumped = true;
+		m_bIsFloating = true;
+		m_bIsRected = false;
+		m_fJumpTemp = m_fJumpPower;
+	}
+	if (KEYMANAGER->isOnceKeyUp(VK_SPACE) && m_bIsRight == true && m_bIsJumped == true)
+	{
+		if (m_fJumpTemp < -4.0f)
+			m_fJumpTemp = -4.0f;
+	}
+
+
+
+
 	if (KEYMANAGER->isOnceKeyDown('H'))
 	{
 		m_bIsGravity = false;

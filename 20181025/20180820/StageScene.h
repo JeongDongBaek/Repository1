@@ -39,7 +39,8 @@ private:
 	image * m_pImg_UI_char;
 	image * m_pImg_Back;
 	image * m_pImg_Middle[2];
-	
+	image * m_pImg_itemBox[5];
+
 	image * m_pImg_UIFox;
 	image * m_pImg_UISquirrel;
 	image * m_pImg_UIRabbit;
@@ -50,7 +51,8 @@ private:
 
 	bool m_bRectangleOn;
 	bool m_bMiniMapOn;
-
+	bool m_bInvenOn;
+	
 public:
 	HRESULT init();
 	void update();

@@ -96,6 +96,8 @@ HRESULT Title_Scene::init()
 	IMAGEMANAGER->addImage("ui_squirrel", "image/ui/UI_squirrel.bmp", 76, 76,2,1,true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("ui_rabbit", "image/ui/UI_rabbit.bmp", 76, 76, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("ui_minimap", "image/ui/ui_minimap.bmp", 374, 270,true, RGB(255, 255, 255));
+	IMAGEMANAGER->addImage("ui_minimap", "image/ui/ui_minimap.bmp", 374, 270,true, RGB(255, 255, 255));
+	IMAGEMANAGER->addImage("item_box", "image/ui/item_box.bmp", 74, 74,true, RGB(255, 255, 255));
 
 
 	

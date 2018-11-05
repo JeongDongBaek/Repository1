@@ -183,6 +183,9 @@
     <ClInclude Include="progressBar.h">
       <Filter>2DGameFramework\progressBar</Filter>
     </ClInclude>
+    <ClInclude Include="item.h">
+      <Filter>MainGame\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -292,6 +295,9 @@
     </ClCompile>
     <ClCompile Include="progressBar.cpp">
       <Filter>2DGameFramework\progressBar</Filter>
+    </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>MainGame\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
