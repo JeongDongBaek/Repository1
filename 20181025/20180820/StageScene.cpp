@@ -11,7 +11,7 @@ char szFileName1[512];
 
 void StageScene::FixedLoad()
 {
-	TXTDATA->getSingleton()->mapLoad("SaveFile/main10.map", m_pTiles);
+	TXTDATA->getSingleton()->mapLoad("SaveFile/main11.map", m_pTiles);
 
 }
 
@@ -76,6 +76,8 @@ HRESULT StageScene::init()
 	m_pImg_UIFox = IMAGEMANAGER->findImage("ui_fox");
 	m_pImg_UISquirrel = IMAGEMANAGER->findImage("ui_squirrel");
 	m_pImg_UIRabbit = IMAGEMANAGER->findImage("ui_rabbit");
+
+	ENEMYMANAGER->init(60);
 	for (int i = 0; i < 5; i++)
 	{
 		m_pImg_itemBox[i] = IMAGEMANAGER->findImage("item_box");
@@ -118,6 +120,14 @@ HRESULT StageScene::init()
 				m_Collide_Tiles[m_nNumberOfBlock] = m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc;
 				m_nNumberOfBlock++;
 			}
+
+			if (m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID <= 7)
+			{
+				ENEMYMANAGER->setEnemy(m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID,
+					m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left,
+					m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top);
+			}
+
 		}
 
 	}
@@ -125,7 +135,6 @@ HRESULT StageScene::init()
 	g_saveData.gColiideCount = m_nNumberOfBlock;
 
 	SCROLL->init(m_pRabbit->getX(), m_pRabbit->getY());
-	ENEMYMANAGER->init(60);
 
 
 
@@ -136,6 +145,7 @@ void StageScene::update()
 {
 	SCROLL->update(m_pRabbit->getX(), m_pRabbit->getY());
 	m_pRabbit->update();
+	ENEMYMANAGER->update();
 
 	m_nNumberOfTemp = 0;
 	for (int y = 0; y < g_saveData.gTileMaxCountY; y++)
@@ -166,7 +176,7 @@ void StageScene::update()
 			if (m_pRabbit->getIsRected() == false)
 			{
 				m_pRabbit->setIsRected(true);
-				m_pRabbit->setY(m_pRabbit->getY() - 1);
+				m_pRabbit->setY(m_pRabbit->getY() - 5);
 				if ((int)m_pRabbit->getY() % TILESIZEY_STAGE > 0)
 					m_pRabbit->setY((m_pRabbit->getY() - (int)m_pRabbit->getY() % TILESIZEY_STAGE));
 				else
@@ -310,7 +320,20 @@ void StageScene::render(HDC hdc)
 		sprintf_s(SzText1, "fX : %f /  fY : %f  ", m_pRabbit->getX(), m_pRabbit->getY());
 		TextOut(hdc, WINSIZEX / 2 -100, 40, SzText1, strlen(SzText1));
 
+		std::vector<Enemy*> vEnemy = ENEMYMANAGER->getVec();
+		std::vector<Enemy*>::iterator EnemyIter;
+		for (EnemyIter = vEnemy.begin(); EnemyIter != vEnemy.end(); EnemyIter++) // 플레이어 총알 백터
+		{
+			if ((*EnemyIter)->getIsAlive() == false) continue;
+
+			Rectangle(hdc, (*EnemyIter)->getRC().left, (*EnemyIter)->getRC().top, (*EnemyIter)->getRC().right, (*EnemyIter)->getRC().bottom);
+		}
+
+
+
 	}
+
+	ENEMYMANAGER->render(hdc);
 
 	m_pRabbit->render(hdc);
 

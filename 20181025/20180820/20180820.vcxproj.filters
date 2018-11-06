@@ -58,6 +58,12 @@
     <Filter Include="2DGameFramework\progressBar">
       <UniqueIdentifier>{87f7aea9-7739-4629-93ad-7dde9c8e2677}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\GameObject\Bullet">
+      <UniqueIdentifier>{fbb9a75d-d466-40da-a772-b5d96237ad0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\GameObject\Item">
+      <UniqueIdentifier>{a3494e72-c6be-48d6-bb8f-b19364db5b16}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -183,8 +189,17 @@
     <ClInclude Include="progressBar.h">
       <Filter>2DGameFramework\progressBar</Filter>
     </ClInclude>
+    <ClInclude Include="BoomerangMgr.h">
+      <Filter>MainGame\GameObject\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Boomerang.h">
+      <Filter>MainGame\GameObject\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemManager.h">
+      <Filter>MainGame\GameObject\Item</Filter>
+    </ClInclude>
     <ClInclude Include="item.h">
-      <Filter>MainGame\GameObject</Filter>
+      <Filter>MainGame\GameObject\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -296,8 +311,17 @@
     <ClCompile Include="progressBar.cpp">
       <Filter>2DGameFramework\progressBar</Filter>
     </ClCompile>
+    <ClCompile Include="BoomerangMgr.cpp">
+      <Filter>MainGame\GameObject\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Boomerang.cpp">
+      <Filter>MainGame\GameObject\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemManager.cpp">
+      <Filter>MainGame\GameObject\Item</Filter>
+    </ClCompile>
     <ClCompile Include="item.cpp">
-      <Filter>MainGame\GameObject</Filter>
+      <Filter>MainGame\GameObject\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

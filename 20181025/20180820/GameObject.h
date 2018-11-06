@@ -54,11 +54,6 @@ public:
 	inline bool getIsGravity() { return m_bIsGravity; }
 	inline void setIsGravity(bool bIsGravity) { m_bIsGravity = bIsGravity; }
 
-	virtual HRESULT init() = 0;
-	virtual void update() = 0;
-	virtual void release() = 0;
-	virtual void render(HDC hdc) = 0;
-
 	GameObject();
 	~GameObject();
 };

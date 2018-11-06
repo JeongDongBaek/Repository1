@@ -1,0 +1,99 @@
+#include "stdafx.h"
+#include "Boomerang.h"
+#include "Rabbit.h"
+
+HRESULT Boomerang::init(bool isRight, float x, float y, float Player_Speed)
+{
+	m_pImage = IMAGEMANAGER->findImage("boomerang");
+	m_fFiredX = m_fX = x;
+	m_fFiredY = m_fY = y;
+	m_bIsFire = false;
+
+	m_bIsReturning = fasle;
+	m_bIsRight = isRight;
+	if (m_bIsRight == true)
+		m_fAngle_Move = (PI / 180) * 0;
+	else if (m_bIsRight == false)
+		m_fAngle_Move = (PI / 180) * 180;
+	m_rc = RectMakeCenter(m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY(), 54, 42);
+	m_fRange = 1000;
+	m_fSpeed = 4.0f + Player_Speed;
+
+	return S_OK;
+}
+
+void Boomerang::Fire()
+{
+	m_bIsFire = true;
+}
+
+void Boomerang::release()
+{
+}
+
+void Boomerang::update()
+{
+	if (m_bIsFire)
+	{
+		update_rotate();
+
+		m_fX += cosf(m_fAngle_Move) * m_fSpeed;
+		m_fY += -sinf(m_fAngle_Move) * m_fSpeed;
+
+		m_rc = RectMakeCenter(m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY(),
+			54, 42);
+
+		if (m_fRange < MY_UTIL::getDistance(m_fFiredX, m_fFiredY, m_fX, m_fY))
+		{
+			m_bIsFire = false;
+		}
+	}
+}
+
+void Boomerang::update_rotate()
+{
+	m_fX += 7.0f;
+
+	if (m_fRange/2 > MY_UTIL::getDistance(m_fFiredX, m_fFiredY, m_fX, m_fY))
+	{
+		if (m_bIsRight == true)
+		{
+			m_fAngle_Move +=  (PI / 180) * 3.0f;
+		}
+		else if (m_bIsRight == false)
+		{
+			m_fAngle_Move += (PI / 180) * 3.0f;
+		}
+	}
+	else if (m_fRange / 2 < MY_UTIL::getDistance(m_fFiredX, m_fFiredY, m_fX, m_fY))
+	{
+		if (m_bIsRight == true)
+		{
+			m_fAngle_Move += 2*PI - ( (PI / 180) * 3.0f);
+		}
+		else if (m_bIsRight == false)
+		{
+			m_fAngle_Move -= (PI / 180) * 3.0f;
+			
+		}
+	}
+	
+}
+
+void Boomerang::render(HDC hdc)
+{
+	if (m_bIsFire)
+	{
+		tempAngle += 9.0f;
+		m_pImage->rotateRender(hdc,tempAngle, m_rc.left, m_rc.top, 1.0f);
+	}
+}
+
+Boomerang::Boomerang()
+{
+}
+
+
+Boomerang::~Boomerang()
+{
+}

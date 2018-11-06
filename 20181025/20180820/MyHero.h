@@ -14,6 +14,7 @@ protected:
 	float m_fStamina;
 	float m_fJumpPower;
 	float m_fJumpTemp;
+	float m_fCoolDown;
 
 	//RECT m_rc_Collide;
 	tagCharacterState m_eState;

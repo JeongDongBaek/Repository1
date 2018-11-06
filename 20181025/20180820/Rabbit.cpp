@@ -1,9 +1,14 @@
 #include "stdafx.h"
 #include "Rabbit.h"
 #include "animation.h"
+#include "BoomerangMgr.h"
+
 
 HRESULT Rabbit::init()
 {
+	m_pImage_boomerang = IMAGEMANAGER->findImage("boomerang");
+	m_pBoomerang = new BoomerangMgr;
+	m_pBoomerang->init(2);
 
 	m_pImage[0] = IMAGEMANAGER->findImage("rabbit_idle");
 	m_pImage[1] = IMAGEMANAGER->findImage("rabbit_jump");
@@ -40,6 +45,8 @@ HRESULT Rabbit::init()
 	m_fSpeed = 4.0f;
 	m_fJumpPower = -24.0f;
 	m_fWeight = 0.7f;
+	m_fAccrancy = 0.15f; // 1레벨 0.15 2레벨 0.11f 3레벨 0.07f  //-0.04씩 줄어듬
+	m_bIsBoomerangOn = true;
 	m_bIsJumped = false;
 	m_bIsFloating = false;
 	m_bIsRected = false;
@@ -47,6 +54,7 @@ HRESULT Rabbit::init()
 	m_bIsAlive = true;
 	m_bIsGravity = true;
 	m_rc = RectMake(m_fX, m_fY, RABBIT_WIDTH, RABBIT_HEIGHT);
+
 
 	return S_OK;
 }
@@ -107,6 +115,10 @@ void Rabbit::update()
 		}
 		
 	}
+
+
+	if (m_pBoomerang)
+		m_pBoomerang->update();
 
 	
 }
@@ -208,9 +220,11 @@ void Rabbit::KeyEvent()
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_CONTROL))
 	{
-
+		if (m_bIsBoomerangOn == true && (m_eState == st_isIdle || m_eState == st_isRun) )
+		{
+			m_pBoomerang->Fire(m_fX, m_fY, (m_fSpeed - 2.0f), g_ptMouse.x, g_ptMouse.y, m_fAccrancy); // 
+		}
 	}
-	
 	
 }
 
@@ -312,6 +326,10 @@ void Rabbit::render(HDC hdc)
 		}
 	}
 	
+	if (m_pBoomerang)
+		m_pBoomerang->render(hdc);
+
+
 }
 
 Rabbit::Rabbit()

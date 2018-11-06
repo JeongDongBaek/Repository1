@@ -3,6 +3,7 @@
 
 class image;
 class animation;
+class BoomerangMgr;
 
 class Rabbit : public MyHero
 {
@@ -13,11 +14,15 @@ private:
 												//_Fall;
 												//_Hurt;
 												//_Climb;
-
 	image * m_pImage_left[6];
+	image * m_pImage_boomerang;
+	BoomerangMgr * m_pBoomerang;
 
 	animation * m_pAni[6];
 	animation * m_pAni_left[6];
+
+	bool m_bIsBoomerangOn;
+	float m_fAccrancy;
 
 public:
 	HRESULT init();

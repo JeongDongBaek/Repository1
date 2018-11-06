@@ -67,6 +67,8 @@ HRESULT Title_Scene::init()
 	IMAGEMANAGER->addImage("left_rabbit_hurt", "image/rabbit/left_player-hurt-1-horz.bmp", 74, 32, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("left_rabbit_climb", "image/rabbit/left_player-climb-1-horz.bmp", 148, 32, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("left_rabbit_fall", "image/rabbit/left_player-fall-1-horz.bmp", 148, 32, 4, 1, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addImage("boomerang", "image/rabbit/boomerang.bmp", 40, 66, 1, 1, true, RGB(255, 0, 255));
 	/////////////////		
 
 
@@ -98,8 +100,7 @@ HRESULT Title_Scene::init()
 	IMAGEMANAGER->addImage("ui_minimap", "image/ui/ui_minimap.bmp", 374, 270,true, RGB(255, 255, 255));
 	IMAGEMANAGER->addImage("ui_minimap", "image/ui/ui_minimap.bmp", 374, 270,true, RGB(255, 255, 255));
 	IMAGEMANAGER->addImage("item_box", "image/ui/item_box.bmp", 74, 74,true, RGB(255, 255, 255));
-
-
+	IMAGEMANAGER->addImage("item", "image/item.bmp", 400, 350, 8, 7, true, RGB(255, 129, 255));
 	
 	///////////////////
 	

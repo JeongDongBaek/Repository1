@@ -21,6 +21,8 @@ private:
 
 public:
 	HRESULT init(int m_nMaxLimitNumber);
+	void setEnemy(int m_nEnemyNum, float StartingX, float StartingY);
+	
 	void release();
 	void update();
 	void render(HDC hdc);

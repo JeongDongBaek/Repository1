@@ -150,6 +150,8 @@
   <ItemGroup>
     <ClInclude Include="20180820.h" />
     <ClInclude Include="animation.h" />
+    <ClInclude Include="Boomerang.h" />
+    <ClInclude Include="BoomerangMgr.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="Editor_Scene.h" />
@@ -165,6 +167,7 @@
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="item.h" />
+    <ClInclude Include="ItemManager.h" />
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="loadingScene.h" />
     <ClInclude Include="mainGame.h" />
@@ -194,6 +197,8 @@
   <ItemGroup>
     <ClCompile Include="20180820.cpp" />
     <ClCompile Include="animation.cpp" />
+    <ClCompile Include="Boomerang.cpp" />
+    <ClCompile Include="BoomerangMgr.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="Editor_Scene.cpp" />
     <ClCompile Include="Editor_SetSize.cpp" />
@@ -208,6 +213,7 @@
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="item.cpp" />
+    <ClCompile Include="ItemManager.cpp" />
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="loadingScene.cpp" />
     <ClCompile Include="mainGame.cpp" />
