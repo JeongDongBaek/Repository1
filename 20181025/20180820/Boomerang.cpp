@@ -8,6 +8,7 @@ HRESULT Boomerang::init(float x, float y, float Player_Speed, float DestiX, floa
 	m_fFiredX = m_fX = x;
 	m_fFiredY = m_fY = y;
 	m_ntempDistance = 0;
+	m_bIsReturning = false;
 	m_bIsFire = false;
 	m_fAccuracy = RANDOM->getFromFloatTo(0 - Accuracy, 0 + Accuracy);
 
@@ -46,8 +47,14 @@ void Boomerang::update()
 		}
 		if (MY_UTIL::getDistance(m_fFiredX, m_fFiredY, m_fX, m_fY) < 20 && m_bIsReturning == true)
 		{
+			m_bIsReturning = false;
 			m_bIsFire = false;
 		}
+		
+		/*if (m_fRange < MY_UTIL::getDistance(m_fFiredX, m_fFiredY, m_fX, m_fY))
+		{
+			m_bIsFire = false;
+		}*/
 
 	}
 }
@@ -57,6 +64,7 @@ void Boomerang::update_rotate()
 	if (m_bIsReturning == true)
 	{
 		m_fAngle_Move = MY_UTIL::getAngle(m_fX, m_fY, m_fFiredX, m_fFiredY);
+		m_fAngle_Move += 0.22f;
 	}
 
 }

@@ -8,7 +8,7 @@ HRESULT Rabbit::init()
 {
 	m_pImage_boomerang = IMAGEMANAGER->findImage("boomerang");
 	m_pBoomerang = new BoomerangMgr;
-	m_pBoomerang->init(2);
+	m_pBoomerang->init(5);
 
 	m_pImage[0] = IMAGEMANAGER->findImage("rabbit_idle");
 	m_pImage[1] = IMAGEMANAGER->findImage("rabbit_jump");
@@ -53,6 +53,8 @@ HRESULT Rabbit::init()
 	m_bIsFalling = false;
 	m_bIsAlive = true;
 	m_bIsGravity = true;
+	m_nFireDelay = 150; // 1레벨 150 2레벨 130 3레벨 110 
+	m_nFireDelayTemp = m_nFireDelay;
 	m_rc = RectMake(m_fX, m_fY, RABBIT_WIDTH, RABBIT_HEIGHT);
 
 
@@ -116,6 +118,8 @@ void Rabbit::update()
 		
 	}
 
+	if (m_nFireDelayTemp >= 0)
+		m_nFireDelayTemp--;
 
 	if (m_pBoomerang)
 		m_pBoomerang->update();
@@ -211,18 +215,12 @@ void Rabbit::KeyEvent()
 	}
 
 
-
-
-	if (KEYMANAGER->isOnceKeyDown('H'))
-	{
-		m_bIsGravity = false;
-		m_eState = st_isIdle;
-	}
 	if (KEYMANAGER->isOnceKeyDown(VK_CONTROL))
 	{
-		if (m_bIsBoomerangOn == true && (m_eState == st_isIdle || m_eState == st_isRun) )
+		if (m_bIsBoomerangOn == true && (m_eState == st_isIdle || m_eState == st_isRun) && m_nFireDelayTemp < 0 )
 		{
 			m_pBoomerang->Fire(m_fX, m_fY, (m_fSpeed - 2.0f), g_ptMouse.x, g_ptMouse.y, m_fAccrancy); // 
+			m_nFireDelayTemp = m_nFireDelay;
 		}
 	}
 	

@@ -22,7 +22,15 @@ private:
 	animation * m_pAni_left[6];
 
 	bool m_bIsBoomerangOn;
-	float m_fAccrancy;
+
+	// item 적용가능 변수들
+	
+	/////// speed , MaxHP, MaxStamina, MaxMana, Damage, Def, JumpPower
+	SYNTHESIZE(float, m_fAccrancy, Accrancy); // 작을수록 좋다
+	SYNTHESIZE(int, m_nFireDelay, FireDelay); // 작을수록 좋다 , 실제값	
+	SYNTHESIZE(int, m_nFireDelayTemp, FireDelayTemp); // 작을수록 좋다 , 실제값을 잠시 담고있는 변수 유동적이다.
+
+	///////
 
 public:
 	HRESULT init();

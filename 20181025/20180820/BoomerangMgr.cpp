@@ -13,6 +13,8 @@ HRESULT BoomerangMgr::init(int limit)
 
 void BoomerangMgr::Fire(float x, float y, float Player_Speed, float DestiX, float DestiY, float m_fAccuracy)
 {
+	
+
 	for (m_iter = m_vecBoomerang.begin(); m_iter != m_vecBoomerang.end(); ++m_iter)
 	{
 		if (!(*m_iter)->getIsFire() == true)
@@ -31,12 +33,14 @@ void BoomerangMgr::Fire(float x, float y, float Player_Speed, float DestiX, floa
 	m_pBoomerang->init( x, y, Player_Speed, DestiX, DestiY, m_fAccuracy);
 	m_pBoomerang->Fire();
 	m_vecBoomerang.push_back(m_pBoomerang);
-	return;
+	
 
 }
 
 void BoomerangMgr::update()
 {
+	if (g_saveData.gGamePause) return;
+
 	for (m_iter = m_vecBoomerang.begin(); m_iter != m_vecBoomerang.end(); ++m_iter)
 	{
 		if (!(*m_iter)->getIsFire() == true)

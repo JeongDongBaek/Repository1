@@ -163,7 +163,7 @@ void Enemy::render(HDC hdc)
 		m_pImage[0]->aniRender(hdc, m_rc.left - 48, m_rc.top - 60, m_pAni[0], 4.0f, false ,100);
 		break;
 	case 1:
-		m_pImage[0]->aniRender(hdc, m_rc.left - 48, m_rc.top - 60, m_pAni[0], 4.0f, false, 100);
+		m_pImage[0]->aniRender(hdc, m_rc.left - 43, m_rc.top - 60, m_pAni[0], 4.0f, false, 100);
 		break;
 	case 2:
 		m_pImage[0]->aniRender(hdc, m_rc.left - 58, m_rc.top - 84, m_pAni[0], 4.0f, false, 100);
@@ -172,7 +172,7 @@ void Enemy::render(HDC hdc)
 		m_pImage[0]->aniRender(hdc, m_rc.left - 60, m_rc.top - 60, m_pAni[0], 4.0f, false, 100);
 		break;
 	case 4:
-		m_pImage[0]->aniRender(hdc, m_rc.left - 84, m_rc.top - 100, m_pAni[0], 4.0f, false, 100);
+		m_pImage[0]->aniRender(hdc, m_rc.left - 84, m_rc.top - 110, m_pAni[0], 4.0f, false, 100);
 		break;
 	case 5:
 		m_pImage[0]->aniRender(hdc, m_rc.left - 40, m_rc.top - 60, m_pAni[0], 4.0f, false, 100);

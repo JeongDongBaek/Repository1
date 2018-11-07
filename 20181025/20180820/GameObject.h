@@ -11,6 +11,7 @@ protected:
 	float m_fHP;
 	float m_fSpeed;
 	float m_fWeight;
+	float m_fDef;
 
 	bool m_bIsInvin; // 무적인지 아닌지
 	bool m_bIsAlive;
