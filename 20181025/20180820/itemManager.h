@@ -21,6 +21,8 @@ public:
 
 	void ItemCreate();
 
+	static bool comp(item* a, item* b);
+
 	void render(HDC hdc);
 
 	ItemManager();

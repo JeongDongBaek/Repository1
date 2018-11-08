@@ -1,23 +1,9 @@
-﻿  Boomerang.cpp
-c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\boomerang.cpp(16): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\boomerang.cpp(41): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\boomerang.cpp(77): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\boomerang.cpp(77): warning C4244: '인수': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  Bullet.cpp
   Rabbit.cpp
 c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\rabbit.cpp(58): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\rabbit.cpp(68): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\rabbit.cpp(74): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\rabbit.cpp(79): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\rabbit.cpp(222): warning C4244: '인수': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  StageScene.cpp
-c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\stagescene.cpp(86): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
-c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\stagescene.cpp(114): warning C4244: '인수': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\stagescene.cpp(115): warning C4244: '인수': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\stagescene.cpp(128): warning C4244: '인수': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\stagescene.cpp(127): warning C4244: '인수': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\stagescene.cpp(157): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\stagescene.cpp(158): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\stagescene.cpp(162): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\5_kga_4\desktop\개인포폴\repository1\20181025\20180820\stagescene.cpp(263): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   코드를 생성하고 있습니다...
   20180820.vcxproj -> C:\Users\5_KGA_4\Desktop\개인포폴\Repository1\20181025\Debug\20181025.exe

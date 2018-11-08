@@ -876,23 +876,23 @@ void image::rotateRender(HDC hdc, float rotateAngle, float fX, float fY, int sca
 
 void image::hitRender(HDC hdc, int destX, int destY, COLORREF color)
 {
-	//// 브러시 색상 이미지 준비
-	//HBRUSH brush = CreateSolidBrush(color);
-	//HBRUSH oldBrush = (HBRUSH)SelectObject(m_pBlendImageHit->hMemDC, brush);
+	// 브러시 색상 이미지 준비
+	HBRUSH brush = CreateSolidBrush(color);
+	HBRUSH oldBrush = (HBRUSH)SelectObject(m_pBlendImageHit->hMemDC, brush);
 
-	//BitBlt(
-	//	// 목적지
-	//	m_pBlendImageHit->hMemDC,
-	//	0, 0,
-	//	m_pBlendImageHit->nWidth, m_pBlendImageHit->nHeight,
+	BitBlt(
+		// 목적지
+		m_pBlendImageHit->hMemDC,
+		0, 0,
+		m_pBlendImageHit->nWidth, m_pBlendImageHit->nHeight,
 
-	//	// 대상
-	//	m_pBlendImageHit->hMemDC,
-	//	0, 0,
-	//	PATCOPY);
+		// 대상
+		m_pBlendImageHit->hMemDC,
+		0, 0,
+		PATCOPY);
 
-	//SelectObject(m_pBlendImageHit->hMemDC, oldBrush);
-	//DeleteObject(brush);
+	SelectObject(m_pBlendImageHit->hMemDC, oldBrush);
+	DeleteObject(brush);
 
 	// 임시 이미지 준비
 	BitBlt(

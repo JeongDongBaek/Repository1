@@ -152,6 +152,8 @@
     <ClInclude Include="animation.h" />
     <ClInclude Include="Boomerang.h" />
     <ClInclude Include="BoomerangMgr.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="BulletManager.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="Editor_Scene.h" />
@@ -199,6 +201,8 @@
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="Boomerang.cpp" />
     <ClCompile Include="BoomerangMgr.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="Editor_Scene.cpp" />
     <ClCompile Include="Editor_SetSize.cpp" />

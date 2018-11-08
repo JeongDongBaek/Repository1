@@ -7,7 +7,6 @@ HRESULT Boomerang::init(float x, float y, float Player_Speed, float DestiX, floa
 	m_pImage = IMAGEMANAGER->findImage("boomerang");
 	m_fFiredX = m_fX = x;
 	m_fFiredY = m_fY = y;
-	m_ntempDistance = 0;
 	m_bIsReturning = false;
 	m_bIsFire = false;
 	m_fAccuracy = RANDOM->getFromFloatTo(0 - Accuracy, 0 + Accuracy);

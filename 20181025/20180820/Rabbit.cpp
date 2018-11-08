@@ -196,7 +196,7 @@ void Rabbit::KeyEvent()
 
 	if (KEYMANAGER->isStayKeyDown(VK_SPACE) && m_bIsRight == true && m_bIsFloating == false)
 	{
-		if (m_eState != st_isJump && m_eState != st_isFall)
+		if (m_eState != st_isJump || m_eState != st_isFall)
 		{
 			m_eState = st_isJump;
 			m_pAni[1]->start();
@@ -222,6 +222,13 @@ void Rabbit::KeyEvent()
 			m_pBoomerang->Fire(m_fX, m_fY, (m_fSpeed - 2.0f), g_ptMouse.x, g_ptMouse.y, m_fAccrancy); // 
 			m_nFireDelayTemp = m_nFireDelay;
 		}
+	}
+
+	if (KEYMANAGER->isStayKeyDown('Z'))
+	{
+		if (!m_bHaveWand == true) return;
+
+
 	}
 	
 }

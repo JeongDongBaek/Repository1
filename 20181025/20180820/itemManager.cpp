@@ -53,12 +53,29 @@ void ItemManager::release()
 void ItemManager::update()
 {
 	if (g_saveData.gGamePause) return;
+	
+	if (g_saveData.gSortButtonOn == true)
+	{
+		sort(m_vecItem.begin(), m_vecItem.end(), ItemManager::comp);
+		g_saveData.gSortButtonOn = false;
+	}
 
 	for (m_iter = m_vecItem.begin(); m_iter != m_vecItem.end(); m_iter++) // 중간에 end가 바뀌면 안된다.
 	{
 		if((*m_iter)->getIsAlive() == true)
 			(*m_iter)->update();
 	}
+
+	
+}
+
+void ItemManager::ItemCreate()
+{
+}
+
+bool ItemManager::comp(item * a, item * b)
+{
+	return (a->getIndex() < b->getIndex());
 }
 
 void ItemManager::render(HDC hdc)

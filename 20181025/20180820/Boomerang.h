@@ -10,7 +10,6 @@ private:
 	animation * m_pAni;
 	image * m_pImage;
 	float tempAngle = 1.0f;
-	int m_ntempDistance = 0;
 	SYNTHESIZE(RECT, m_rc, Rect);
 	SYNTHESIZE(float, m_fX, X);
 	SYNTHESIZE(float, m_fY, Y);

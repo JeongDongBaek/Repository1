@@ -14,6 +14,7 @@ private:
 	bool m_bIsMoving;
 	image * m_pImage[2];
 	animation * m_pAni[2];
+	tagEnemyState m_eState;
 
 	SYNTHESIZE(int, m_nEnemyNum, EnemyNumber);
 	SYNTHESIZE(float, m_fDamage, Damage);

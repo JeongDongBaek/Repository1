@@ -20,7 +20,7 @@ private:
 	std::vector<Enemy*>::iterator	m_iter;
 
 public:
-	HRESULT init(int m_nMaxLimitNumber);
+	HRESULT init(int MaxLimitNumber);
 	void setEnemy(int m_nEnemyNum, float StartingX, float StartingY);
 	
 	void release();

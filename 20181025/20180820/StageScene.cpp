@@ -161,6 +161,26 @@ void StageScene::update()
 			else
 				m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc = RectMake(x * TILESIZEX_STAGE - SCROLL->GetX(), y * TILESIZEX_STAGE - SCROLL->GetY(), TILESIZEX_STAGE, TILESIZEY_STAGE);
 	
+			
+		}
+	}
+
+	for (int i = 0; i < m_nNumberOfBlock; ++i)
+	{
+		RECT temp_rc;
+		if (IntersectRect(&temp_rc, &(m_pRabbit->getRC()), &(m_Collide_Tiles[i])))
+		{
+			if (m_pRabbit->getIsRected() == false)
+			{
+				m_pRabbit->setIsRected(true);
+				m_pRabbit->setY(m_pRabbit->getY() - 5);
+				while ((int)m_pRabbit->getY() % TILESIZEY_STAGE > 0)
+					m_pRabbit->setY((m_pRabbit->getY() - 1));
+				while ((int)m_pRabbit->getY() % TILESIZEY_STAGE < 0)
+					m_pRabbit->setY((m_pRabbit->getY() + 1));
+
+
+			}
 		}
 	}
 
@@ -168,23 +188,7 @@ void StageScene::update()
 	KeyEvent();
 	
 
-	for (int i = 0; i < m_nNumberOfBlock; ++i)
-	{
-		RECT temp_rc;
-		if (IntersectRect(&temp_rc, &(m_pRabbit->getRC()), &(m_Collide_Tiles[i]) ) )
-		{
-			if (m_pRabbit->getIsRected() == false)
-			{
-				m_pRabbit->setIsRected(true);
-				m_pRabbit->setY(m_pRabbit->getY() - 5);
-				if ((int)m_pRabbit->getY() % TILESIZEY_STAGE > 0)
-					m_pRabbit->setY((m_pRabbit->getY() - (int)m_pRabbit->getY() % TILESIZEY_STAGE));
-				else
-					m_pRabbit->setY((m_pRabbit->getY() + (int)m_pRabbit->getY() % TILESIZEY_STAGE));
-
-			}
-		}
-	}
+	
 
 }
 

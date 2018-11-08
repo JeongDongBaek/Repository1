@@ -9,6 +9,7 @@ protected:
 	bool m_bIsFloating;
 	bool m_bIsFalling;
 	bool m_bIsRected;
+	bool m_bHaveWand;
 
 	float m_fMana;
 	float m_fStamina;

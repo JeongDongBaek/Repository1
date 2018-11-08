@@ -201,6 +201,12 @@
     <ClInclude Include="item.h">
       <Filter>MainGame\GameObject\Item</Filter>
     </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>MainGame\GameObject\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletManager.h">
+      <Filter>MainGame\GameObject\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -322,6 +328,12 @@
     </ClCompile>
     <ClCompile Include="item.cpp">
       <Filter>MainGame\GameObject\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>MainGame\GameObject\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletManager.cpp">
+      <Filter>MainGame\GameObject\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

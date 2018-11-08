@@ -17,7 +17,7 @@ void BoomerangMgr::Fire(float x, float y, float Player_Speed, float DestiX, floa
 
 	for (m_iter = m_vecBoomerang.begin(); m_iter != m_vecBoomerang.end(); ++m_iter)
 	{
-		if (!(*m_iter)->getIsFire() == true)
+		if ((*m_iter)->getIsFire() == false)
 		{
 			(*m_iter)->init(x, y, Player_Speed, DestiX, DestiY, m_fAccuracy);
 			(*m_iter)->Fire();
@@ -44,7 +44,7 @@ void BoomerangMgr::update()
 	for (m_iter = m_vecBoomerang.begin(); m_iter != m_vecBoomerang.end(); ++m_iter)
 	{
 		if (!(*m_iter)->getIsFire() == true)
-			continue;
+			continue; // 다음반복실행 
 
 		(*m_iter)->update();
 	}
@@ -55,7 +55,7 @@ void BoomerangMgr::render(HDC hdc)
 	for (m_iter = m_vecBoomerang.begin(); m_iter != m_vecBoomerang.end(); ++m_iter)
 	{
 		if (!(*m_iter)->getIsFire() == true)
-			continue;
+			continue; // 다음반복실행
 
 		//Rectangle(hdc, (*m_iter)->getRect().left, (*m_iter)->getRect().top, (*m_iter)->getRect().right, (*m_iter)->getRect().bottom);
 		(*m_iter)->render(hdc);
@@ -66,6 +66,10 @@ void BoomerangMgr::render(HDC hdc)
 
 void BoomerangMgr::release()
 {
+	for (m_iter = m_vecBoomerang.begin(); m_iter != m_vecBoomerang.end(); ++m_iter)
+	{
+		delete (*m_iter);
+	}
 }
 
 BoomerangMgr::BoomerangMgr()

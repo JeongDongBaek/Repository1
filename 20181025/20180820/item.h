@@ -11,9 +11,15 @@ class item
 	effectManager * m_pEffectMgr;
 
 	RECT m_rc;
-	SYNTHESIZE(bool,m_bIsAlive, IsAlive);
-	SYNTHESIZE(int,m_nItemAlphaNum, itemAlphaNum);
+
 	tagItemInfor m_tItemInfor;
+
+
+	SYNTHESIZE(bool, m_bIsAlive, IsAlive);
+	SYNTHESIZE(int, m_nItemAlphaNum, itemAlphaNum);
+	SYNTHESIZE(int, m_nIndex, Index);
+
+	
 
 public:
 	HRESULT init();

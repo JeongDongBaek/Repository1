@@ -19,11 +19,6 @@ protected:
 	bool m_bIsRight;
 	RECT m_rc;
 
-	image * m_pImage;
-	animation * m_pAni;
-
-
-
 private:
 
 

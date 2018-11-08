@@ -575,7 +575,7 @@ void Editor_Scene::render(HDC hdc)
 			for (int i = 0; i <NUMBER_OF_KIND_UNITS - 3; ++i)
 			{
 				if (m_rcSelectedUnit == i)
-					m_pImg_EnemyBox->hitRender(hdc, m_EnemyBoxRect[i].left, m_EnemyBoxRect[i].top, RGB(255, 0, 255));
+					m_pImg_EnemyBox->alphaRender(hdc, m_EnemyBoxRect[i].left, m_EnemyBoxRect[i].top,100);
 				else
 					m_pImg_EnemyBox->render(hdc, m_EnemyBoxRect[i].left, m_EnemyBoxRect[i].top);
 			}

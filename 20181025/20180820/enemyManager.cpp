@@ -2,9 +2,12 @@
 #include "EnemyManager.h"
 #include "Enemy.h"
 
-HRESULT EnemyManager::init(int m_nMaxLimitNumber)
+HRESULT EnemyManager::init(int MaxLimitNumber)
 {
+	
+	m_nMaxLimitNumber = MaxLimitNumber;
 	m_vec.reserve(m_nMaxLimitNumber); // Limit
+
 	
 	//for (m_iter = m_vec.begin(); m_iter != m_vec.end(); m_iter++) // 중간에 end가 바뀌면 안된다.
 	//{
@@ -18,6 +21,23 @@ HRESULT EnemyManager::init(int m_nMaxLimitNumber)
 
 void EnemyManager::setEnemy(int m_nEnemyNum, float StartingX, float StartingY)
 {
+	for (m_iter = m_vec.begin(); m_iter != m_vec.end(); m_iter++)
+	{	
+		if (!(*m_iter)->getIsAlive() == true)
+		{
+			(*m_iter)->setEnemyNumber(m_nEnemyNum);
+			(*m_iter)->setX(StartingX);
+			(*m_iter)->setY(StartingY);
+			(*m_iter)->init();
+			return;
+		}
+		
+
+	}
+
+
+	if (m_nMaxLimitNumber < m_vec.size()) return;
+
 	Enemy* pEnemy;
 	pEnemy = new Enemy;
 
@@ -49,6 +69,7 @@ void EnemyManager::update()
 		if((*m_iter)->getIsAlive() == true )
 			(*m_iter)->update();
 	}
+
 }
 
 void EnemyManager::render(HDC hdc)
