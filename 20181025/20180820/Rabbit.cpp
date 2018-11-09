@@ -2,13 +2,16 @@
 #include "Rabbit.h"
 #include "animation.h"
 #include "BoomerangMgr.h"
-
+#include "BulletManager.h"
 
 HRESULT Rabbit::init()
 {
 	m_pImage_boomerang = IMAGEMANAGER->findImage("boomerang");
 	m_pBoomerang = new BoomerangMgr;
 	m_pBoomerang->init(5);
+
+	m_pBulletMgr = new BulletManager;
+	m_pBulletMgr->init(5);
 
 	m_pImage[0] = IMAGEMANAGER->findImage("rabbit_idle");
 	m_pImage[1] = IMAGEMANAGER->findImage("rabbit_jump");
@@ -48,6 +51,7 @@ HRESULT Rabbit::init()
 	m_fAccrancy = 0.15f; // 1레벨 0.15 2레벨 0.11f 3레벨 0.07f  //-0.04씩 줄어듬
 	m_bIsBoomerangOn = true;
 	m_bIsJumped = false;
+	m_bHaveWand = true;
 	m_bIsFloating = false;
 	m_bIsRected = false;
 	m_bIsFalling = false;
@@ -55,6 +59,10 @@ HRESULT Rabbit::init()
 	m_bIsGravity = true;
 	m_nFireDelay = 150; // 1레벨 150 2레벨 130 3레벨 110 
 	m_nFireDelayTemp = m_nFireDelay;
+
+	m_nFireDelay_Fireball = 180;
+	m_nFireDelayTemp_Fireball = m_nFireDelay_Fireball;
+
 	m_rc = RectMake(m_fX, m_fY, RABBIT_WIDTH, RABBIT_HEIGHT);
 
 
@@ -121,10 +129,14 @@ void Rabbit::update()
 	if (m_nFireDelayTemp >= 0)
 		m_nFireDelayTemp--;
 
+	if (m_nFireDelayTemp_Fireball >= 0)
+		m_nFireDelayTemp_Fireball--;
+
 	if (m_pBoomerang)
 		m_pBoomerang->update();
 
-	
+	if (m_pBulletMgr)
+		m_pBulletMgr->update();
 }
 
 
@@ -142,7 +154,7 @@ void Rabbit::KeyEvent()
 		{
 			m_eState = st_isRun;
 			m_pAni[2]->start();
-			m_pAni[2]->setFPS(13);
+			m_pAni[2]->setFPS(13 + m_fSpeed);
 		}
 		m_fX += m_fSpeed;
 		m_bIsRight = true;
@@ -158,7 +170,7 @@ void Rabbit::KeyEvent()
 		{
 			m_eState = st_isRun;
 			m_pAni_left[2]->start();
-			m_pAni_left[2]->setFPS(13);
+			m_pAni_left[2]->setFPS(13 + m_fSpeed);
 		}
 		m_fX -= m_fSpeed;
 		m_bIsRight = false;
@@ -228,6 +240,11 @@ void Rabbit::KeyEvent()
 	{
 		if (!m_bHaveWand == true) return;
 
+		if ((m_eState == st_isIdle || m_eState == st_isRun) && m_nFireDelayTemp_Fireball < 0)
+		{
+			m_pBulletMgr->Fire("fireball", m_fX, m_fY, FIREBALL_SPEED, FIREBALL_RANGE, 1, m_bIsRight, false);
+			m_nFireDelayTemp_Fireball = m_nFireDelay_Fireball;
+		}
 
 	}
 	
@@ -334,7 +351,8 @@ void Rabbit::render(HDC hdc)
 	if (m_pBoomerang)
 		m_pBoomerang->render(hdc);
 
-
+	if (m_pBulletMgr)
+		m_pBulletMgr->render(hdc);
 }
 
 Rabbit::Rabbit()

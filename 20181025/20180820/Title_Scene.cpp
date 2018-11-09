@@ -17,6 +17,7 @@ HRESULT Title_Scene::init()
 	IMAGEMANAGER->addImage("black", "image/black.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("real_black", "image/real_black.bmp", WINSIZEX, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("white", "image/white.bmp", (WINSIZEX / 10) * 9, (WINSIZEY / 10) * 7, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("white2", "image/white.bmp", (WINSIZEX / 10) * 5, (WINSIZEY / 10) * 6, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("button_terrains", "image/button/button_placing_terrains.bmp", 250,100,1,2, (WINSIZEY / 10) * 7, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("button_units", "image/button/button_placing_units.bmp", 250, 100,1,2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("button_else", "image/button/button_placing_else.bmp", 250, 100,1,2, true, RGB(255, 0, 255));
@@ -100,7 +101,9 @@ HRESULT Title_Scene::init()
 	IMAGEMANAGER->addImage("ui_minimap", "image/ui/ui_minimap.bmp", 374, 270,true, RGB(255, 255, 255));
 	IMAGEMANAGER->addImage("ui_minimap", "image/ui/ui_minimap.bmp", 374, 270,true, RGB(255, 255, 255));
 	IMAGEMANAGER->addImage("item_box", "image/ui/item_box.bmp", 74, 74,true, RGB(255, 255, 255));
-	IMAGEMANAGER->addImage("item", "image/item.bmp", 400, 350, 8, 7, true, RGB(255, 129, 255));
+	IMAGEMANAGER->addImage("item", "image/item.bmp", 400 + 80, 300+ 60, 8, 6, true, RGB(255, 129, 255));
+	IMAGEMANAGER->addImage("fireball", "image/fireball.bmp", 768 / 2, 128 / 2, 6, 1, true, RGB(0, 0, 0));
+	IMAGEMANAGER->addImage("fireball_left", "image/left_fireball.bmp", 768 / 2, 128 / 2, 6, 1, true, RGB(0, 0, 0));
 	
 	///////////////////
 	
@@ -113,6 +116,7 @@ HRESULT Title_Scene::init()
 	m_pImg_BG = IMAGEMANAGER->addImage("black", "image/black.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	m_pImg_Parchment = IMAGEMANAGER->addImage("parchment", "image/parchment.bmp", (WINSIZEX / 4) * 3, (WINSIZEY / 4) * 3, true, RGB(255, 255, 255));
 	
+
 
 	AddFontResourceA("BMHANNAAir_ttf.ttf");
 

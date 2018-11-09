@@ -6,26 +6,37 @@ class effectManager;
 class item
 {
 	image * m_pImg_item;
-	image * m_pImg_itemShadow;
 	animation * m_pAni;
 	effectManager * m_pEffectMgr;
 
-	RECT m_rc;
+	float m_fX;
+	float m_fY;
+	float m_fItemfloppingNum; // 높을수록 밑으로
+	bool m_bItemfloppingUpDown;
+	bool m_bItemPersisting;
+	int m_nAlphaBlendNum;
+	int m_nTwinkleNum; // 높아질수록 투명에 가까워짐
+	int m_nCountTemp;
+	bool m_bAlpahBlendUpDown;
+	
+	SYNTHESIZE(RECT, m_rc, Rect);
 
-	tagItemInfor m_tItemInfor;
+	SYNTHESIZE(tagItemInfor, m_tItemInfor, ItemInformation);
 
 
 	SYNTHESIZE(bool, m_bIsAlive, IsAlive);
-	SYNTHESIZE(int, m_nItemAlphaNum, itemAlphaNum);
 	SYNTHESIZE(int, m_nIndex, Index);
 
 	
 
 public:
-	HRESULT init();
+	HRESULT init(float x, float y, tagItemInfor itemNumber, bool persisting);
 
 	void release();
 	void update();
+	void flopping();
+	void twinkle();
+
 	void render(HDC hdc);
 
 

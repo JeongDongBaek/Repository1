@@ -27,7 +27,7 @@ HRESULT ItemManager::init(int MaxLimitNumber)
 		m_tItem[i].m_fSpeed = atof(m_vecItemList[temp++].c_str());
 		m_tItem[i].m_fWeight = atof(m_vecItemList[temp++].c_str());
 		m_tItem[i].m_fDef = atof(m_vecItemList[temp++].c_str());
-		m_tItem[i].m_bCharacterChange = atoi(m_vecItemList[temp++].c_str());
+		m_tItem[i].m_nCharacterChange = atoi(m_vecItemList[temp++].c_str());
 		m_tItem[i].m_bFireball = atoi(m_vecItemList[temp++].c_str());
 		m_tItem[i].m_fHP = atof(m_vecItemList[temp++].c_str());
 		m_tItem[i].m_fMana = atof(m_vecItemList[temp++].c_str());
@@ -69,8 +69,23 @@ void ItemManager::update()
 	
 }
 
-void ItemManager::ItemCreate()
+void ItemManager::ItemCreate(float x, float y, int ItemNumber, bool persisting)
 {
+	for (m_iter = m_vecItem.begin(); m_iter != m_vecItem.end(); m_iter++) // 중간에 end가 바뀌면 안된다.
+	{
+		if ((*m_iter)->getIsAlive() == false)
+		{
+			(*m_iter)->init(x, y, m_tItem[ItemNumber],persisting);
+			return;
+		}
+	}
+
+	if (m_nMaxLimitNumber < m_vecItem.size()) return;
+
+	item * m_pItem = new item;
+	m_pItem->init(x, y, m_tItem[ItemNumber], persisting);
+	m_vecItem.push_back(m_pItem);
+	
 }
 
 bool ItemManager::comp(item * a, item * b)
@@ -80,12 +95,11 @@ bool ItemManager::comp(item * a, item * b)
 
 void ItemManager::render(HDC hdc)
 {
-
 	for (m_iter = m_vecItem.begin(); m_iter != m_vecItem.end(); m_iter++) // 중간에 end가 바뀌면 안된다.
 	{
 		if ((*m_iter)->getIsAlive() == true)
 			(*m_iter)->render(hdc);
-	}
+	}	
 }
 
 ItemManager::ItemManager()

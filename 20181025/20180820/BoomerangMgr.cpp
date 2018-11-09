@@ -68,8 +68,11 @@ void BoomerangMgr::release()
 {
 	for (m_iter = m_vecBoomerang.begin(); m_iter != m_vecBoomerang.end(); ++m_iter)
 	{
-		delete (*m_iter);
+		delete(*m_iter); //  벡터안의 객체 주소를 m_iter안에 담아둔다. (임시적으로 )
+		// m_iter는 포인터변수인데 *가 붙었으므로 원소 (객체) 자체를 없앤다.
 	}
+	m_vecBoomerang.clear(); // 원소 자체는 없지만 주소의 자리
+	// 한번에 자리들을 없애주는것은 clear (위의 작업을 한번더한다. 자체함수로) , erase는 특정주소(자리) // 그냥 공허의공간으로 만들어버린다.  ( 12345 중에 3을 없앤다고 1234가 되지않는다.)
 }
 
 BoomerangMgr::BoomerangMgr()

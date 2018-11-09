@@ -12,7 +12,7 @@ private:
 public:
 
 	HRESULT init(int limit);
-	void Fire(const char* ImageName, float x, float y, float Speed, float Range, int RectType, bool isRight, bool istarget = false);
+	void Fire(const char* ImageName, float x, float y, float Speed, float Range, int BulletType, bool isRight, bool istarget = false);
 	void update();
 
 	void release();

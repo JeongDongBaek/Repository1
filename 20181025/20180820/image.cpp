@@ -448,7 +448,7 @@ void image::render(HDC hdc, int destX, int destY,
 	}
 }
 
-void image::frameRender(HDC hdc, int destX, int destY, int currFrameX, int currFrameY)
+void image::frameRender(HDC hdc, int destX, int destY, int currFrameX, int currFrameY, float scale)
 {
 	m_pImageInfo->nCurrFrameX = currFrameX;
 	m_pImageInfo->nCurrFrameY = currFrameY;
@@ -463,8 +463,8 @@ void image::frameRender(HDC hdc, int destX, int destY, int currFrameX, int currF
 		GdiTransparentBlt(
 			hdc,	// 복사될 목적지 DC
 			destX, destY,		// 복사될 좌표 시작점
-			m_pImageInfo->nFrameWidth,
-			m_pImageInfo->nFrameHeight,	// 복사될 크기
+			m_pImageInfo->nFrameWidth * scale,
+			m_pImageInfo->nFrameHeight * scale ,	// 복사될 크기
 
 									// 대상
 			m_pImageInfo->hMemDC,	// 복사할 대상 DC

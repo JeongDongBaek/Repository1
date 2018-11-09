@@ -64,6 +64,12 @@
     <Filter Include="MainGame\GameObject\Item">
       <UniqueIdentifier>{a3494e72-c6be-48d6-bb8f-b19364db5b16}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\GameObject\Player">
+      <UniqueIdentifier>{bebe2d63-51b0-403a-92d3-bc3562f48997}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Inventory">
+      <UniqueIdentifier>{a0400c7e-ac07-4ee9-af27-1b89fb5f2a18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -144,15 +150,6 @@
     <ClInclude Include="uiTxt.h">
       <Filter>2DGameFramework\ui</Filter>
     </ClInclude>
-    <ClInclude Include="Rabbit.h">
-      <Filter>MainGame\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Fox.h">
-      <Filter>MainGame\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Squirrel.h">
-      <Filter>MainGame\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>MainGame\GameObject</Filter>
     </ClInclude>
@@ -183,9 +180,6 @@
     <ClInclude Include="StageScene.h">
       <Filter>MainGame\GameScene</Filter>
     </ClInclude>
-    <ClInclude Include="MyHero.h">
-      <Filter>MainGame\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="progressBar.h">
       <Filter>2DGameFramework\progressBar</Filter>
     </ClInclude>
@@ -206,6 +200,21 @@
     </ClInclude>
     <ClInclude Include="BulletManager.h">
       <Filter>MainGame\GameObject\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="MyHero.h">
+      <Filter>MainGame\GameObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Rabbit.h">
+      <Filter>MainGame\GameObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Squirrel.h">
+      <Filter>MainGame\GameObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Fox.h">
+      <Filter>MainGame\GameObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>MainGame\Inventory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -272,15 +281,6 @@
     <ClCompile Include="uiTxt.cpp">
       <Filter>2DGameFramework\ui</Filter>
     </ClCompile>
-    <ClCompile Include="Fox.cpp">
-      <Filter>MainGame\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Rabbit.cpp">
-      <Filter>MainGame\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Squirrel.cpp">
-      <Filter>MainGame\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>MainGame\GameObject</Filter>
     </ClCompile>
@@ -311,9 +311,6 @@
     <ClCompile Include="StageScene.cpp">
       <Filter>MainGame\GameScene</Filter>
     </ClCompile>
-    <ClCompile Include="MyHero.cpp">
-      <Filter>MainGame\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="progressBar.cpp">
       <Filter>2DGameFramework\progressBar</Filter>
     </ClCompile>
@@ -335,6 +332,21 @@
     <ClCompile Include="BulletManager.cpp">
       <Filter>MainGame\GameObject\Bullet</Filter>
     </ClCompile>
+    <ClCompile Include="MyHero.cpp">
+      <Filter>MainGame\GameObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Rabbit.cpp">
+      <Filter>MainGame\GameObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Squirrel.cpp">
+      <Filter>MainGame\GameObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Fox.cpp">
+      <Filter>MainGame\GameObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>MainGame\Inventory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -348,5 +360,10 @@
     <ResourceCompile Include="20180820.rc">
       <Filter>리소스 파일</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cursor1.cur">
+      <Filter>리소스 파일</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -8,6 +8,7 @@ class Squirrel;
 class Rabbit;
 class MyHero;
 
+
 enum tagSelectedCharacter
 {
 	sel_rabbit,
@@ -31,6 +32,9 @@ private:
 	Squirrel * m_pSquirrel;
 	MyHero * m_pMyHero;
 
+	
+	
+
 	image * m_pImg_TileSet;
 	image * m_pMiniPlayer;
 	image * m_pMiniEnemy;
@@ -45,11 +49,16 @@ private:
 	image * m_pImg_UISquirrel;
 	image * m_pImg_UIRabbit;
 	image * m_pImg_UIMiniMap;
+	image * m_pImg_UIinventory;
+	RECT m_rcUIcharacter[3];
+	tagMOUSE_STATE st_mouse;
 
 	int m_nNumberOfBlock;
 	int m_nNumberOfTemp;
+	
+	int m_nSelectedInven;
+	float m_fUIscaleUp;
 
-	bool m_bRectangleOn;
 	bool m_bMiniMapOn;
 	bool m_bInvenOn;
 	
@@ -58,6 +67,8 @@ public:
 	void update();
 	void KeyEvent();
 	void ChangeCharacter();
+	void UI_Click();
+	void Item_Collide();
 
 	void FixedLoad();
 	void CustomLoad();

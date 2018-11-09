@@ -56,11 +56,17 @@ HRESULT StageScene::init()
 	m_pRabbit->init();
 	m_pSquirrel = new Squirrel;
 	m_pSquirrel->init();
-
+	ITEMMANAGER->init(20); // 
+	m_pMyHero = new MyHero;
+	
 	m_nNumberOfBlock = 0;
 	m_nNumberOfTemp = 0;
-	m_bRectangleOn = false;
+
+	st_mouse = st_MouseIdle;
+	g_saveData.gIsRectangleOn = false;
 	m_bMiniMapOn = false;
+	m_fUIscaleUp = 1.0f;
+	m_nSelectedInven = NULL_CLICK; // 0¿©¿ì 1Åä³¢ 2´Ù¶÷Áã
 
 	m_pImg_Back = IMAGEMANAGER->findImage("back");
 	m_pImg_Middle[0] = IMAGEMANAGER->findImage("middle");
@@ -76,11 +82,17 @@ HRESULT StageScene::init()
 	m_pImg_UIFox = IMAGEMANAGER->findImage("ui_fox");
 	m_pImg_UISquirrel = IMAGEMANAGER->findImage("ui_squirrel");
 	m_pImg_UIRabbit = IMAGEMANAGER->findImage("ui_rabbit");
+	m_pImg_UIinventory = IMAGEMANAGER->findImage("parchment");
 
 	ENEMYMANAGER->init(60);
 	for (int i = 0; i < 5; i++)
 	{
 		m_pImg_itemBox[i] = IMAGEMANAGER->findImage("item_box");
+	}
+
+	for (int i = 0; i < 3; ++i)
+	{
+		m_rcUIcharacter[i] = RectMake(40 + (103 * i), 12, 88, 88);
 	}
 
 	g_saveData.bIsCustomGame == false;// ÀÓ½Ã 
@@ -136,6 +148,21 @@ HRESULT StageScene::init()
 
 	SCROLL->init(m_pRabbit->getX(), m_pRabbit->getY());
 
+	ITEMMANAGER->ItemCreate(300, 100, 4, false);
+	ITEMMANAGER->ItemCreate(340, 100, 4, false);
+	ITEMMANAGER->ItemCreate(380, 100, 4, false);
+	ITEMMANAGER->ItemCreate(420, 100, 4, false);
+	ITEMMANAGER->ItemCreate(480, 100, 4, false);
+	ITEMMANAGER->ItemCreate(560, 100, 4, false);
+	ITEMMANAGER->ItemCreate(720, 100, 4, false);
+	ITEMMANAGER->ItemCreate(780, 100, 4, false);
+	ITEMMANAGER->ItemCreate(880, 100, 4, false);
+	ITEMMANAGER->ItemCreate(920, 100, 4, false);
+
+	ITEMMANAGER->ItemCreate(300, 20, 7, false);
+	ITEMMANAGER->ItemCreate(340, 20, 7, false);
+	ITEMMANAGER->ItemCreate(380, 20, 7, false);
+	ITEMMANAGER->ItemCreate(420, 20, 7, false);
 
 
 	return S_OK;
@@ -168,7 +195,7 @@ void StageScene::update()
 	for (int i = 0; i < m_nNumberOfBlock; ++i)
 	{
 		RECT temp_rc;
-		if (IntersectRect(&temp_rc, &(m_pRabbit->getRC()), &(m_Collide_Tiles[i])))
+		if (IntersectRect(&temp_rc, &(m_pRabbit->getRect()), &(m_Collide_Tiles[i])))
 		{
 			if (m_pRabbit->getIsRected() == false)
 			{
@@ -186,10 +213,9 @@ void StageScene::update()
 
 	ChangeCharacter();
 	KeyEvent();
-	
-
-	
-
+	UI_Click();
+	ITEMMANAGER->update();
+	Item_Collide();
 }
 
 
@@ -203,7 +229,7 @@ void StageScene::ChangeCharacter()
 		m_pRabbit->setIsInvin(true);
 		m_pSquirrel->setIsChoosed(false);
 		m_pSquirrel->setIsInvin(true);
-
+		m_pMyHero = m_pFox;
 	}
 	if (mySelectedCh == sel_rabbit)
 	{
@@ -213,6 +239,7 @@ void StageScene::ChangeCharacter()
 		m_pFox->setIsInvin(true);
 		m_pSquirrel->setIsChoosed(false);
 		m_pSquirrel->setIsInvin(true);
+		m_pMyHero = m_pRabbit;
 	}
 	if (mySelectedCh == sel_Squirrel)
 	{
@@ -222,7 +249,87 @@ void StageScene::ChangeCharacter()
 		m_pRabbit->setIsInvin(true);
 		m_pFox->setIsChoosed(false);
 		m_pFox->setIsInvin(true);
+		m_pMyHero = m_pSquirrel;
+	}
+}
 
+void StageScene::UI_Click()
+{
+
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	{
+		st_mouse = tagMOUSE_STATE::st_MouseDown;
+	}
+	else if (KEYMANAGER->isOnceKeyUp(VK_LBUTTON) && st_mouse == tagMOUSE_STATE::st_MouseDown)
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			if (PtInRect(&m_rcUIcharacter[i], g_ptMouse))
+			{
+				st_mouse = tagMOUSE_STATE::st_MouseUp;
+				m_nSelectedInven = i;
+			}
+			else
+			{
+				st_mouse = tagMOUSE_STATE::st_MouseIdle;
+			}
+		}
+	}
+	
+}
+
+void StageScene::Item_Collide()
+{
+	std::vector<item*> vItem = ITEMMANAGER->getVec();
+	std::vector<item*>::iterator ItemIter;
+	for (ItemIter = vItem.begin(); ItemIter != vItem.end(); ItemIter++)
+	{
+		RECT Item_tempRC;
+		if (IntersectRect(&Item_tempRC, &(m_pMyHero->getRect()), &(*ItemIter)->getRect()))
+		{
+			if ((*ItemIter)->getIsAlive() == false) continue;
+
+			if (m_pMyHero->getIsAlive() == true)
+			{
+				m_pMyHero->setSpeed(m_pMyHero->getSpeed() + (*ItemIter)->getItemInformation().m_fSpeed);
+				m_pMyHero->setDef(m_pMyHero->getDef() + (*ItemIter)->getItemInformation().m_fDef);
+				m_pMyHero->sethaveWand((*ItemIter)->getItemInformation().m_bFireball);
+				m_pMyHero->setMaxHP(m_pMyHero->getMaxHP() + (*ItemIter)->getItemInformation().m_fMaxHP);
+				m_pMyHero->setMaxStamina(m_pMyHero->getMaxStamina() + (*ItemIter)->getItemInformation().m_fMaxStamina);
+				m_pMyHero->setMaxMana(m_pMyHero->getMaxMana() + (*ItemIter)->getItemInformation().m_fMaxMana);
+				m_pMyHero->setHP(m_pMyHero->getHP() + (*ItemIter)->getItemInformation().m_fHP);
+				m_pMyHero->setStamina(m_pMyHero->getStamina() + (*ItemIter)->getItemInformation().m_fStamina);
+				m_pMyHero->setMana(m_pMyHero->getMana() + (*ItemIter)->getItemInformation().m_fMana);
+				m_pMyHero->setWeight(m_pMyHero->getWeight() + (*ItemIter)->getItemInformation().m_fWeight);
+				m_pMyHero->setAccrancy(m_pMyHero->getAccrancy() + (*ItemIter)->getItemInformation().m_fAccuracy);
+				m_pMyHero->setCoolDown(m_pMyHero->getCoolDown() + (*ItemIter)->getItemInformation().m_nCharacterChange); // ÁÙ¾îµé¼ö·Ï Äð´Ù¿î
+				(*ItemIter)->setIsAlive(false);
+			}
+
+		}
+		
+		
+	}
+
+
+
+	for (int i = 0; i < m_nNumberOfBlock; ++i)
+	{
+		RECT temp_rc;
+		if (IntersectRect(&temp_rc, &(m_pRabbit->getRect()), &(m_Collide_Tiles[i])))
+		{
+			if (m_pRabbit->getIsRected() == false)
+			{
+				m_pRabbit->setIsRected(true);
+				m_pRabbit->setY(m_pRabbit->getY() - 5);
+				while ((int)m_pRabbit->getY() % TILESIZEY_STAGE > 0)
+					m_pRabbit->setY((m_pRabbit->getY() - 1));
+				while ((int)m_pRabbit->getY() % TILESIZEY_STAGE < 0)
+					m_pRabbit->setY((m_pRabbit->getY() + 1));
+
+
+			}
+		}
 	}
 }
 
@@ -237,10 +344,10 @@ void StageScene::KeyEvent()
 	
 	if (KEYMANAGER->isOnceKeyDown(VK_F7))
 	{
-		if (m_bRectangleOn == true)
-			m_bRectangleOn = false;
+		if (g_saveData.gIsRectangleOn == true)
+			g_saveData.gIsRectangleOn = false;
 		else
-			m_bRectangleOn = true;
+			g_saveData.gIsRectangleOn = true;
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_F8))
 	{
@@ -248,6 +355,13 @@ void StageScene::KeyEvent()
 			m_bMiniMapOn = false;
 		else
 			m_bMiniMapOn = true;
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
+	{
+		if (m_nSelectedInven <= 2)
+		{
+			m_nSelectedInven = 3;
+		}
 	}
 
 }
@@ -296,8 +410,8 @@ void StageScene::render(HDC hdc)
 
 
 				m_pMiniPlayer->RatioRender(hdc,
-					(WINSIZEX - 400) + m_pRabbit->getRC().left / MINIMAP_RATIO ,
-					30 + m_pRabbit->getRC().top / MINIMAP_RATIO ,
+					(WINSIZEX - 400) + m_pRabbit->getRect().left / MINIMAP_RATIO ,
+					30 + m_pRabbit->getRect().top / MINIMAP_RATIO ,
 					m_pMiniPlayer->getFrameX(),
 					m_pMiniPlayer->getFrameY(),
 					MINIMAP_RATIO,
@@ -308,9 +422,9 @@ void StageScene::render(HDC hdc)
 		}
 	}
 
-	if (m_bRectangleOn == true)
+	if (g_saveData.gIsRectangleOn == true)
 	{
-		Rectangle(hdc, m_pRabbit->getRC().left, m_pRabbit->getRC().top, m_pRabbit->getRC().right, m_pRabbit->getRC().bottom);
+		Rectangle(hdc, m_pRabbit->getRect().left, m_pRabbit->getRect().top, m_pRabbit->getRect().right, m_pRabbit->getRect().bottom);
 
 		for (int i = 0; i < m_nNumberOfBlock; ++i)
 			Rectangle(hdc, m_Collide_Tiles[i].left, m_Collide_Tiles[i].top, m_Collide_Tiles[i].right, m_Collide_Tiles[i].bottom);
@@ -330,7 +444,7 @@ void StageScene::render(HDC hdc)
 		{
 			if ((*EnemyIter)->getIsAlive() == false) continue;
 
-			Rectangle(hdc, (*EnemyIter)->getRC().left, (*EnemyIter)->getRC().top, (*EnemyIter)->getRC().right, (*EnemyIter)->getRC().bottom);
+			Rectangle(hdc, (*EnemyIter)->getRect().left, (*EnemyIter)->getRect().top, (*EnemyIter)->getRect().right, (*EnemyIter)->getRect().bottom);
 		}
 
 
@@ -338,6 +452,7 @@ void StageScene::render(HDC hdc)
 	}
 
 	ENEMYMANAGER->render(hdc);
+	ITEMMANAGER->render(hdc);
 
 	m_pRabbit->render(hdc);
 
@@ -346,24 +461,30 @@ void StageScene::render(HDC hdc)
 	m_pImg_UI_char->render(hdc, 12, 12); 
 
 	if(m_pFox->getIsChoosed() == true)
-		m_pImg_UIFox->frameRender(hdc, 72, 20, 0, 0);
+		m_pImg_UIFox->frameRender(hdc, 72, 20, 0, 0, m_fUIscaleUp);
 	else
-		m_pImg_UIFox->frameRender(hdc, 72, 20, 1, 0);
+		m_pImg_UIFox->frameRender(hdc, 72, 20, 1, 0, m_fUIscaleUp);
 
 	if(m_pRabbit->getIsChoosed() == true)
-		m_pImg_UIRabbit->frameRender(hdc, 66 + 108, 22, 0, 0);
+		m_pImg_UIRabbit->frameRender(hdc, 66 + 108, 22, 0, 0, m_fUIscaleUp);
 	else
-		m_pImg_UIRabbit->frameRender(hdc, 66 + 108, 22, 1, 0);
+		m_pImg_UIRabbit->frameRender(hdc, 66 + 108, 22, 1, 0, m_fUIscaleUp);
 
 	if(m_pSquirrel->getIsChoosed() == true)
-		m_pImg_UISquirrel->frameRender(hdc, 66 + 207, 22, 0, 0);
+		m_pImg_UISquirrel->frameRender(hdc, 66 + 207, 22, 0, 0, m_fUIscaleUp);
 	else
-		m_pImg_UISquirrel->frameRender(hdc, 66 + 207, 22, 1, 0);
+		m_pImg_UISquirrel->frameRender(hdc, 66 + 207, 22, 1, 0, m_fUIscaleUp);
 	
 	for (int i = 0; i < 5; i++)
 	{
 		m_pImg_itemBox[i]->render(hdc, 385 + (i * 80), 20);
 	}
+
+	if (m_nSelectedInven <= 2)
+	{
+		IMAGEMANAGER->findImage("white2")->render(hdc, WINSIZEX / 2 - IMAGEMANAGER->findImage("white2")->getWidth() / 2, 220);
+	}
+
 	// ¹Ì´Ï¸Ê UI
 	//m_pImg_UIMiniMap->render(hdc, WINSIZEX - (IMAGEMANAGER->findImage("ui_minimap")->getWidth() + 3), 5);
 }

@@ -4,18 +4,20 @@
 class MyHero : public GameObject
 {
 protected:
-	bool m_bIsChoosed;
-	bool m_bIsJumped;
-	bool m_bIsFloating;
-	bool m_bIsFalling;
-	bool m_bIsRected;
-	bool m_bHaveWand;
-
-	float m_fMana;
-	float m_fStamina;
-	float m_fJumpPower;
-	float m_fJumpTemp;
-	float m_fCoolDown;
+	SYNTHESIZE(bool, m_bIsChoosed, IsChoosed);
+	SYNTHESIZE(bool, m_bIsJumped, IsJumped);
+	SYNTHESIZE(bool, m_bIsFloating, IsFloaing);
+	SYNTHESIZE(bool, m_bIsFalling, IsFalling);
+	SYNTHESIZE(bool, m_bIsRected, IsRected);
+	SYNTHESIZE(bool, m_bHaveWand, haveWand);
+	SYNTHESIZE(float, m_fMana, Mana);
+	SYNTHESIZE(float, m_fMaxMana, MaxMana);
+	SYNTHESIZE(float, m_fStamina, Stamina);
+	SYNTHESIZE(float, m_fMaxStamina, MaxStamina);
+	SYNTHESIZE(float, m_fJumpPower, JumpPower);
+	SYNTHESIZE(float, m_fJumpTemp, JumpTemp);
+	SYNTHESIZE(int, m_nCoolDown, CoolDown);
+	SYNTHESIZE(float, m_fAccrancy, Accrancy); // 작을수록 좋다
 
 	//RECT m_rc_Collide;
 	tagCharacterState m_eState;
@@ -28,13 +30,6 @@ public:
 	virtual void update();
 	virtual void release() ;
 	virtual void render(HDC hdc);
-
-
-	inline bool getIsChoosed() { return m_bIsChoosed; }
-	inline void setIsChoosed(bool isChoosed) { m_bIsChoosed = isChoosed; }
-
-	inline bool getIsRected() { return m_bIsRected; }
-	inline void setIsRected(bool bIsRected) { m_bIsRected = bIsRected; }
 
 	MyHero();
 	~MyHero();

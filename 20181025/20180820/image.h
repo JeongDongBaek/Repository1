@@ -99,7 +99,7 @@ public:
 	void hitFrameRender(HDC hdc, int destX, int destY, int currFrameX, int currFrameY, COLORREF color);
 
 	// ÇÁ·¹ÀÓ ·»´õ
-	void frameRender(HDC hdc, int destX, int destY,	int currFrameX, int currFrameY);
+	void frameRender(HDC hdc, int destX, int destY,	int currFrameX, int currFrameY, float scale = 1.0f);
 	void frameAlphaRender(HDC hdc, int destX, int destY, int currFrameX, int currFrameY, float scale, BYTE alpha);
 
 	// Á×Ã´µµ Àû¿ë ·»´õ

@@ -50,11 +50,6 @@ HRESULT mainGame::init()
 
 	SCENEMANAGER->changeScene("title");
 
-	
-
-	// 민욱이는 과연 누구인가? 알랄라 내첫사랑 지수 ㅇㅇ
-	// 이순현 테스트
-	// 정지수 로그인 테스트
 	return S_OK;
 }
 
@@ -107,15 +102,15 @@ LRESULT mainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 		break;
 	case WM_KEYDOWN:
 		switch (wParam)
-		{
+		/*{
 		case VK_ESCAPE:
 			PostQuitMessage(0);
 			return 0;
-		}
+		}*/
 		break;
 	case WM_DESTROY:
-		PostQuitMessage(0);
-		return 0;
+		/*PostQuitMessage(0);
+		return 0;*/
 
 	case WM_COMMAND:
 		m_pEditorScene->ButtonEvent(hWnd, iMessage, wParam);
