@@ -142,6 +142,8 @@ HRESULT Editor_Scene::init()
 	m_pButton_Else->init("button_else", WINSIZEX / 2 + IMAGEMANAGER->findImage("button_else")->getWidth() / 2 + 220, WINSIZEY / 2 + 270
 		, PointMake(0, 1), PointMake(0, 0), button_func2);
 
+
+	/////// 일반유닛 /////////////////
 	int tempB = 0;
 	m_pImg_Enemy[tempB] = IMAGEMANAGER->findImage("ant_idle"); tempB++;
 	m_pImg_Enemy[tempB] = IMAGEMANAGER->findImage("bee_idle"); tempB++;
@@ -155,16 +157,36 @@ HRESULT Editor_Scene::init()
 	m_pImg_Enemy[tempB] = IMAGEMANAGER->findImage("frog_idle"); tempB++;
 	//m_pImg_Enemy[tempB] = IMAGEMANAGER->findImage("frog_jump"); tempB++;
 	m_pImg_Enemy[tempB] = IMAGEMANAGER->findImage("oposum_idle"); tempB++;
-	m_pImg_Enemy[tempB] = IMAGEMANAGER->findImage("rabbit_idle"); tempB++;
+	///////////////////////////
+
+	//// 보스 /////////////
+	m_pImg_Enemy[tempB] = IMAGEMANAGER->findImage("slug_idle"); tempB++; // i == 8
+	m_pImg_Enemy[tempB] = IMAGEMANAGER->findImage("dark_slug_idle"); tempB++; // i == 9
+	///////////////////
 
 
-	for (int i = 0; i < NUMBER_OF_KIND_UNITS - 3; ++i)
+	tempB = 0;
+	m_pImg_Else[tempB] = IMAGEMANAGER->findImage("fox_idle"); tempB++;
+	m_pImg_Else[tempB] = IMAGEMANAGER->findImage("rabbit_idle"); tempB++;
+	m_pImg_Else[tempB] = IMAGEMANAGER->findImage("squirrel_idle"); tempB++;
+	m_pImg_Else[tempB] = IMAGEMANAGER->findImage("house"); tempB++;
+
+	for (int i = 0; i < NUMBER_OF_KIND_UNITS - 2; ++i)
 	{
 		m_pAni_Enemy[i] = new animation;
 		m_pAni_Enemy[i]->init(m_pImg_Enemy[i]->getWidth(), m_pImg_Enemy[i]->getHeight(), m_pImg_Enemy[i]->getFrameWidth(), m_pImg_Enemy[i]->getFrameHeight());
 		m_pAni_Enemy[i]->setDefPlayFrame(false, true);
 		m_pAni_Enemy[i]->setFPS(12);
 		m_pAni_Enemy[i]->start();
+	}
+
+	for (int i = 0; i < NUMBER_OF_KIND_ELSE ; ++i)
+	{
+		m_pAni_Else[i] = new animation;
+		m_pAni_Else[i]->init(m_pImg_Else[i]->getWidth(), m_pImg_Else[i]->getHeight(), m_pImg_Else[i]->getFrameWidth(), m_pImg_Else[i]->getFrameHeight());
+		m_pAni_Else[i]->setDefPlayFrame(false, true);
+		m_pAni_Else[i]->setFPS(12);
+		m_pAni_Else[i]->start();
 	}
 
 
@@ -179,9 +201,18 @@ HRESULT Editor_Scene::init()
 	m_EnemyBoxRect[6] = RectMake(WINSIZEX / 2 - (m_pImg_EnemyBox->getWidth() / 2) + tempF, WINSIZEY / 2 + 100, m_pImg_EnemyBox->getWidth(), m_pImg_EnemyBox->getHeight()); tempF += 150;
 	m_EnemyBoxRect[7] = RectMake(WINSIZEX / 2 - (m_pImg_EnemyBox->getWidth() / 2) + tempF, WINSIZEY / 2 + 100, m_pImg_EnemyBox->getWidth(), m_pImg_EnemyBox->getHeight());
 
-	tempF = -224;
+	m_EnemyBoxRect[8] = RectMake(WINSIZEX / 2 - (m_pImg_BossBox->getFrameWidth() / 2) - 142, WINSIZEY / 2 - 290, m_pImg_BossBox->getWidth(), m_pImg_BossBox->getHeight());
+	m_EnemyBoxRect[9] = RectMake(WINSIZEX / 2 - (m_pImg_BossBox->getFrameWidth() / 2) + 142, WINSIZEY / 2 - 290, m_pImg_BossBox->getWidth(), m_pImg_BossBox->getHeight());
+
+	/*tempF = -224;
 	m_EnemyBoxRect[8] = RectMake(WINSIZEX / 2 - (m_pImg_EnemyBox->getWidth() / 2) + tempF, WINSIZEY / 2 - 300, m_pImg_EnemyBox->getWidth(), m_pImg_EnemyBox->getHeight());
-	
+	*/
+	tempF = -224;
+	m_ElseBoxRect[0] = RectMake(WINSIZEX / 2 - (m_pImg_EnemyBox->getWidth() / 2) + tempF, WINSIZEY / 2 - 98, m_pImg_EnemyBox->getWidth(), m_pImg_EnemyBox->getHeight()); tempF += 150;
+	m_ElseBoxRect[1] = RectMake(WINSIZEX / 2 - (m_pImg_EnemyBox->getWidth() / 2) + tempF, WINSIZEY / 2 - 98, m_pImg_EnemyBox->getWidth(), m_pImg_EnemyBox->getHeight()); tempF += 150;
+	m_ElseBoxRect[2] = RectMake(WINSIZEX / 2 - (m_pImg_EnemyBox->getWidth() / 2) + tempF, WINSIZEY / 2 - 98, m_pImg_EnemyBox->getWidth(), m_pImg_EnemyBox->getHeight()); tempF += 150;
+	m_ElseBoxRect[3] = RectMake(WINSIZEX / 2 - (m_pImg_EnemyBox->getWidth() / 2) + tempF, WINSIZEY / 2 - 98, m_pImg_EnemyBox->getWidth(), m_pImg_EnemyBox->getHeight()); tempF += 150;
+
 	init_tileset();
 
 
@@ -198,6 +229,7 @@ void Editor_Scene::init_image()
 	m_pImg_tileset1 = IMAGEMANAGER->findImage("tileset1");
 	m_pImg_tileset1_div = IMAGEMANAGER->findImage("tileset1_div");
 	m_pImg_EnemyBox = IMAGEMANAGER->findImage("enemy_box");
+	m_pImg_BossBox = IMAGEMANAGER->findImage("boss_box");
 	m_pImg_TextBox = IMAGEMANAGER->findImage("text");
 	m_pHelp_UI = IMAGEMANAGER->findImage("parchment");
 }
@@ -281,15 +313,23 @@ void Editor_Scene::tileReset()
 
 void Editor_Scene::update()
 {
+	bool is = false;
+	is += 1;
+	is += 1;
 
 
 
 	SCROLL_MAP->update();
 
-	for (int i = 0; i < NUMBER_OF_KIND_UNITS - 3; ++i)
+	for (int i = 0; i < NUMBER_OF_KIND_UNITS - 2; ++i)
 	{
 		m_pAni_Enemy[i]->frameUpdate(TIMEMANAGER->getElapsedTime());
 	}
+	for (int i = 0; i < NUMBER_OF_KIND_ELSE ; ++i)
+	{
+		m_pAni_Else[i]->frameUpdate(TIMEMANAGER->getElapsedTime());
+	}
+
 	KeyEvent();
 	buttonUpdate();
 	//update_once();
@@ -298,6 +338,9 @@ void Editor_Scene::update()
 		mouseEvent_Terrains();
 	if (m_editorState == st_Units)
 		mouseEvent_Units();
+	if (m_editorState == st_else)
+		mouseEvent_Else();
+
 
 	for (int y = 0; y < g_saveData.gTileMaxCountY; y++)
 	{
@@ -431,12 +474,53 @@ void Editor_Scene::mouseEvent_Units()
 	}
 	else if (KEYMANAGER->isOnceKeyUp(VK_LBUTTON) && st_mouse == tagMOUSE_STATE::st_MouseDown && m_bIsUIOpen == true)
 	{
-		for (int i = 0; i < NUMBER_OF_KIND_UNITS - 3; ++i)
+		for (int i = 0; i < NUMBER_OF_KIND_UNITS - 2; ++i) // 9까지 검사
 		{
 			if (PtInRect(&m_EnemyBoxRect[i], g_ptMouse))
 			{
 				st_mouse = tagMOUSE_STATE::st_MouseUp;
 				m_rcSelectedUnit = i;
+				m_bIsSel = true;
+			}
+			else
+			{
+				st_mouse = tagMOUSE_STATE::st_MouseIdle;
+			}
+		}
+	}
+
+
+
+	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON) && m_bIsSel == true && m_bIsUIOpen == false)
+	{
+		for (int i = 0; i < g_saveData.gTileMaxCountX * g_saveData.gTileMaxCountY; ++i)
+		{
+
+			if (PtInRect(&m_pTiles[i].rc, g_ptMouse))
+			{
+				if (m_pTiles[i].terrain == isEmpty)
+					m_pTiles[i].unitID = m_rcSelectedUnit;
+			}
+
+		}
+	}
+
+}
+
+void Editor_Scene::mouseEvent_Else()
+{
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	{
+		st_mouse = tagMOUSE_STATE::st_MouseDown;
+	}
+	else if (KEYMANAGER->isOnceKeyUp(VK_LBUTTON) && st_mouse == tagMOUSE_STATE::st_MouseDown && m_bIsUIOpen == true)
+	{
+		for (int i = 0; i < NUMBER_OF_KIND_ELSE; ++i)
+		{
+			if (PtInRect(&m_EnemyBoxRect[i], g_ptMouse))
+			{
+				st_mouse = tagMOUSE_STATE::st_MouseUp;
+				m_rcSelectedUnit = 10 + i;
 				m_bIsSel = true;
 			}
 			else
@@ -503,14 +587,37 @@ void Editor_Scene::render(HDC hdc)
 					m_pTiles[y *  g_saveData.gTileMaxCountX + x].terrainFrameY);
 			}
 			
-			if (m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID <= 8)
+			if (m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID <= 7)
 			{
 				m_pImg_Enemy[m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID]->aniRender
 				(hdc, m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left - (m_pImg_EnemyBox->getWidth() / 4) , m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top - 48, m_pAni_Enemy[m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID], 2.5f, false, 100);
-		
 			}
-		
+			else if (m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID <= 9)
+			{
+				m_pImg_Enemy[m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID]->aniRender
+				(hdc, m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left - (m_pImg_EnemyBox->getWidth() / 4) - 33, m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top - 83, m_pAni_Enemy[m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID], 0.9f, false, 100);
+			}
 
+		
+			if (m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID >= 10 && m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID <= 13)
+			{
+				if (m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID == 12)
+				{
+					m_pImg_Else[(m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID) - 10]->aniRender
+					(hdc, m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left - 86, m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top - 81, m_pAni_Else[(m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID) - 10], 2.5f, false, 100);
+				}
+				else if (m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID == 13)
+				{
+					m_pImg_Else[(m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID) - 10]->frameRender(hdc, m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left - 50,
+						m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top - 115, 0, 0, 4.0f);
+				}
+				else
+				{
+					m_pImg_Else[(m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID) - 10]->aniRender
+					(hdc, m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left - (m_pImg_EnemyBox->getWidth() / 4), m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top - 48, m_pAni_Else[(m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID) - 10], 2.5f, false, 100);
+				}
+				
+			}
 			
 
 			if (m_bTileNumberOn == true)
@@ -572,36 +679,79 @@ void Editor_Scene::render(HDC hdc)
 		}
 		else if (m_editorState == st_Units)
 		{
-			for (int i = 0; i <NUMBER_OF_KIND_UNITS - 3; ++i)
+			for (int i = 0; i <NUMBER_OF_KIND_UNITS - 2; ++i)
 			{
-				if (m_rcSelectedUnit == i)
-					m_pImg_EnemyBox->alphaRender(hdc, m_EnemyBoxRect[i].left, m_EnemyBoxRect[i].top,100);
+
+				if (i <= 7)
+				{
+					if (m_rcSelectedUnit == i)
+						m_pImg_EnemyBox->alphaRender(hdc, m_EnemyBoxRect[i].left, m_EnemyBoxRect[i].top, 100);
+					else
+						m_pImg_EnemyBox->render(hdc, m_EnemyBoxRect[i].left, m_EnemyBoxRect[i].top);
+				}
 				else
-					m_pImg_EnemyBox->render(hdc, m_EnemyBoxRect[i].left, m_EnemyBoxRect[i].top);
+				{
+					if (m_rcSelectedUnit == i)
+						m_pImg_BossBox->alphaRender(hdc, m_EnemyBoxRect[i].left, m_EnemyBoxRect[i].top, 100);
+					else
+						m_pImg_BossBox->render(hdc, m_EnemyBoxRect[i].left, m_EnemyBoxRect[i].top);
+				}
+				
 			}
 
 			int tempC = 0, tempD = 0;
-			for (int i = 0; i < NUMBER_OF_KIND_UNITS - 3; ++i)
+			for (int i = 0; i < NUMBER_OF_KIND_UNITS - 2; ++i)
 			{
-				if (i == 8)
+				/*if (i == 8)
 				{
 					m_pImg_Enemy[i]->aniRender(hdc, WINSIZEX / 2 - (m_pImg_EnemyBox->getWidth() / 2)  - 200,
 						WINSIZEY / 2 - 450 + tempD, m_pAni_Enemy[i], 2.5f, false, 100); tempC += 150;
+				}*/
+
+				if (i == 8)
+				{
+					m_pImg_Enemy[i]->aniRender(hdc, WINSIZEX / 2 - 248, WINSIZEY / 2 - 260 , m_pAni_Enemy[i], 1.0f, false, 100);
+
+				}
+				else if (i == 9)
+				{
+					m_pImg_Enemy[i]->aniRender(hdc, WINSIZEX / 2 + 65, WINSIZEY / 2 - 260 , m_pAni_Enemy[i], 1.0f, false, 100);
 				}
 				else
 				{
 					m_pImg_Enemy[i]->aniRender(hdc, WINSIZEX / 2 - (m_pImg_EnemyBox->getWidth() / 2) - 224 + tempC, WINSIZEY / 2 - 48 + tempD, m_pAni_Enemy[i], 2.5f, false, 100); tempC += 150;
 					if (i == 3)
 						tempC = 0, tempD += 148;
-
 				}
 			
 			}
 
-			m_pImg_EnemyBox->render(hdc, WINSIZEX / 2 - 120, WINSIZEY / 2 - 290, 2);
+			//m_pImg_EnemyBox->render(hdc, WINSIZEX / 2 - 120, WINSIZEY / 2 - 290, 2);
 		}
 		else if (m_editorState == st_else)
 		{
+			for (int i = 0; i < NUMBER_OF_KIND_ELSE; ++i)
+			{
+				if (m_rcSelectedUnit == i + 10)
+					m_pImg_EnemyBox->alphaRender(hdc, m_EnemyBoxRect[i].left, m_EnemyBoxRect[i].top, 100);
+				else
+					m_pImg_EnemyBox->render(hdc, m_EnemyBoxRect[i].left, m_EnemyBoxRect[i].top);
+			}
+			int tempG = 0, tempH = 0;
+			for (int i = 0; i < NUMBER_OF_KIND_ELSE; ++i)
+			{
+				if (i == 2)
+				{
+					m_pImg_Else[i]->aniRender(hdc, WINSIZEX / 2 - (m_pImg_EnemyBox->getWidth() / 2) - 265 + tempG, WINSIZEY / 2 - 85 + tempH, m_pAni_Else[i], 2.5f, false, 100); tempG += 150;
+				}
+				else
+				{
+					m_pImg_Else[i]->aniRender(hdc, WINSIZEX / 2 - (m_pImg_EnemyBox->getWidth() / 2) - 214 + tempG, WINSIZEY / 2 - 55 + tempH, m_pAni_Else[i], 2.5f, false, 100); tempG += 150;
+				}
+				if (i == 3)
+					tempG = 0, tempH += 148;
+			}
+
 
 		}
 
@@ -612,7 +762,7 @@ void Editor_Scene::render(HDC hdc)
 	}
 
 
-	for (int i = 0; i < NUMBER_OF_KIND_UNITS - 3; ++i )
+	for (int i = 0; i < NUMBER_OF_KIND_UNITS - 2; ++i )
 	{
 		if (PtInRect(&m_EnemyBoxRect[i], g_ptMouse) && m_editorState == st_Units && m_bIsUIOpen == true)
 		{
@@ -691,11 +841,73 @@ void Editor_Scene::render(HDC hdc)
 				sprintf_s(SzText1, "포켓마우스는 재빠른 이동속도로 순식간에 플레이어를 공격합니다.  공격력은 3, 체력은 9, 이동속도는 2.1입니다. ");
 				break;
 			case 8:
-				sprintf_s(SzText1, "%s : ", "플레이어 ");
+				sprintf_s(SzText1, "%s : ", "8. 달팽이 ");
 				TextOut(hdc, m_EnemyBoxRect[i].left + 118, m_EnemyBoxRect[i].top - 110, SzText1, strlen(SzText1));
 				MY_UTIL::FontOption(hdc, 21, 0);
 				SetTextColor(hdc, RGB(55, 32, 83));
-				sprintf_s(SzText1, "지정하는 위치에서 플레이어가 생성됩니다! ");
+				sprintf_s(SzText1, "달팽이는 보스몬스터로써 높은 체력을 가지고 있습니다. 공격력은 4, 체력은 30, 이동속도는 2.0입니다.");
+				break;
+			case 9:
+				sprintf_s(SzText1, "%s : ", "9.어둠의 달팽이 ");
+				TextOut(hdc, m_EnemyBoxRect[i].left + 118, m_EnemyBoxRect[i].top - 110, SzText1, strlen(SzText1));
+				MY_UTIL::FontOption(hdc, 21, 0);
+				SetTextColor(hdc, RGB(55, 32, 83));
+				sprintf_s(SzText1, "어둠의 달팽이는 보스몬스터로써 높은 체력을 가지고 있습니다. 공격력은 4, 체력은 60, 이동속도는 2.0입니다.");
+				break;
+			}
+			DrawText(hdc, SzText1, strlen(SzText1), &temp_rc, DT_WORDBREAK);
+			MY_UTIL::FontDelete(hdc);
+
+		}
+
+	}
+
+	for (int i = 0; i < NUMBER_OF_KIND_ELSE; ++i)
+	{
+		if (PtInRect(&m_ElseBoxRect[i], g_ptMouse) && m_editorState == st_else && m_bIsUIOpen == true)
+		{
+			m_pImg_TextBox->alphaRender(hdc, m_ElseBoxRect[i].left + 75, m_ElseBoxRect[i].top - 135, 200);
+
+			char SzText1[256];
+			SetBkMode(hdc, TRANSPARENT);
+			SetTextColor(hdc, RGB(111, 46, 66));
+			MY_UTIL::FontOption(hdc, 28, 0);
+			RECT temp_rc = RectMake(
+				m_EnemyBoxRect[i].left + 118,
+				m_EnemyBoxRect[i].top - 85,
+				178,
+				120
+			);
+
+			switch (i)
+			{
+			case 0:
+				sprintf_s(SzText1, "%s : ", "0. FOX ");
+				TextOut(hdc, m_EnemyBoxRect[i].left + 118, m_EnemyBoxRect[i].top - 110, SzText1, strlen(SzText1));
+				MY_UTIL::FontOption(hdc, 21, 0);
+				SetTextColor(hdc, RGB(55, 32, 83));
+				sprintf_s(SzText1, "지정하는 위치에서 FOX 플레이어가 생성됩니다! ");
+				break;
+			case 1:
+				sprintf_s(SzText1, "%s : ", "1. RABBIT ");
+				TextOut(hdc, m_EnemyBoxRect[i].left + 118, m_EnemyBoxRect[i].top - 110, SzText1, strlen(SzText1));
+				MY_UTIL::FontOption(hdc, 21, 0);
+				SetTextColor(hdc, RGB(55, 32, 83));
+				sprintf_s(SzText1, "지정하는 위치에서 RABBIT 플레이어가 생성됩니다! ");
+				break;
+			case 2:
+				sprintf_s(SzText1, "%s : ", "2. SQUIRREL ");
+				TextOut(hdc, m_EnemyBoxRect[i].left + 118, m_EnemyBoxRect[i].top - 110, SzText1, strlen(SzText1));
+				MY_UTIL::FontOption(hdc, 21, 0);
+				SetTextColor(hdc, RGB(55, 32, 83));
+				sprintf_s(SzText1, "지정하는 위치에서 SQUIRREL 플레이어가 생성됩니다! ");
+				break;
+			case 3:
+				sprintf_s(SzText1, "%s : ", "3. HOUSE ");
+				TextOut(hdc, m_EnemyBoxRect[i].left + 118, m_EnemyBoxRect[i].top - 110, SzText1, strlen(SzText1));
+				MY_UTIL::FontOption(hdc, 21, 0);
+				SetTextColor(hdc, RGB(55, 32, 83));
+				sprintf_s(SzText1, "지정하는 위치에서 HOUSE가 생성됩니다! HOUSE에 도달시 게임클리어입니다.");
 				break;
 			}
 			DrawText(hdc, SzText1, strlen(SzText1), &temp_rc, DT_WORDBREAK);

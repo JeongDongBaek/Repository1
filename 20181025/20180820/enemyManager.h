@@ -21,7 +21,8 @@ private:
 
 public:
 	HRESULT init(int MaxLimitNumber);
-	void setEnemy(int m_nEnemyNum, float StartingX, float StartingY);
+
+	void setEnemy(int m_nEnemyNum, float StartingX, float StartingY, int UpGrade ,tagEnemyPattern Pattern);
 	
 	void release();
 	void update();

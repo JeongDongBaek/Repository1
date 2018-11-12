@@ -1,6 +1,8 @@
 #pragma once
 #include "GameObject.h"
 
+class Inventory;
+
 class MyHero : public GameObject
 {
 protected:
@@ -21,6 +23,8 @@ protected:
 
 	//RECT m_rc_Collide;
 	tagCharacterState m_eState;
+	Inventory * m_pInven;
+
 	int m_nJumpCount;
 
 	SYNTHESIZE(RECT, m_rc_Collide, RectCollide);

@@ -13,7 +13,7 @@ HRESULT ItemManager::init(int MaxLimitNumber)
 	for (int i = 0; i < m_nNumberofKindItem; ++i)
 	{
 		int temp = (i * 18) + 1;
-		m_tItem[i].m_sItemName = atoi(m_vecItemList[temp++].c_str());
+		m_tItem[i].m_nItemNumber = atoi(m_vecItemList[temp++].c_str());
 		m_tItem[i].m_nItemDivision = atoi(m_vecItemList[temp++].c_str());
 		m_tItem[i].m_nItemFrameX = atoi(m_vecItemList[temp++].c_str());
 		m_tItem[i].m_nItemFrameY = atoi(m_vecItemList[temp++].c_str());

@@ -71,7 +71,7 @@ HRESULT Rabbit::init()
 
 void Rabbit::update()
 {
-	
+	if (g_saveData.gGamePause == true) return;
 	
 	m_rc = RectMake(m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY(), RABBIT_WIDTH, RABBIT_HEIGHT);
 
@@ -256,6 +256,8 @@ void Rabbit::release()
 
 void Rabbit::render(HDC hdc)
 {
+	if (g_saveData.gGamePause == true) return;
+
 
 	if (m_bIsChoosed == true)
 	{

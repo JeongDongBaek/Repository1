@@ -33,7 +33,7 @@ private:
 	MyHero * m_pMyHero;
 
 	
-	
+	image * m_pImg_MapUI;
 
 	image * m_pImg_TileSet;
 	image * m_pMiniPlayer;
@@ -44,6 +44,7 @@ private:
 	image * m_pImg_Back;
 	image * m_pImg_Middle[2];
 	image * m_pImg_itemBox[5];
+	image * m_pImg_House;
 
 	image * m_pImg_UIFox;
 	image * m_pImg_UISquirrel;
@@ -69,6 +70,7 @@ public:
 	void ChangeCharacter();
 	void UI_Click();
 	void Item_Collide();
+	void Unit_TileCollide();
 
 	void FixedLoad();
 	void CustomLoad();

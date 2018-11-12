@@ -19,34 +19,30 @@ HRESULT EnemyManager::init(int MaxLimitNumber)
 	return S_OK;
 }
 
-void EnemyManager::setEnemy(int m_nEnemyNum, float StartingX, float StartingY)
+void EnemyManager::setEnemy(int EnemyNum, float StartingX, float StartingY, int UpGrade, tagEnemyPattern Pattern)
 {
 	for (m_iter = m_vec.begin(); m_iter != m_vec.end(); m_iter++)
-	{	
+	{
 		if (!(*m_iter)->getIsAlive() == true)
 		{
-			(*m_iter)->setEnemyNumber(m_nEnemyNum);
 			(*m_iter)->setX(StartingX);
 			(*m_iter)->setY(StartingY);
-			(*m_iter)->init();
+			(*m_iter)->init(EnemyNum, Pattern, UpGrade);
 			return;
 		}
-		
-
 	}
-
 
 	if (m_nMaxLimitNumber < m_vec.size()) return;
 
 	Enemy* pEnemy;
 	pEnemy = new Enemy;
 
-	pEnemy->setEnemyNumber(m_nEnemyNum);
 	pEnemy->setX(StartingX);
 	pEnemy->setY(StartingY);
-	pEnemy->init();
-
+	pEnemy->init(EnemyNum, Pattern, UpGrade);
+	
 	m_vec.push_back(pEnemy);
+
 }
 
 void EnemyManager::release()

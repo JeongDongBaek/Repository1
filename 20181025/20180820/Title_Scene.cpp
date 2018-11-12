@@ -30,10 +30,15 @@ HRESULT Title_Scene::init()
 	IMAGEMANAGER->addImage("monster_plant_idle", "image/enemy/monster_plant_idle_ani.bmp", 305, 45, 5, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("monster_plant_attack", "image/enemy/monster_plant_attack_ani.bmp", 244, 45, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("eagle_idle", "image/enemy/eagle_idle_ani.bmp", 160, 41, 4, 1, true, RGB(255, 255, 255));
-	IMAGEMANAGER->addImage("frog_idle", "image/enemy/frog_idle_ani.bmp", 140, 32, 4, 1, true, RGB(255, 255, 255));
-	IMAGEMANAGER->addImage("frog_jump", "image/enemy/frog_jump_ani.bmp", 105, 35, 3, 1, true, RGB(255, 255, 255));
+	IMAGEMANAGER->addImage("frog_idle", "image/enemy/frog_idle_ani.bmp", 140, 30, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("frog_jump", "image/enemy/frog_jump_ani.bmp", 105, 35, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("oposum_idle", "image/enemy/oposum_idle_ani.bmp", 216, 28, 6, 1, true, RGB(255, 255, 255));
-	IMAGEMANAGER->addImage("enemy_box", "image/enemy_box.bmp", 120, 110, true, RGB(255,255,255));
+	IMAGEMANAGER->addImage("slug_idle", "image/enemy/slug_idle_ani.bmp", 128 * 6, 21 * 6, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_slug_idle", "image/enemy/left_slug_idle_ani.bmp", 128 * 6, 21 * 6, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("dark_slug_idle", "image/enemy/dark_slug_idle_ani.bmp", 128 * 6, 21 * 6, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_dark_slug_idle", "image/enemy/left_dark_slug_idle_ani.bmp", 128 * 6, 21 * 6, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("enemy_box", "image/enemy_box.bmp", 120, 110,1,1, true, RGB(255,255,255));
+	IMAGEMANAGER->addImage("boss_box", "image/boss_box.bmp", 216, 198,1,1, true, RGB(255,255,255));
 	IMAGEMANAGER->addImage("text", "image/text.bmp", 260, 210, true, RGB(255, 0, 255));
 
 	// Player///////////
@@ -70,6 +75,7 @@ HRESULT Title_Scene::init()
 	IMAGEMANAGER->addImage("left_rabbit_fall", "image/rabbit/left_player-fall-1-horz.bmp", 148, 32, 4, 1, true, RGB(255, 0, 255));
 
 	IMAGEMANAGER->addImage("boomerang", "image/rabbit/boomerang.bmp", 40, 66, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("house", "image/house.bmp", 33, 38, 1, 1, true, RGB(255, 255, 255));
 	/////////////////		
 
 
@@ -104,6 +110,8 @@ HRESULT Title_Scene::init()
 	IMAGEMANAGER->addImage("item", "image/item.bmp", 400 + 80, 300+ 60, 8, 6, true, RGB(255, 129, 255));
 	IMAGEMANAGER->addImage("fireball", "image/fireball.bmp", 768 / 2, 128 / 2, 6, 1, true, RGB(0, 0, 0));
 	IMAGEMANAGER->addImage("fireball_left", "image/left_fireball.bmp", 768 / 2, 128 / 2, 6, 1, true, RGB(0, 0, 0));
+	IMAGEMANAGER->addImage("text2", "image/text2.bmp", 280 , 220, true, RGB(255, 0, 255));
+
 	
 	///////////////////
 	

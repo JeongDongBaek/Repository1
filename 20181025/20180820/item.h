@@ -9,6 +9,8 @@ class item
 	animation * m_pAni;
 	effectManager * m_pEffectMgr;
 
+	image * m_pImg_Text;
+
 	float m_fX;
 	float m_fY;
 	float m_fItemfloppingNum; // 높을수록 밑으로

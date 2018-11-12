@@ -51,3 +51,17 @@ inline void EllipseMakeCenter(HDC hdc, int x, int y, int width, int height)
 	Ellipse(hdc, x - width / 2, y - height / 2,
 		x + width / 2, y + height / 2);
 }
+
+inline bool isPointInCircle(float cx, float cy, float cr, float px, float py)
+{
+	float deltaX = cx - px;
+	
+	float deltaY = cy - py;
+
+	float length = sqrt(deltaX * deltaX + deltaY * deltaY);
+
+	if (length > cr)
+		return false;
+	else
+		return true;
+}

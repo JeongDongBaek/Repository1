@@ -14,7 +14,7 @@ HRESULT Boomerang::init(float x, float y, float Player_Speed, float DestiX, floa
 	m_fAngle_Move = MY_UTIL::getAngle(x, y, DestiX, DestiY);
 	m_rc = RectMakeCenter(m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY(), 54, 42);
 	m_fRange = 1000;
-	m_fSpeed = 8.0f + Player_Speed;
+	m_fSpeed = 9.0f + Player_Speed / 2;
 
 	return S_OK;
 }

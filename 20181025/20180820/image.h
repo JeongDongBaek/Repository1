@@ -111,6 +111,7 @@ public:
 	void alphaRender(HDC hdc, BYTE alpha);
 	void alphaRender(HDC hdc, int destX, int destY, BYTE alpha);
 	void alphaRender(HDC hdc, int destX, int destY, int rad, BYTE alpha);
+	//void alphaRender(HDC hdc, int destX, int destY, float scalar, BYTE alpha);
 
 	void rotateRender(HDC hdc, float rotateAngle, float fX, float fY, int scalar/*=1*/);
 

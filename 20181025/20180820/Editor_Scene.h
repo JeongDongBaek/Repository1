@@ -9,6 +9,7 @@ class animation;
 class Editor_Scene : public scene
 {
 	image * m_pImg_EnemyBox;
+	image * m_pImg_BossBox;
 	image * m_pImg_BG;
 	image * m_pImg_tileset1;
 	image * m_pImg_tileset1_div;
@@ -19,14 +20,19 @@ class Editor_Scene : public scene
 	button * m_pButton_Units;
 	button * m_pButton_Else;
 
-	image * m_pImg_Enemy[NUMBER_OF_KIND_UNITS];
-	animation * m_pAni_Enemy[NUMBER_OF_KIND_UNITS];
+	image * m_pImg_Enemy[NUMBER_OF_KIND_UNITS - 2];
+	animation * m_pAni_Enemy[NUMBER_OF_KIND_UNITS - 2];
+
+	image * m_pImg_Else[NUMBER_OF_KIND_ELSE];
+	animation * m_pAni_Else[NUMBER_OF_KIND_ELSE];
 
 	tagTILE m_pTiles[TILE_MAX_COUNTX * TILE_MAX_COUNTY];
 	tagSampleTile m_pSampleTiles[MAX_SAMPLEX * MAX_SAMPLEY];
 	tagTILE m_rcSelectedTile;
 	int m_rcSelectedUnit;
-	RECT m_EnemyBoxRect[NUMBER_OF_KIND_UNITS - 3];
+	RECT m_EnemyBoxRect[NUMBER_OF_KIND_UNITS - 2];
+	RECT m_ElseBoxRect[NUMBER_OF_KIND_ELSE];
+
 
 	tagEDITOR_STATE m_editorState;
 	tagMOUSE_STATE st_mouse;
@@ -59,6 +65,7 @@ public:
 	void buttonUpdate();
 	void mouseEvent_Terrains();
 	void mouseEvent_Units();
+	void mouseEvent_Else();
 	void tileReset();
 
 	void release();
