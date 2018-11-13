@@ -71,6 +71,7 @@ public:
 	void UI_Click();
 	void Item_Collide();
 	void Unit_TileCollide();
+	void Character_UnitCollide();
 
 	void FixedLoad();
 	void CustomLoad();

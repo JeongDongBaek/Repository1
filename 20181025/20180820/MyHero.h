@@ -22,12 +22,14 @@ protected:
 	SYNTHESIZE(float, m_fAccrancy, Accrancy); // 작을수록 좋다
 
 	//RECT m_rc_Collide;
-	tagCharacterState m_eState;
+	SYNTHESIZE(tagCharacterState, m_eState, State);
 	Inventory * m_pInven;
 
 	int m_nJumpCount;
 
 	SYNTHESIZE(RECT, m_rc_Collide, RectCollide);
+	SYNTHESIZE(int, m_nHurtCount, HurtCount);
+	SYNTHESIZE(int, m_nHurtCountTemp, HurtCountTemp);
 
 public:
 	virtual HRESULT init();

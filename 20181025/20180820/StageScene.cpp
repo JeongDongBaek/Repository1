@@ -11,7 +11,7 @@ char szFileName1[512];
 
 void StageScene::FixedLoad()
 {
-	TXTDATA->getSingleton()->mapLoad("SaveFile/main12.map", m_pTiles);
+	TXTDATA->getSingleton()->mapLoad("SaveFile/main13.map", m_pTiles);
 
 }
 
@@ -156,7 +156,7 @@ HRESULT StageScene::init()
 
 	}
 
-	g_saveData.gColiideCount = m_nNumberOfBlock;
+	g_saveData.gCollideCount = m_nNumberOfBlock;
 
 	SCROLL->init(m_pRabbit->getX(), m_pRabbit->getY());
 
@@ -175,7 +175,6 @@ HRESULT StageScene::init()
 	ITEMMANAGER->ItemCreate(340, 20, 7, false);
 	ITEMMANAGER->ItemCreate(380, 20, 7, false);
 	ITEMMANAGER->ItemCreate(420, 20, 7, false);
-
 
 	return S_OK;
 }
@@ -203,24 +202,28 @@ void StageScene::update()
 			
 		}
 	}
-
+	
+	m_pRabbit->setIsGravity(true);
 	for (int i = 0; i < m_nNumberOfBlock; ++i)
 	{
 		RECT temp_rc;
 		if (IntersectRect(&temp_rc, &(m_pRabbit->getRect()), &(m_Collide_Tiles[i])))
 		{
 
-			if (m_pRabbit->getIsRected() == false)
+			if (m_Collide_Tiles[i].bottom >= m_pMyHero->getRect().top && m_pMyHero->getState() == st_isFall || m_pMyHero->getState() == st_isJump)
 			{
-				m_pRabbit->setIsRected(true);
-				m_pRabbit->setY(m_pRabbit->getY() - 5);
-				while ((int)m_pRabbit->getY() % TILESIZEY_STAGE > 0)
-					m_pRabbit->setY((m_pRabbit->getY() - 1));
-				while ((int)m_pRabbit->getY() % TILESIZEY_STAGE < 0)
-					m_pRabbit->setY((m_pRabbit->getY() + 1));
-
-
+				m_pMyHero->setIsRected(false);
+				m_pMyHero->setIsGravity(true);
 			}
+
+			if (m_Collide_Tiles[i].top <= m_pMyHero->getRect().bottom)
+			{
+				m_pMyHero->setIsRected(true);
+				m_pMyHero->setY(m_pMyHero->getY() + (temp_rc.top - temp_rc.bottom));
+				m_pMyHero->setIsGravity(false);
+			}
+			
+
 		}
 	}
 
@@ -230,6 +233,7 @@ void StageScene::update()
 	ITEMMANAGER->update();
 	Item_Collide();
 	Unit_TileCollide();
+	Character_UnitCollide();
 }
 
 
@@ -289,7 +293,7 @@ void StageScene::UI_Click()
 			}
 		}
 	}
-	
+
 }
 
 void StageScene::Item_Collide()
@@ -321,8 +325,8 @@ void StageScene::Item_Collide()
 			}
 
 		}
-		
-		
+
+
 	}
 
 
@@ -335,16 +339,78 @@ void StageScene::Unit_TileCollide()
 	std::vector<Enemy*>::iterator EnemyIter;
 	for (EnemyIter = vEnemy.begin(); EnemyIter != vEnemy.end(); EnemyIter++)
 	{
-		RECT rc_Collide;
 		for (int i = 0; i < m_nNumberOfBlock; ++i)
 		{
-			
+			RECT temp_rc;
+			if (IntersectRect(&temp_rc, (&m_Collide_Tiles[i]), &(*EnemyIter)->getRect()))
+			{
+				(*EnemyIter)->setrcCollide(m_Collide_Tiles[i]);
 
+
+				if ((*EnemyIter)->getPattern() == Pattern_moveTileUpDown)
+				{
+
+					if ((*EnemyIter)->getRect().bottom >= m_Collide_Tiles[i].top && (*EnemyIter)->getRect().top <= m_Collide_Tiles[i].bottom) // 위(캐릭터) 아래(벽)
+						(*EnemyIter)->setIsDown(false);
+
+					if ((*EnemyIter)->getRect().top <= m_Collide_Tiles[i].bottom && (*EnemyIter)->getRect().bottom >= m_Collide_Tiles[i].bottom) // 위(벽) 아래(캐릭터)
+						(*EnemyIter)->setIsDown(true);
+				}
+
+				else if ((*EnemyIter)->getPattern() == Pattern_moveStep)
+				{
+
+					if ((*EnemyIter)->getRect().left <= m_Collide_Tiles[i].right && (*EnemyIter)->getRect().right >= m_Collide_Tiles[i].right) // 위(캐릭터) 아래(벽)
+						(*EnemyIter)->setIsRight(true);
+
+					if ((*EnemyIter)->getRect().right >= m_Collide_Tiles[i].left && (*EnemyIter)->getRect().left <= m_Collide_Tiles[i].left) // 위(캐릭터) 아래(벽)
+						(*EnemyIter)->setIsRight(false);
+				}
+
+			}
+		
 		}
 
 	}
 
+	}
+
+void StageScene::Character_UnitCollide()
+{
+	std::vector<Enemy*> vEnemy = ENEMYMANAGER->getVec();
+	std::vector<Enemy*>::iterator EnemyIter;
+	for (EnemyIter = vEnemy.begin(); EnemyIter != vEnemy.end(); EnemyIter++)
+	{
+		RECT temp_rc;
+		if (IntersectRect(&temp_rc, (&m_pMyHero->getRect()), &(*EnemyIter)->getRect()))
+		{
+			if ((*EnemyIter)->getRect().top <= (m_pMyHero)->getRect().bottom &&
+				(*EnemyIter)->getRect().bottom >= (m_pMyHero)->getRect().top && m_pMyHero->getIsRected() == false)
+			{
+				m_pMyHero->setJumpTemp(m_pMyHero->getJumpPower() / 2 - 1.0f);
+				
+			}
+			
+			// 몬스터의 왼쪽 충돌
+			else if ((*EnemyIter)->getRect().left <= m_pMyHero->getRect().right &&
+				(*EnemyIter)->getRect().right >= m_pMyHero->getRect().left)
+			{
+				if (m_pMyHero->getIsRight() == true)
+					m_pMyHero->setX(m_pMyHero->getX() - 45.0f);
+				else
+					m_pMyHero->setX(m_pMyHero->getX() + 45.0f);
+				
+				m_pMyHero->setState(st_isHurt);
+				m_pMyHero->setHurtCountTemp(0);
+			}		
+		}
+
+
+	}
+	
 }
+
+
 
 void StageScene::KeyEvent()
 {
@@ -432,6 +498,9 @@ void StageScene::render(HDC hdc)
 
 		sprintf_s(SzText1, "fX : %f /  fY : %f  ", m_pRabbit->getX(), m_pRabbit->getY());
 		TextOut(hdc, WINSIZEX / 2 -100, 40, SzText1, strlen(SzText1));
+
+		sprintf_s(SzText1, "left : %ld /  top : %ld  ", m_pRabbit->getRect().left, m_pRabbit->getRect().top);
+		TextOut(hdc, WINSIZEX / 2 - 100, 85, SzText1, strlen(SzText1));
 
 		std::vector<Enemy*> vEnemy = ENEMYMANAGER->getVec();
 		std::vector<Enemy*>::iterator EnemyIter;

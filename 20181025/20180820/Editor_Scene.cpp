@@ -396,6 +396,10 @@ void Editor_Scene::KeyEvent()
 		else
 			m_bTileNumberOn = true;
 	}
+	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
+	{
+		m_rcSelectedUnit = 99;
+	}
 
 }
 

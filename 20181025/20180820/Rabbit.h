@@ -6,6 +6,11 @@ class animation;
 class BoomerangMgr;
 class BulletManager;
 
+//enum tagStandState
+//{
+//	stand_Tile, stand_Air_Up, Stand_Air_Down
+//};
+
 class Rabbit : public MyHero
 {
 private:
@@ -40,6 +45,8 @@ public:
 	void update();
 	void KeyEvent();
 	void JumpEvent();
+	void JumpUp();
+	void Gravity(float Gravity);
 
 	void release();
 	void render(HDC hdc);

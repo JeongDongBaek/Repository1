@@ -22,17 +22,31 @@ HRESULT Title_Scene::init()
 	IMAGEMANAGER->addImage("button_units", "image/button/button_placing_units.bmp", 250, 100,1,2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("button_else", "image/button/button_placing_else.bmp", 250, 100,1,2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("ant_idle", "image/enemy/ant_idle_ani.bmp", 296, 31, 8, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_ant_idle", "image/enemy/left_ant_idle_ani.bmp", 296, 31, 8, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("bee_idle", "image/enemy/bee_idle_ani.bmp", 296, 39, 8, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_bee_idle", "image/enemy/left_bee_idle_ani.bmp", 296, 39, 8, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("crocodile_idle", "image/enemy/crocodile_idle_ani.bmp", 184, 49, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_crocodile_idle", "image/enemy/left_crocodile_idle_ani.bmp", 184, 49, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("grasshopper_idle", "image/enemy/grasshopper_idle_ani.bmp", 208, 45, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_grasshopper_idle", "image/enemy/left_grasshopper_idle_ani.bmp", 208, 45, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("grasshopper_jump", "image/enemy/grasshopper_jump_ani.bmp", 104, 45, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_grasshopper_jump", "image/enemy/left_grasshopper_jump_ani.bmp", 104, 45, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("grasshopper_fly", "image/enemy/grasshopper_fly_ani.bmp", 104, 45, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_grasshopper_fly", "image/enemy/left_grasshopper_fly_ani.bmp", 104, 45, 2, 1, true, RGB(255, 0, 255));
+
 	IMAGEMANAGER->addImage("monster_plant_idle", "image/enemy/monster_plant_idle_ani.bmp", 305, 45, 5, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("monster_plant_attack", "image/enemy/monster_plant_attack_ani.bmp", 244, 45, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_monster_plant_idle", "image/enemy/left_monster_plant_idle_ani.bmp", 305, 45, 5, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("monster_plant_attack", "image/enemy/monster_plant_attack_ani.bmp", 244, 45, 4, 1, true, RGB(255, 255, 255));
+	IMAGEMANAGER->addImage("left_monster_plant_attack", "image/enemy/left_monster_plant_attack_ani.bmp", 244, 45, 4, 1, true, RGB(255, 255, 255));
+
 	IMAGEMANAGER->addImage("eagle_idle", "image/enemy/eagle_idle_ani.bmp", 160, 41, 4, 1, true, RGB(255, 255, 255));
+	IMAGEMANAGER->addImage("left_eagle_idle", "image/enemy/left_eagle_idle_ani.bmp", 160, 41, 4, 1, true, RGB(255, 255, 255));
 	IMAGEMANAGER->addImage("frog_idle", "image/enemy/frog_idle_ani.bmp", 140, 30, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_frog_idle", "image/enemy/left_frog_idle_ani.bmp", 140, 30, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("frog_jump", "image/enemy/frog_jump_ani.bmp", 105, 35, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_frog_jump", "image/enemy/left_frog_jump_ani.bmp", 105, 35, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("oposum_idle", "image/enemy/oposum_idle_ani.bmp", 216, 28, 6, 1, true, RGB(255, 255, 255));
+	IMAGEMANAGER->addImage("left_oposum_idle", "image/enemy/left_oposum_idle_ani.bmp", 216, 28, 6, 1, true, RGB(255, 255, 255));
 	IMAGEMANAGER->addImage("slug_idle", "image/enemy/slug_idle_ani.bmp", 128 * 6, 21 * 6, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("left_slug_idle", "image/enemy/left_slug_idle_ani.bmp", 128 * 6, 21 * 6, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("dark_slug_idle", "image/enemy/dark_slug_idle_ani.bmp", 128 * 6, 21 * 6, 4, 1, true, RGB(255, 0, 255));

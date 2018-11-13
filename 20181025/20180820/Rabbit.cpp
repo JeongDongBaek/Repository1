@@ -45,9 +45,11 @@ HRESULT Rabbit::init()
 	}
 
 	m_eState = st_isIdle;
+	m_nHurtCount = 55;
+	m_nHurtCountTemp = 0;
 	m_fSpeed = 4.0f;
 	m_fJumpPower = -24.0f;
-	m_fWeight = 0.7f;
+	m_fWeight = 0.9f;
 	m_fAccrancy = 0.15f; // 1레벨 0.15 2레벨 0.11f 3레벨 0.07f  //-0.04씩 줄어듬
 	m_bIsBoomerangOn = true;
 	m_bIsJumped = false;
@@ -55,6 +57,7 @@ HRESULT Rabbit::init()
 	m_bIsFloating = false;
 	m_bIsRected = false;
 	m_bIsFalling = false;
+	m_bIsGravity = true;
 	m_bIsAlive = true;
 	m_bIsGravity = true;
 	m_nFireDelay = 150; // 1레벨 150 2레벨 130 3레벨 110 
@@ -72,7 +75,9 @@ HRESULT Rabbit::init()
 void Rabbit::update()
 {
 	if (g_saveData.gGamePause == true) return;
-	
+
+	Gravity(GRAVITY);
+
 	m_rc = RectMake(m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY(), RABBIT_WIDTH, RABBIT_HEIGHT);
 
 	// getIsAlive가 없어도 되는것들
@@ -102,6 +107,7 @@ void Rabbit::update()
 	KeyEvent();
 
 
+	//////////////////////// 점프이미지  및  하강이미지 ////////////////////
 	if (m_bIsFloating == true)
 	{
 		m_eState = st_isJump;
@@ -123,8 +129,19 @@ void Rabbit::update()
 			m_bIsFloating = false;
 			m_eState = st_isIdle;
 		}
-		
-	}
+	}/////////////////////////////////////////////////////
+
+	if (m_eState == st_isHurt) ////////// 데미지 이미지에서 아이들로 /////
+	{
+		if (m_nHurtCount > m_nHurtCountTemp)
+		{
+			m_nHurtCountTemp++;
+		}
+		else
+		{
+			m_eState = st_isIdle;
+		}
+	}/////////////////////////////
 
 	if (m_nFireDelayTemp >= 0)
 		m_nFireDelayTemp--;
@@ -143,41 +160,65 @@ void Rabbit::update()
 void Rabbit::JumpEvent()
 {
 	
+}
 
+void Rabbit::JumpUp()
+{
+	
+
+}
+
+void Rabbit::Gravity(float Gravity)
+{
+	float gravity = 0;
+	if (m_bIsGravity == false)
+		gravity = 0;
+	else
+		gravity += Gravity;
+	m_fY += gravity;
 }
 
 void Rabbit::KeyEvent()
 {
 	if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
 	{
-		if (m_eState != st_isRun)
+		if (m_eState != st_isClimb && m_eState != st_isHurt)
 		{
-			m_eState = st_isRun;
-			m_pAni[2]->start();
-			m_pAni[2]->setFPS(13 + m_fSpeed);
+			if (m_eState != st_isRun)
+			{
+				m_eState = st_isRun;
+				m_pAni[2]->start();
+				m_pAni[2]->setFPS(13 + m_fSpeed);
+			}
+			m_fX += m_fSpeed;
+			m_bIsRight = true;
 		}
-		m_fX += m_fSpeed;
-		m_bIsRight = true;
+
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
 	{
-		m_eState = st_isIdle;
+		if(m_eState != st_isHurt)
+			m_eState = st_isIdle;
 	}
 
 	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 	{
-		if (m_eState != st_isRun)
+		if (m_eState != st_isClimb && m_eState != st_isHurt)
 		{
-			m_eState = st_isRun;
-			m_pAni_left[2]->start();
-			m_pAni_left[2]->setFPS(13 + m_fSpeed);
+			if (m_eState != st_isRun)
+			{
+				m_eState = st_isRun;
+				m_pAni[2]->start();
+				m_pAni[2]->setFPS(13 + m_fSpeed);
+			}
+			m_fX -= m_fSpeed;
+			m_bIsRight = false;
 		}
-		m_fX -= m_fSpeed;
-		m_bIsRight = false;
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
 	{
-		m_eState = st_isIdle;
+		if (m_eState != st_isHurt)
+			m_eState = st_isIdle;
 	}
 
 
@@ -199,7 +240,7 @@ void Rabbit::KeyEvent()
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_SPACE) && m_bIsRight == false && m_bIsJumped == true)
 	{
-		if (m_fJumpTemp < -4.0f)
+		if (m_fJumpTemp < -6.0f)
 			m_fJumpTemp = -4.0f;
 	}
 
@@ -218,6 +259,7 @@ void Rabbit::KeyEvent()
 		m_bIsJumped = true;
 		m_bIsFloating = true;
 		m_bIsRected = false;
+		
 		m_fJumpTemp = m_fJumpPower;
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_SPACE) && m_bIsRight == true && m_bIsJumped == true)
