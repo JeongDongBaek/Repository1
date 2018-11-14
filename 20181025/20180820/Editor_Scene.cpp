@@ -244,7 +244,7 @@ void Editor_Scene::Sample_tileSetting()
 {
 	for (int j = 0; j < MAX_SAMPLEX; ++j)
 	{
-		
+
 		m_pSampleTiles[j].terrain = isBlock;
 		m_pSampleTiles[j].unitID = UNIT_NULL;
 		m_pSampleTiles[j].frameX = j; //8±îÁö
@@ -280,17 +280,19 @@ void Editor_Scene::Sample_tileSetting()
 			m_pSampleTiles[j].terrain = isDownHill2;
 		else if (j == 30 || j == 32)
 			m_pSampleTiles[j].terrain = isUpHill3;
-		else if (j == 31 || j == 34)
+		else if (j == 31 || j == 33)
 			m_pSampleTiles[j].terrain = isDownHill3;
-		else if (j == 44 || j == 45 || j == 47 || j == 48)
+		else if (j == 44 || j == 45 || j == 48 || j == 49 || j == 61 || j == 63 || j == 64)
 			m_pSampleTiles[j].terrain = isEmpty;
 		else if (j == 60)
 			m_pSampleTiles[j].terrain = isladder;
-		else if (j == 72 || j == 73 || j == 74 ||
-			j == 82 || (j >= 84 && j <=90) || (j >= 95 && j <= 97) )
+		if (j == 72 || j == 73 || j == 74 || j >= 78)
 			m_pSampleTiles[j].terrain = isEmpty;
-		else if (j >= 128)
+		if (j == 110 || j == 111 || j == 112 || j == 120 || j == 121 || j == 62)
+			m_pSampleTiles[j].terrain = isBlock;
+		if (j >= 127)
 			m_pSampleTiles[j].terrain = isEmpty;
+
 	}
 }
 

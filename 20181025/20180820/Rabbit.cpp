@@ -76,7 +76,7 @@ void Rabbit::update()
 {
 	if (g_saveData.gGamePause == true) return;
 
-	Gravity(GRAVITY);
+	//Gravity(GRAVITY);
 
 	m_rc = RectMake(m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY(), RABBIT_WIDTH, RABBIT_HEIGHT);
 

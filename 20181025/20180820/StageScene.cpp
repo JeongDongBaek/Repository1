@@ -9,9 +9,11 @@ char szFileName1[512];
 
 
 
+
+
 void StageScene::FixedLoad()
 {
-	TXTDATA->getSingleton()->mapLoad("SaveFile/main13.map", m_pTiles);
+	TXTDATA->getSingleton()->mapLoad("SaveFile/te3.map", m_pTiles);
 
 }
 
@@ -332,7 +334,7 @@ void StageScene::Item_Collide()
 
 }
 
-void StageScene::Unit_TileCollide()
+void StageScene::Unit_TileCollide() // 유닛과 벽의 충돌
 {
 
 	std::vector<Enemy*> vEnemy = ENEMYMANAGER->getVec();
@@ -350,21 +352,24 @@ void StageScene::Unit_TileCollide()
 				if ((*EnemyIter)->getPattern() == Pattern_moveTileUpDown)
 				{
 
-					if ((*EnemyIter)->getRect().bottom >= m_Collide_Tiles[i].top && (*EnemyIter)->getRect().top <= m_Collide_Tiles[i].bottom) // 위(캐릭터) 아래(벽)
+					if ((*EnemyIter)->getRect().bottom >= m_Collide_Tiles[i].top && (*EnemyIter)->getRect().top <= m_Collide_Tiles[i].top) // 위(캐릭터) 아래(벽)
 						(*EnemyIter)->setIsDown(false);
 
 					if ((*EnemyIter)->getRect().top <= m_Collide_Tiles[i].bottom && (*EnemyIter)->getRect().bottom >= m_Collide_Tiles[i].bottom) // 위(벽) 아래(캐릭터)
 						(*EnemyIter)->setIsDown(true);
 				}
 
-				else if ((*EnemyIter)->getPattern() == Pattern_moveStep)
+				else if ((*EnemyIter)->getPattern() == Pattern_moveStep) // 바닥은 인식못하니 벽을 깔아서 벽을 인식하게하자
 				{
+					if ((*EnemyIter)->getRect().bottom - 20.0f > m_Collide_Tiles[i].top)
+					{
+						if ((*EnemyIter)->getRect().left <= m_Collide_Tiles[i].right && (*EnemyIter)->getRect().right >= m_Collide_Tiles[i].right) // 위(캐릭터) 아래(벽)
+							(*EnemyIter)->setIsRight(true);
 
-					if ((*EnemyIter)->getRect().left <= m_Collide_Tiles[i].right && (*EnemyIter)->getRect().right >= m_Collide_Tiles[i].right) // 위(캐릭터) 아래(벽)
-						(*EnemyIter)->setIsRight(true);
-
-					if ((*EnemyIter)->getRect().right >= m_Collide_Tiles[i].left && (*EnemyIter)->getRect().left <= m_Collide_Tiles[i].left) // 위(캐릭터) 아래(벽)
-						(*EnemyIter)->setIsRight(false);
+						if ((*EnemyIter)->getRect().right >= m_Collide_Tiles[i].left && (*EnemyIter)->getRect().left <= m_Collide_Tiles[i].left) // 위(캐릭터) 아래(벽)
+							(*EnemyIter)->setIsRight(false);
+					}
+					
 				}
 
 			}
@@ -375,7 +380,7 @@ void StageScene::Unit_TileCollide()
 
 	}
 
-void StageScene::Character_UnitCollide()
+void StageScene::Character_UnitCollide() // 캐릭터와 유닛과의 충돌
 {
 	std::vector<Enemy*> vEnemy = ENEMYMANAGER->getVec();
 	std::vector<Enemy*>::iterator EnemyIter;
@@ -404,9 +409,20 @@ void StageScene::Character_UnitCollide()
 				m_pMyHero->setHurtCountTemp(0);
 			}		
 		}
+		
 
 
 	}
+
+	/*RECT temp1_rc;
+	for (int i = 0; i < m_nNumberOfBlock; ++i)
+	{
+		if (!IntersectRect(&temp1_rc, (&m_pMyHero->getRect()), (&m_Collide_Tiles[i])))
+		{
+			m_pMyHero->setY(m_pMyHero->getY() + 0.01f);
+		}
+	}
+*/
 	
 }
 

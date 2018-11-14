@@ -22,6 +22,8 @@ HRESULT Enemy::init(int EnemyNum, tagEnemyPattern Pattern, int Upgrade)
 	m_ePattern = Pattern;
 	m_fDef = 0.0f;
 	m_nCountSteptemp = 50;
+	m_nCountStep = 0;
+	m_nStopCount = 0;
 	m_bIsRight = false;
 
 	switch (m_nEnemyNum)
@@ -278,6 +280,10 @@ void Enemy::Pattern_move()
 		
 		break;
 	case Pattern_moveNormal:
+		if (m_bIsRight == true)
+			m_fX += m_fSpeed;
+		else
+			m_fX -= m_fSpeed;
 		break;
 	case Pattern_moveTileUpDown:
 		if (m_bIsDown)
