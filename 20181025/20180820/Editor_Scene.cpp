@@ -305,7 +305,8 @@ void Editor_Scene::tileReset()
 		for (int x = 0; x < g_saveData.gTileMaxCountX ; x++)
 		{
 			m_pTiles[y * g_saveData.gTileMaxCountX + x].rc = RectMake(0 + y * TILESIZEX, 0 + x * TILESIZEY, TILESIZEX, TILESIZEY);
-			m_pTiles[y * g_saveData.gTileMaxCountX + x].terrainFrameX = 130;
+			m_pTiles[y * g_saveData.gTileMaxCountX + x].terrainFrameX = 129;
+			m_pTiles[y * g_saveData.gTileMaxCountX + x].terrain = isEmpty;
 			m_pTiles[y * g_saveData.gTileMaxCountX + x].terrainFrameY = 0;  // 29
 			m_pTiles[y * g_saveData.gTileMaxCountX + x].unitID = UNIT_NULL;  // 29
 
@@ -348,6 +349,14 @@ void Editor_Scene::update()
 	{
 		for (int x = 0; x < g_saveData.gTileMaxCountX; x++)
 		{
+			if (m_pTiles[y * g_saveData.gTileMaxCountX + x].terrainFrameX >= 128)
+			{
+				m_pTiles[y * g_saveData.gTileMaxCountX + x].terrain = isEmpty;
+			}
+
+
+
+
 			m_pTiles[y * g_saveData.gTileMaxCountX + x].rc = RectMake(x * TILESIZEX - SCROLL_MAP->GetX(), y * TILESIZEY - SCROLL_MAP->GetY(), TILESIZEX, TILESIZEY);
 
 

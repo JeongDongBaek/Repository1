@@ -157,6 +157,13 @@ void Rabbit::update()
 		}
 	}/////////////////////////////
 
+	if (m_bIsGravity == true)
+	{
+		m_nGravityTemp += 0.9f;
+		m_fY += 2.0f + m_nGravityTemp;
+	}
+	else
+		m_nGravityTemp = 0;
 
 
 
@@ -312,6 +319,9 @@ void Rabbit::KeyEvent()
 
 	}
 	
+
+	
+
 }
 
 void Rabbit::release()

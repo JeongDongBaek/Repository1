@@ -45,6 +45,7 @@ private:
 	image * m_pImg_Middle[2];
 	image * m_pImg_itemBox[5];
 	image * m_pImg_House;
+	image * m_pImg_Pixel;
 
 	image * m_pImg_UIFox;
 	image * m_pImg_UISquirrel;
@@ -63,6 +64,7 @@ private:
 
 	bool m_bMiniMapOn;
 	bool m_bInvenOn;
+	bool m_bIsPixelOn;
 	
 public:
 	HRESULT init();

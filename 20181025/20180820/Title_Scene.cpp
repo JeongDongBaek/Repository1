@@ -12,10 +12,13 @@ HRESULT Title_Scene::init()
 	IMAGEMANAGER->addImage("back", "image/back.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("middle", "image/middle.bmp", WINSIZEX , 1700, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("tileset1", "image/tileset1.bmp", 4224, 32, 132, 1, true, RGB(0, 0, 0));
+	IMAGEMANAGER->addImage("pixel", "image/pixel.bmp", 8448 , 74, 132, 1, true, RGB(255, 255, 255));
 	IMAGEMANAGER->addImage("tileset1_Stage", "image/tileset1.bmp", 8448, 64, 132, 1, true, RGB(0, 0, 0));
 	IMAGEMANAGER->addImage("tileset1_div", "image/tileset1.bmp", 4224, 32, 4, 1, true, RGB(0, 0, 0)); // À§¸¦ 4°³¾¿À¸·Î ÂÉ°µ°Í
 	IMAGEMANAGER->addImage("black", "image/black.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("real_black", "image/real_black.bmp", WINSIZEX, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("delta", "image/delta.bmp", 64,64, true, RGB(255, 255, 255));
+	
 	IMAGEMANAGER->addImage("white", "image/white.bmp", (WINSIZEX / 10) * 9, (WINSIZEY / 10) * 7, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("white2", "image/white.bmp", (WINSIZEX / 10) * 5, (WINSIZEY / 10) * 6, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("button_terrains", "image/button/button_placing_terrains.bmp", 250,100,1,2, (WINSIZEY / 10) * 7, true, RGB(255, 0, 255));

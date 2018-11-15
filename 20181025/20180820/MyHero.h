@@ -21,6 +21,9 @@ protected:
 	SYNTHESIZE(int, m_nCoolDown, CoolDown);
 	SYNTHESIZE(int, m_nCoolDownTemp, CoolDownTemp);
 	SYNTHESIZE(float, m_fAccrancy, Accrancy); // 작을수록 좋다
+	SYNTHESIZE(int, m_CurrX, CurrX);
+	SYNTHESIZE(int, m_CurrY, CurrY);
+	SYNTHESIZE(int, m_nGravityTemp, GravityTemp);
 
 	//RECT m_rc_Collide;
 	SYNTHESIZE(tagCharacterState, m_eState, State);

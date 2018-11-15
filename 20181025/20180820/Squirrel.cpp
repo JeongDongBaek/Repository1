@@ -53,7 +53,6 @@ HRESULT Squirrel::init()
 	m_bIsFalling = false;
 	m_bIsGravity = true;
 	m_bIsAlive = true;
-	m_bIsGravity = true;
 
 	m_fHP = m_fMaxHP = 5.0f;
 	m_fStamina = m_fMaxStamina = 5.0f;

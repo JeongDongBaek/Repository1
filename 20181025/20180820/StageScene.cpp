@@ -13,7 +13,7 @@ char szFileName1[512];
 
 void StageScene::FixedLoad()
 {
-	TXTDATA->getSingleton()->mapLoad("SaveFile/te9.map", m_pTiles);
+	TXTDATA->getSingleton()->mapLoad("SaveFile/t2.map", m_pTiles);
 
 }
 
@@ -80,6 +80,7 @@ HRESULT StageScene::init()
 	m_pMiniPlayer = IMAGEMANAGER->findImage("mini_Player");
 	m_pMiniEnemy = IMAGEMANAGER->findImage("mini_Enemy");
 	m_pImg_TileSet = IMAGEMANAGER->findImage("tileset1_Stage");
+	m_pImg_Pixel = IMAGEMANAGER->findImage("delta");
 
 	m_pImg_UIMiniMap = IMAGEMANAGER->findImage("ui_minimap");
 	m_pImg_UIFox = IMAGEMANAGER->findImage("ui_fox");
@@ -88,6 +89,7 @@ HRESULT StageScene::init()
 	m_pImg_UIinventory = IMAGEMANAGER->findImage("parchment");
 	m_pImg_MapUI = IMAGEMANAGER->findImage("parchment");
 	m_pImg_House = IMAGEMANAGER->findImage("house");
+
 
 	ENEMYMANAGER->init(60);
 	
@@ -120,6 +122,8 @@ HRESULT StageScene::init()
 	{
 		for (int x = 0; x < g_saveData.gTileMaxCountX; x++)
 		{
+
+
 			m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc = RectMake(x * TILESIZEX_STAGE, y * TILESIZEY_STAGE, TILESIZEX_STAGE, TILESIZEY_STAGE);
 
 
@@ -184,6 +188,24 @@ HRESULT StageScene::init()
 
 void StageScene::update()
 {
+	//m_pMyHero->setY(m_pMyHero->getY() + 0.8f);
+	//m_pMyHero->setCurrY((int)m_pMyHero->getY() - RABBIT_HEIGHT / 2); 키면좆댐
+	//for (int i = m_pMyHero->getY() - 50; i < m_pMyHero->getY() + 50; ++i)
+	//{
+	//	COLORREF color = GetPixel(GetWindowDC(g_hWnd), (int)m_pMyHero->getX(), i);
+
+	//	int r = GetRValue(color);
+	//	int g = GetGValue(color);
+	//	int b = GetBValue(color);
+
+	//	if (!(r == 255 && g == 0 && b == 255))
+	//	{
+	//		m_pMyHero->setY(i - RABBIT_HEIGHT / 2);
+
+	//	}
+	//}
+
+
 	SCROLL->update(m_pMyHero->getX(), m_pMyHero->getY());
 	m_pRabbit->update();
 	m_pFox->update();
@@ -195,6 +217,8 @@ void StageScene::update()
 	{
 		for (int x = 0; x < g_saveData.gTileMaxCountX; x++)
 		{
+
+
 			if (m_nNumberOfTemp < m_nNumberOfBlock &&m_pTiles[y *  g_saveData.gTileMaxCountX + x].terrain == isBlock)
 			{
 				m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc = RectMake(x * TILESIZEX_STAGE - SCROLL->GetX(), y * TILESIZEX_STAGE - SCROLL->GetY(), TILESIZEX_STAGE, TILESIZEY_STAGE);
@@ -208,40 +232,65 @@ void StageScene::update()
 		}
 	}
 	
-	m_pRabbit->setIsGravity(true);
 	for (int i = 0; i < m_nNumberOfBlock; ++i)
 	{
 		RECT temp_rc;
+
+
 		if (IntersectRect(&temp_rc, &(m_pMyHero->getRect()), &(m_Collide_Tiles[i])))
 		{
+			m_pMyHero->setIsGravity(false);
 
 			if (m_pMyHero->getRect().top <= m_Collide_Tiles[i].bottom &&
 				m_pMyHero->getRect().bottom >= m_Collide_Tiles[i].bottom
-				&& m_pMyHero->getState() == st_isFall || m_pMyHero->getState() == st_isJump)  // 벽이 위에 있고 캐릭터가 위로감
+				)  // 벽이 위에 있고 캐릭터가 위로감
 			{
+				m_pMyHero->setY(m_Collide_Tiles[i].bottom + SCROLL->GetY() );
+				m_pMyHero->setIsGravity(true);
 
-				
-					m_pMyHero->setIsRected(false);
-					m_pMyHero->setIsGravity(true);
-				
 			}
 
-			if (m_pMyHero->getRect().bottom >= m_Collide_Tiles[i].top &&
+			else if (m_pMyHero->getRect().bottom >= m_Collide_Tiles[i].top &&
 				m_pMyHero->getRect().top <= m_Collide_Tiles[i].top
-				&& m_pMyHero->getState() == st_isFall || m_pMyHero->getState() == st_isJump)  // 벽이 아래에 있고 캐릭터가 아래로감
+				)  // 벽이 아래에 있고 캐릭터가 아래로감
 			{
 
-				
-					m_pMyHero->setIsRected(true);
-					m_pMyHero->setY(m_Collide_Tiles[i].top - 5.0f);
-					m_pMyHero->setIsGravity(false);
-				
-				
+
+				m_pMyHero->setIsRected(true);
+				m_pMyHero->setY(m_Collide_Tiles[i].top + SCROLL->GetY() - RABBIT_HEIGHT);
+				m_pMyHero->setIsGravity(false);
+
+
 			}
-			
+
+			else if (m_pMyHero->getRect().left <= m_Collide_Tiles[i].right &&
+				m_pMyHero->getRect().right >= m_Collide_Tiles[i].right
+				)  // 벽이 왼쪽에 있고 캐릭터가 왼쪽으로감
+			{
+
+				m_pMyHero->setY(m_Collide_Tiles[i].right + SCROLL->GetX() + RABBIT_WIDTH);
+			}
+
+			else if (m_pMyHero->getRect().right >= m_Collide_Tiles[i].left &&
+				m_pMyHero->getRect().left <= m_Collide_Tiles[i].left
+				)  // 벽이 오른쪽에 있고 캐릭터가 오른쪽으로감
+			{
+
+				m_pMyHero->setY(m_Collide_Tiles[i].left + SCROLL->GetX() - RABBIT_WIDTH);
+			}
+
 
 		}
+		else
+		{
+			m_pMyHero->setIsGravity(true);
+		}
+
+
+		
 	}
+
+
 
 	ChangeCharacter();
 	KeyEvent();
@@ -521,7 +570,14 @@ void StageScene::KeyEvent()
 		mySelectedCh = sel_rabbit;
 	if (KEYMANAGER->isOnceKeyDown(VK_F3))
 		mySelectedCh = sel_Squirrel;
-	
+	if (KEYMANAGER->isOnceKeyDown(VK_F4))
+	{
+		if (m_bIsPixelOn)
+			m_bIsPixelOn = false;
+		else
+			m_bIsPixelOn = true;
+	}
+		
 	if (KEYMANAGER->isOnceKeyDown(VK_F7))
 	{
 		if (g_saveData.gIsRectangleOn == true)
@@ -542,6 +598,8 @@ void StageScene::KeyEvent()
 			g_saveData.gGamePause = true;
 		}
 	}
+
+
 	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
 	{
 		if (g_saveData.gSelectedInven <= 2)
@@ -573,16 +631,30 @@ void StageScene::render(HDC hdc)
 	{
 		for (int x = 0; x < g_saveData.gTileMaxCountX; x++)
 		{
+			
+			if (!MY_UTIL::isScreenIn(m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left, m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top)) continue;
 
 			m_pImg_TileSet->frameRender(hdc,
 				m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left ,
 				m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top ,
 				m_pTiles[y *  g_saveData.gTileMaxCountX + x].terrainFrameX,
 				m_pTiles[y *  g_saveData.gTileMaxCountX + x].terrainFrameY);
-	
+
+			
+			if (m_bIsPixelOn == true )
+			{
+				if (m_pTiles[y *  g_saveData.gTileMaxCountX + x].terrain == isEmpty)
+				{
+					m_pImg_Pixel->render(hdc,
+						m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left,
+						m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top);
+
+				}
+			}
 		}
 	}
 
+	
 
 
 	if (g_saveData.gIsRectangleOn == true)
