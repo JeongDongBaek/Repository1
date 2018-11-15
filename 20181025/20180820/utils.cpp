@@ -7,6 +7,17 @@ namespace MY_UTIL
 	//{
 
 	//};
+	bool isScreenIn(float X, float Y)
+	{
+		if ((WINSIZEX > X && 0 < X) &&
+			(WINSIZEY > Y && 0 < Y))
+		{
+			return true;
+		}
+			return false;
+			
+	}
+
 
 	float getDistance(float startX, float startY, float endX, float endY)
 	{
@@ -49,12 +60,14 @@ namespace MY_UTIL
 	}
 	void FontOption(HDC hdc ,int FontSize, int FontBold)
 	{
-		/*g_hFont = CreateFont(FontSize, 0, 0, 0, FontBold, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN, "배달의민족 한나체 Air");
-		g_OldFont = (HFONT)SelectObject(hdc, g_hFont);*/
+		g_hFont = CreateFont(FontSize, 0, 0, 0, FontBold, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN, "배달의민족 한나체 Air");
+		g_OldFont = (HFONT)SelectObject(hdc, g_hFont);
 	}
 	void FontDelete(HDC hdc)
 	{
-		/*SelectObject(hdc, g_OldFont);
-		DeleteObject(g_hFont);*/
+		SelectObject(hdc, g_OldFont);
+		DeleteObject(g_hFont);
 	}
 }
+
+

@@ -51,6 +51,7 @@ private:
 	image * m_pImg_UIRabbit;
 	image * m_pImg_UIMiniMap;
 	image * m_pImg_UIinventory;
+
 	RECT m_rcUIcharacter[3];
 	tagMOUSE_STATE st_mouse;
 

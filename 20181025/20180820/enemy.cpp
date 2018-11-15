@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Enemy.h"
 #include "animation.h"
+#include "MyHero.h"
+#include "BulletManager.h"
 
 HRESULT Enemy::init(int EnemyNum, tagEnemyPattern Pattern, int Upgrade)
 {
@@ -22,9 +24,11 @@ HRESULT Enemy::init(int EnemyNum, tagEnemyPattern Pattern, int Upgrade)
 	m_ePattern = Pattern;
 	m_fDef = 0.0f;
 	m_nCountSteptemp = 50;
-	m_nCountStep = 0;
+	m_nCountStep = 300;
 	m_nStopCount = 0;
+	m_bFollowOn = false;
 	m_bIsRight = false;
+
 
 	switch (m_nEnemyNum)
 	{
@@ -71,10 +75,12 @@ HRESULT Enemy::init(int EnemyNum, tagEnemyPattern Pattern, int Upgrade)
 	
 	}
 	m_rc = RectMake(m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY(), m_nCurrectWidth, m_nCurrectHeight);
+	m_fFixedX = m_fX;
+	m_fFixedY = m_fY;
 
 	switch (m_nEnemyNum)
 	{
-	case 0:
+	case 0: // ai 완료
 		m_pImage[0] = IMAGEMANAGER->findImage("ant_idle");
 		m_pImage_left[0] = IMAGEMANAGER->findImage("left_ant_idle");
 		m_fHP = 2.0f ;
@@ -82,7 +88,7 @@ HRESULT Enemy::init(int EnemyNum, tagEnemyPattern Pattern, int Upgrade)
 		m_fSpeed = 1.3f;
 		if (m_ePattern == Pattern_ofRule) m_ePattern = Pattern_moveStep;
 		break;
-	case 1:
+	case 1: // ai 완료
 		m_pImage[0] = IMAGEMANAGER->findImage("bee_idle");
 		m_pImage_left[0] = IMAGEMANAGER->findImage("left_bee_idle");
 		m_fHP = 5.0f;
@@ -90,9 +96,11 @@ HRESULT Enemy::init(int EnemyNum, tagEnemyPattern Pattern, int Upgrade)
 		m_fSpeed = 2.0f;
 		if (m_ePattern == Pattern_ofRule) m_ePattern = Pattern_moveTileUpDown;
 		break;
-	case 2:
+	case 2: // 
 		m_pImage[0] = IMAGEMANAGER->findImage("crocodile_idle");
 		m_pImage_left[0] = IMAGEMANAGER->findImage("left_crocodile_idle");
+		m_rcMoveArea = RectMake(m_fX - SCROLL->GetX(), SCROLL->GetY(), 500, 500);
+		m_fAngle = RANDOM->getFromFloatTo(0, PI * 2);
 		m_fHP = 6.0f;
 		m_fDamage = 3.0f;
 		m_fSpeed = 2.4f;
@@ -106,21 +114,29 @@ HRESULT Enemy::init(int EnemyNum, tagEnemyPattern Pattern, int Upgrade)
 		m_fHP = 3.0f;
 		m_fDamage = 1.0f;
 		m_fSpeed = 1.7f;
+		m_nCountSteptemp = 0;
+		m_nCountStep = 150;
 		if (m_ePattern == Pattern_ofRule) m_ePattern = Pattern_JumpOfGlass;
 		break;
 	case 4:
+		m_pBulletMgr = new BulletManager;
+		m_pBulletMgr->init(5);
 		m_pImage[0] = IMAGEMANAGER->findImage("monster_plant_idle");
 		m_pImage[1] = IMAGEMANAGER->findImage("monster_plant_attack");
 		m_pImage_left[0] = IMAGEMANAGER->findImage("left_monster_plant_idle");
 		m_pImage_left[1] = IMAGEMANAGER->findImage("left_monster_plant_attack");
+		m_nFireDelayTemp = m_nFireDelay = 50;
 		m_fHP = 4.0f;
 		m_fDamage = 1.0f;
 		m_fSpeed = 0.0f;
 		if (m_ePattern == Pattern_ofRule) m_ePattern = Pattern_Stop;
+		m_nCountSteptemp = 0;
+		m_nCountStep = 140;
 		break;
 	case 5:
 		m_pImage[0] = IMAGEMANAGER->findImage("eagle_idle");
 		m_pImage_left[0] = IMAGEMANAGER->findImage("left_eagle_idle");
+		m_rcMoveArea = RectMake(m_fX - SCROLL->GetX(), SCROLL->GetY(), 780, 600);
 		m_fHP = 10.0f;
 		m_fDamage = 4.0f;
 		m_fSpeed = 3.5f;
@@ -129,11 +145,14 @@ HRESULT Enemy::init(int EnemyNum, tagEnemyPattern Pattern, int Upgrade)
 	case 6:
 		m_pImage[0] = IMAGEMANAGER->findImage("frog_idle");
 		m_pImage[1] = IMAGEMANAGER->findImage("frog_jump");
-		m_pImage_left[0] = IMAGEMANAGER->findImage("frog_idle");
-		m_pImage_left[1] = IMAGEMANAGER->findImage("frog_jump");
+		m_pImage_left[0] = IMAGEMANAGER->findImage("left_frog_idle");
+		m_pImage_left[1] = IMAGEMANAGER->findImage("left_frog_jump");
 		m_fHP = 5.0f;
 		m_fDamage = 3.0f;
-		m_fSpeed = 1.5f;
+		m_fSpeed = 2.5f;
+		m_nCountStep = 180;
+		m_nCountSteptemp = 0;
+
 		if (m_ePattern == Pattern_ofRule) m_ePattern = Pattern_JumpOfFlog;
 		break;
 	case 7:
@@ -185,8 +204,14 @@ HRESULT Enemy::init(int EnemyNum, tagEnemyPattern Pattern, int Upgrade)
 		m_pAni[1]->init(m_pImage[1]->getWidth(), m_pImage[1]->getHeight(),
 			m_pImage[1]->getFrameWidth(), m_pImage[1]->getFrameHeight());
 		m_pAni[1]->setDefPlayFrame(false, true);
-		m_pAni[1]->setFPS(11);
+		m_pAni[1]->setFPS(8);
 		m_pAni[1]->start();
+
+		if (m_nEnemyNum == 4)
+		{
+			m_pAni[1]->setFPS(3);
+
+		}
 	}
 
 
@@ -203,8 +228,14 @@ HRESULT Enemy::init(int EnemyNum, tagEnemyPattern Pattern, int Upgrade)
 		m_pAni_left[1]->init(m_pImage_left[1]->getWidth(), m_pImage_left[1]->getHeight(),
 			m_pImage_left[1]->getFrameWidth(), m_pImage_left[1]->getFrameHeight());
 		m_pAni_left[1]->setDefPlayFrame(false, true);
-		m_pAni_left[1]->setFPS(11);
+		m_pAni_left[1]->setFPS(8);
 		m_pAni_left[1]->start();
+
+		if (m_nEnemyNum == 4)
+		{
+			m_pAni_left[1]->setFPS(3);
+
+		}
 	}
 
 
@@ -218,21 +249,7 @@ void Enemy::update()
 
 	m_rc = RectMake(m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY(), m_nCurrectWidth, m_nCurrectHeight);
 
-	if (m_nEnemyNum == 6)
-	{
-		if (m_eState == st_isJump_Enemy)
-		{
-			m_nCurrentFrame = 1;
-			m_pImage[1]->setFrameX(m_nCurrentFrame);
-			m_pImage_left[1]->setFrameX(m_nCurrentFrame);
-		}
-		else if (m_eState == st_isFall_Enemy)
-		{
-			m_nCurrentFrame = 2;
-			m_pImage[1]->setFrameX(m_nCurrentFrame);
-			m_pImage_left[1]->setFrameX(m_nCurrentFrame);
-		}
-	}
+
 
 	m_pAni[0]->frameUpdate(TIMEMANAGER->getElapsedTime());
 	if(m_nEnemyNum == 3 || m_nEnemyNum == 4 ) 
@@ -292,19 +309,230 @@ void Enemy::Pattern_move()
 			m_fY -= m_fSpeed;
 		break;
 	case Pattern_moveFly:
+		m_rcMoveArea = RectMakeCenter(m_fFixedX - SCROLL->GetX(), m_fFixedY - SCROLL->GetY(), 500, 500);
+	
+
+		m_fX += cosf(m_fAngle) * m_fSpeed;
+		m_fY += -sinf(m_fAngle) * m_fSpeed;
+	
+		if (m_fAngle >= 0 && m_fAngle <= PI)
+			m_bIsRight = false;
+		if (m_fAngle >= PI && m_fAngle <= PI * 2)
+			m_bIsRight = true;
+
+		if ((m_rcMoveArea.bottom <= m_rc.bottom && m_rcMoveArea.bottom >= m_rc.top) ||
+			(m_rcMoveArea.top >= m_rc.top && m_rcMoveArea.top <= m_rc.bottom))
+		{
+			m_fX -= cosf(m_fAngle) * 18.0f;
+			m_fY -= -sinf(m_fAngle) * 18.0f;
+			m_fAngle = PI * 2 - m_fAngle + (RANDOM->getFromFloatTo(0, PI));
+		}
+
+		else if ((m_rcMoveArea.right <= m_rc.right && m_rcMoveArea.right >= m_rc.left) ||
+			(m_rcMoveArea.left >= m_rc.left && m_rcMoveArea.left <= m_rc.right))
+		{
+			m_fX -= cosf(m_fAngle) * 18.0f;
+			m_fY -= -sinf(m_fAngle) * 18.0f;
+			m_fAngle = PI * 2 - m_fAngle + (RANDOM->getFromFloatTo(0, PI));
+		}
+
+
+
 		break;
 	case Pattern_Stop:
+		m_pBulletMgr->update();
+		m_rcMoveArea = RectMakeCenter(m_fFixedX - SCROLL->GetX(), m_fFixedY - SCROLL->GetY() + 50, 545, 545);
+
+		if (m_eState == st_isAttack_Enemy)
+		{
+			if (m_nFireDelayTemp >= 0)
+				m_nFireDelayTemp--;
+
+			if (m_nFireDelayTemp < 0)
+			{
+				m_pBulletMgr->Fire("fireball", m_fX, m_fY, FIREBALL_SPEED, FIREBALL_RANGE, 1, m_bIsRight, false);
+				m_nFireDelayTemp = m_nFireDelay;
+			}
+		}
+		
 		break;
 	case Pattern_Follow:
+
+		m_rcMoveArea = RectMakeCenter(m_fFixedX - SCROLL->GetX(), m_fFixedY - SCROLL->GetY(), 780, 600);
+
+		m_fX += cosf(m_fAngle) * m_fSpeed;
+		m_fY += -sinf(m_fAngle) * m_fSpeed;
+
+		if (m_fAngle >= 0 && m_fAngle <= PI)
+			m_bIsRight = false;
+		if (m_fAngle >= PI && m_fAngle <= PI * 2)
+			m_bIsRight = true;
+
+		if ((m_rcMoveArea.bottom <= m_rc.bottom && m_rcMoveArea.bottom >= m_rc.top) ||
+			(m_rcMoveArea.top >= m_rc.top && m_rcMoveArea.top <= m_rc.bottom))
+		{
+			m_fX -= cosf(m_fAngle) * 18.0f;
+			m_fY -= -sinf(m_fAngle) * 18.0f;
+			m_fAngle = PI * 2 - m_fAngle + (RANDOM->getFromFloatTo(0, PI));
+		}
+
+		else if ((m_rcMoveArea.right <= m_rc.right && m_rcMoveArea.right >= m_rc.left) ||
+			(m_rcMoveArea.left >= m_rc.left && m_rcMoveArea.left <= m_rc.right))
+		{
+			m_fX -= cosf(m_fAngle) * 18.0f;
+			m_fY -= -sinf(m_fAngle) * 18.0f;
+			m_fAngle = PI * 2 - m_fAngle + (RANDOM->getFromFloatTo(0, PI));
+		}
+
+		if (m_bFollowOn == false)
+		{
+
+
+
+		}
+
+
+
+
 		break;
 	case Pattern_JumpOfFlog:
+		m_nCountSteptemp++;
+
+		if (m_eState == st_isJump_Enemy)
+		{
+			m_nCurrentFrame = 0;
+			m_pImage[1]->setFrameX(m_nCurrentFrame);
+			m_pImage_left[1]->setFrameX(m_nCurrentFrame);
+			if (m_bIsRight == true)
+			{
+				m_fX += m_fSpeed;
+				m_fY -= 2.0f;
+			}
+			if (m_bIsRight == false)
+			{
+				m_fX -= m_fSpeed;
+				m_fY -= 2.0f;
+			}
+		}
+		else if (m_eState == st_isFall_Enemy)
+		{
+			m_nCurrentFrame = 1;
+			m_pImage[1]->setFrameX(m_nCurrentFrame);
+			m_pImage_left[1]->setFrameX(m_nCurrentFrame);
+			if (m_bIsRight == true)
+			{
+				m_fX += m_fSpeed;
+				m_fY += 2.0f;
+			}
+			if (m_bIsRight == false)
+			{
+				m_fX -= m_fSpeed;
+				m_fY += 2.0f;
+			}
+		}
+
+
+
+		if (m_nCountSteptemp >= 0 && m_nCountSteptemp <= 54 )
+		{
+			m_eState = st_isJump_Enemy;
+		}
+		else if (m_nCountSteptemp >= 55  && m_nCountSteptemp <= 109 )
+		{
+			m_eState = st_isFall_Enemy;
+		}
+		else if (m_nCountSteptemp >= 110  && m_nCountSteptemp <= 164 )
+		{
+			m_eState = st_isIdle_Enemy;
+			m_fY = m_fFixedY;
+		}
+		else if (m_nCountSteptemp >=RANDOM->getFromIntTo(m_nCountStep + 90 , m_nCountStep + 310 ))
+		{
+			m_nCountSteptemp = 0;
+		}
+
 		break;
 	case Pattern_JumpOfGlass:
+		m_nCountSteptemp++;
+
+		if (m_eState == st_isJump_Enemy)
+		{
+			if (m_bIsRight == true)
+			{
+				m_fX += m_fSpeed / 2;
+				m_fY -= 5.5f;
+			}
+			if (m_bIsRight == false)
+			{
+				m_fX -= m_fSpeed / 2;
+				m_fY -= 5.5f;
+			}
+		}
+
+		if (m_eState == st_isFall_Enemy)
+		{
+			if (m_bIsRight == true)
+			{
+				m_fX += m_fSpeed / 2;
+				m_fY += 5.5f;
+			}
+			if (m_bIsRight == false)
+			{
+				m_fX -= m_fSpeed / 2;
+				m_fY += 5.5f;
+			}
+		}
+
+		if (m_nCountSteptemp >= 0 && m_nCountSteptemp <= 39)
+		{
+			m_eState = st_isJump_Enemy;
+		}
+		else if (m_nCountSteptemp >= 40 && m_nCountSteptemp <= 79)
+		{
+			m_eState = st_isFall_Enemy;
+		}
+		else if (m_nCountSteptemp >= 80 && m_nCountSteptemp <= 119)
+		{
+			m_eState = st_isIdle_Enemy;
+			m_fY = m_fFixedY;
+		}
+		else if (m_nCountSteptemp >= RANDOM->getFromIntTo(m_nCountStep + 10, m_nCountStep + 250))
+		{
+			m_nCountSteptemp = 0;
+		}
+
+
 		break;
 	case Pattern_Slug:
 		break;
 	}
 }
+
+
+//
+//
+//void Enemy::DetectHero(MyHero * myHero) // 식물만쓸수있음
+//{
+//
+//	RECT temp_rc5;
+//	if (IntersectRect(&temp_rc5, &m_rcMoveArea, &m_pMyHero->getRect()))
+//	{
+//		if (m_pMyHero->getX() >= m_fX)
+//			m_bIsRight = true;
+//		else
+//			m_bIsRight = false;
+//	}
+//
+//}
+
+
+
+
+
+
+
+
+
 
 
 void Enemy::release()
@@ -314,10 +542,14 @@ void Enemy::release()
 void Enemy::render(HDC hdc)
 {
 
+	if (!MY_UTIL::isScreenIn(m_rc.left, m_rc.top)) return;
+
 	if (g_saveData.gIsRectangleOn == true)
 	{
 		//EllipseMakeCenter(hdc, m_rc.left + m_nCurrectWidth / 2, m_rc.top + m_nCurrectHeight / 2 , m_nDetectNum * 2 , m_nDetectNum  * 2);
 		Rectangle(hdc, m_rc.left , m_rc.top , m_rc.right, m_rc.bottom);
+		Rectangle(hdc, m_rcMoveArea.left , m_rcMoveArea.top , m_rcMoveArea.right, m_rcMoveArea.bottom);
+
 
 		char SzText2[64];
 		RECT temp_rc = RectMake(
@@ -406,10 +638,22 @@ void Enemy::render(HDC hdc)
 		}
 		break;
 	case 4:
-		if (m_bIsRight == true)
-			m_pImage[0]->aniRender(hdc, m_rc.left - 84, m_rc.top - 110, m_pAni[0], 4.0f, false, 100);
-		else
-			m_pImage_left[0]->aniRender(hdc, m_rc.left - 84, m_rc.top - 110, m_pAni_left[0], 4.0f, false, 100);
+		m_pBulletMgr->render(hdc);
+
+		if (m_eState == st_isIdle_Enemy)
+		{
+			if (m_bIsRight == true)
+				m_pImage[0]->aniRender(hdc, m_rc.left - 84, m_rc.top - 110, m_pAni[0], 4.0f, false, 100);
+			else
+				m_pImage_left[0]->aniRender(hdc, m_rc.left - 84, m_rc.top - 110, m_pAni_left[0], 4.0f, false, 100);
+		}
+		else if (m_eState == st_isAttack_Enemy)
+		{
+			if (m_bIsRight == true)
+				m_pImage[1]->aniRender(hdc, m_rc.left - 84, m_rc.top - 110, m_pAni[0], 4.0f, false, 100);
+			else
+				m_pImage_left[1]->aniRender(hdc, m_rc.left - 84, m_rc.top - 110, m_pAni_left[0], 4.0f, false, 100);
+		}
 		break;
 	case 5:
 		if (m_bIsRight == true)
@@ -418,27 +662,36 @@ void Enemy::render(HDC hdc)
 			m_pImage_left[0]->aniRender(hdc, m_rc.left - 40, m_rc.top - 60, m_pAni_left[0], 4.0f, false, 100);
 		break;
 	case 6:
-		if (m_bIsRight == true)
-		{
-			if (m_eState == st_isIdle_Enemy)
-				m_pImage[0]->aniRender(hdc, m_rc.left - 40, m_rc.top - 43, m_pAni[0], 4.0f, false, 100);
-			else
-				m_pImage[1]->frameRender(hdc, m_rc.left - 40, m_rc.top - 48, m_nCurrentFrame, 0, 4.0f);
 
-		}
-		else
+		if (m_eState == st_isIdle_Enemy)
 		{
-			if (m_eState == st_isIdle_Enemy)
-				m_pImage_left[0]->aniRender(hdc, m_rc.left - 40, m_rc.top - 43, m_pAni_left[0], 4.0f, false, 100);
+			if (m_bIsRight == true)
+			{
+				m_pImage[0]->aniRender(hdc, m_rc.left - 40, m_rc.top - 43, m_pAni[0], 4.0f, false, 100);
+			}
 			else
-				m_pImage_left[1]->frameRender(hdc, m_rc.left - 40, m_rc.top - 48, m_nCurrentFrame, 0, 4.0f);
+			{
+				m_pImage_left[0]->aniRender(hdc, m_rc.left - 40, m_rc.top - 43, m_pAni_left[0], 4.0f, false, 100);
+			}
 		}
+		else 
+		{
+			if (m_bIsRight == true)
+			{
+				m_pImage[1]->frameRender(hdc, m_rc.left - 40, m_rc.top - 48, m_nCurrentFrame, 0, 4.0f);
+			}
+			else
+			{
+				m_pImage_left[1]->frameRender(hdc, m_rc.left - 40, m_rc.top - 48, m_nCurrentFrame, 0, 4.0f);
+			}
+		}
+
 		break;
 	case 7:
 		if (m_bIsRight == true)
-			m_pImage[0]->aniRender(hdc, m_rc.left - 36, m_rc.top - 44, m_pAni[0], 4.0f, false, 100);
+			m_pImage[0]->aniRender(hdc, m_rc.left - 36, m_rc.top - 39, m_pAni[0], 4.0f, false, 100);
 		else
-			m_pImage_left[0]->aniRender(hdc, m_rc.left - 36, m_rc.top - 44, m_pAni_left[0], 4.0f, false, 100);
+			m_pImage_left[0]->aniRender(hdc, m_rc.left - 36, m_rc.top - 39, m_pAni_left[0], 4.0f, false, 100);
 		break;
 	case 8:
 		if (m_bIsRight == true)
@@ -457,8 +710,6 @@ void Enemy::render(HDC hdc)
 
 	
 }
-
-
 
 
 

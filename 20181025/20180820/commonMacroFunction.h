@@ -65,3 +65,4 @@ inline bool isPointInCircle(float cx, float cy, float cr, float px, float py)
 	else
 		return true;
 }
+

@@ -1,8 +1,2 @@
-﻿  Enemy.cpp
-c:\users\alsdn\onedrive\documents\github\polio\repository1\20181025\20180820\enemy.cpp(73): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\alsdn\onedrive\documents\github\polio\repository1\20181025\20180820\enemy.cpp(167): warning C4244: '+=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\alsdn\onedrive\documents\github\polio\repository1\20181025\20180820\enemy.cpp(168): warning C4244: '+=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\alsdn\onedrive\documents\github\polio\repository1\20181025\20180820\enemy.cpp(169): warning C4244: '+=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\alsdn\onedrive\documents\github\polio\repository1\20181025\20180820\enemy.cpp(170): warning C4244: '+=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\alsdn\onedrive\documents\github\polio\repository1\20181025\20180820\enemy.cpp(219): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  20180820.vcxproj -> C:\Users\alsdn\OneDrive\Documents\GitHub\Polio\Repository1\20181025\Debug\20181025.exe
+﻿  utils.cpp
+  20180820.vcxproj -> C:\Users\5_KGA_4\Desktop\개인포폴\Repository1\20181025\Debug\20181025.exe

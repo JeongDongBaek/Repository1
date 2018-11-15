@@ -3,6 +3,8 @@
 #include "animation.h"
 #include "BoomerangMgr.h"
 #include "BulletManager.h"
+#include "progressBar.h"
+
 
 HRESULT Rabbit::init()
 {
@@ -58,12 +60,19 @@ HRESULT Rabbit::init()
 	m_bIsRected = false;
 	m_bIsFalling = false;
 	m_bIsGravity = true;
+	m_bIsRight = true;
 	m_bIsAlive = true;
 	m_bIsGravity = true;
 	m_nFireDelay = 150; // 1레벨 150 2레벨 130 3레벨 110 
 	m_nFireDelayTemp = m_nFireDelay;
 
-	m_nFireDelay_Fireball = 180;
+	m_fHP = m_fMaxHP = 5.0f;
+	m_fStamina = m_fMaxStamina = 5.0f;
+	m_fMana = m_fMaxMana = 5.0f;
+	m_pProgressBar = new progressBar;
+	m_pProgressBar->init(PROGRESSBAR_LOCX, PROGRESSBAR_LOCY, 440, 24);
+
+	m_nFireDelay_Fireball = 55;
 	m_nFireDelayTemp_Fireball = m_nFireDelay_Fireball;
 
 	m_rc = RectMake(m_fX, m_fY, RABBIT_WIDTH, RABBIT_HEIGHT);
@@ -96,6 +105,7 @@ void Rabbit::update()
 	for (int i = 0; i < 6; ++i)
 	{
 		m_pAni[i]->frameUpdate(TIMEMANAGER->getElapsedTime());
+		m_pAni_left[i]->frameUpdate(TIMEMANAGER->getElapsedTime());
 	}
  
 	if (m_bIsChoosed != true)
@@ -131,8 +141,11 @@ void Rabbit::update()
 		}
 	}/////////////////////////////////////////////////////
 
+
+
 	if (m_eState == st_isHurt) ////////// 데미지 이미지에서 아이들로 /////
 	{
+
 		if (m_nHurtCount > m_nHurtCountTemp)
 		{
 			m_nHurtCountTemp++;
@@ -140,8 +153,12 @@ void Rabbit::update()
 		else
 		{
 			m_eState = st_isIdle;
+			m_nHurtCountTemp = 0;
 		}
 	}/////////////////////////////
+
+
+
 
 	if (m_nFireDelayTemp >= 0)
 		m_nFireDelayTemp--;
@@ -157,17 +174,6 @@ void Rabbit::update()
 }
 
 
-void Rabbit::JumpEvent()
-{
-	
-}
-
-void Rabbit::JumpUp()
-{
-	
-
-}
-
 void Rabbit::Gravity(float Gravity)
 {
 	float gravity = 0;
@@ -176,6 +182,22 @@ void Rabbit::Gravity(float Gravity)
 	else
 		gravity += Gravity;
 	m_fY += gravity;
+}
+
+void Rabbit::Damaged(float damage)
+{
+	m_fHP -= damage;
+	if (m_fHP <= 0)
+	{
+		m_fHP = 0;
+		m_bIsAlive = false;
+	}
+
+	if (m_pProgressBar)
+	{
+		m_pProgressBar->setGauge_heal(m_fHP, m_fMaxHP);
+	}
+
 }
 
 void Rabbit::KeyEvent()
@@ -282,7 +304,7 @@ void Rabbit::KeyEvent()
 	{
 		if (!m_bHaveWand == true) return;
 
-		if ((m_eState == st_isIdle || m_eState == st_isRun) && m_nFireDelayTemp_Fireball < 0)
+		if ((m_eState == st_isIdle || m_eState == st_isRun) && m_nFireDelayTemp_Fireball <= 0)
 		{
 			m_pBulletMgr->Fire("fireball", m_fX, m_fY, FIREBALL_SPEED, FIREBALL_RANGE, 1, m_bIsRight, false);
 			m_nFireDelayTemp_Fireball = m_nFireDelay_Fireball;
@@ -306,44 +328,44 @@ void Rabbit::render(HDC hdc)
 		if (m_eState == st_isIdle)
 		{
 			if (m_bIsRight == false)
-				m_pImage_left[0]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[0], PLAYER_RATIO, false, UNSELECTED_STATE);
+				m_pImage_left[0]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[0], PLAYER_RATIO, false, UNSELECTED_STATE);
 			else
-				m_pImage[0]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[0], PLAYER_RATIO, false, UNSELECTED_STATE);
+				m_pImage[0]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[0], PLAYER_RATIO, false, UNSELECTED_STATE);
 		}
 		else if (m_eState == st_isJump)
 		{
 			if (m_bIsRight == false)
-				m_pImage_left[1]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[1], PLAYER_RATIO, false, UNSELECTED_STATE);
+				m_pImage_left[1]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[1], PLAYER_RATIO, false, UNSELECTED_STATE);
 			else
-				m_pImage[1]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[1], PLAYER_RATIO, false, UNSELECTED_STATE);
+				m_pImage[1]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[1], PLAYER_RATIO, false, UNSELECTED_STATE);
 		}
 		else if (m_eState == st_isRun)
 		{
 			if (m_bIsRight == false)
-				m_pImage_left[2]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[2], PLAYER_RATIO, false, UNSELECTED_STATE);
+				m_pImage_left[2]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[2], PLAYER_RATIO, false, UNSELECTED_STATE);
 			else
-				m_pImage[2]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[2], PLAYER_RATIO, false, UNSELECTED_STATE);
+				m_pImage[2]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[2], PLAYER_RATIO, false, UNSELECTED_STATE);
 		}
 		else if (m_eState == st_isHurt)
 		{
 			if (m_bIsRight == false)
-				m_pImage_left[3]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[3], PLAYER_RATIO, false, UNSELECTED_STATE);
+				m_pImage_left[3]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[3], PLAYER_RATIO, false, UNSELECTED_STATE);
 			else
-				m_pImage[3]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[3], PLAYER_RATIO, false, UNSELECTED_STATE);
+				m_pImage[3]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[3], PLAYER_RATIO, false, UNSELECTED_STATE);
 		}
 		else if (m_eState == st_isClimb)
 		{
 			if (m_bIsRight == false)
-				m_pImage_left[4]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[4], PLAYER_RATIO, false, UNSELECTED_STATE);
+				m_pImage_left[4]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[4], PLAYER_RATIO, false, UNSELECTED_STATE);
 			else
-				m_pImage[4]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[4], PLAYER_RATIO, false, UNSELECTED_STATE);
+				m_pImage[4]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[4], PLAYER_RATIO, false, UNSELECTED_STATE);
 		}
 		else if (m_eState == st_isFall)
 		{
 			if (m_bIsRight == false)
-				m_pImage_left[5]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[5], PLAYER_RATIO, false, UNSELECTED_STATE);
+				m_pImage_left[5]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[5], PLAYER_RATIO, false, UNSELECTED_STATE);
 			else
-				m_pImage[5]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[5], PLAYER_RATIO, false, UNSELECTED_STATE);
+				m_pImage[5]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[5], PLAYER_RATIO, false, UNSELECTED_STATE);
 		}
 	}
 	else
@@ -351,44 +373,44 @@ void Rabbit::render(HDC hdc)
 		if (m_eState == st_isIdle)
 		{
 			if (m_bIsRight == false)
-				m_pImage_left[0]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[0], PLAYER_RATIO, true, UNSELECTED_STATE);
+				m_pImage_left[0]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[0], PLAYER_RATIO, true, UNSELECTED_STATE);
 			else
-				m_pImage[0]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[0], PLAYER_RATIO, true, UNSELECTED_STATE);
+				m_pImage[0]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[0], PLAYER_RATIO, true, UNSELECTED_STATE);
 		}
 		else if (m_eState == st_isJump)
 		{
 			if (m_bIsRight == false)
-				m_pImage_left[1]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[1], PLAYER_RATIO, true, UNSELECTED_STATE);
+				m_pImage_left[1]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[1], PLAYER_RATIO, true, UNSELECTED_STATE);
 			else
-				m_pImage[1]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[1], PLAYER_RATIO, true, UNSELECTED_STATE);
+				m_pImage[1]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[1], PLAYER_RATIO, true, UNSELECTED_STATE);
 		}
 		else if (m_eState == st_isRun)
 		{
 			if (m_bIsRight == false)
-				m_pImage_left[2]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[2], PLAYER_RATIO, true, UNSELECTED_STATE);
+				m_pImage_left[2]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[2], PLAYER_RATIO, true, UNSELECTED_STATE);
 			else
-				m_pImage[2]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[2], PLAYER_RATIO, true, UNSELECTED_STATE);
+				m_pImage[2]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[2], PLAYER_RATIO, true, UNSELECTED_STATE);
 		}
 		else if (m_eState == st_isHurt)
 		{
 			if (m_bIsRight == false)
-				m_pImage_left[3]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[3], PLAYER_RATIO, true, UNSELECTED_STATE);
+				m_pImage_left[3]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[3], PLAYER_RATIO, true, UNSELECTED_STATE);
 			else
-				m_pImage[3]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[3], PLAYER_RATIO, true, UNSELECTED_STATE);
+				m_pImage[3]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[3], PLAYER_RATIO, true, UNSELECTED_STATE);
 		}
 		else if (m_eState == st_isClimb)
 		{
 			if (m_bIsRight == false)
-				m_pImage_left[4]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[4], PLAYER_RATIO, true, UNSELECTED_STATE);
+				m_pImage_left[4]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[4], PLAYER_RATIO, true, UNSELECTED_STATE);
 			else
-				m_pImage[4]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[4], PLAYER_RATIO, true, UNSELECTED_STATE);
+				m_pImage[4]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[4], PLAYER_RATIO, true, UNSELECTED_STATE);
 		}
 		else if (m_eState == st_isFall)
 		{
 			if (m_bIsRight == false)
-				m_pImage_left[5]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[5], PLAYER_RATIO, true, UNSELECTED_STATE);
+				m_pImage_left[5]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[5], PLAYER_RATIO, true, UNSELECTED_STATE);
 			else
-				m_pImage[5]->aniRender(hdc, m_rc.left - 48, m_rc.top - 65, m_pAni[5], PLAYER_RATIO, true, UNSELECTED_STATE);
+				m_pImage[5]->aniRender(hdc, m_rc.left - 48, m_rc.top - 61, m_pAni[5], PLAYER_RATIO, true, UNSELECTED_STATE);
 		}
 	}
 	
@@ -397,6 +419,13 @@ void Rabbit::render(HDC hdc)
 
 	if (m_pBulletMgr)
 		m_pBulletMgr->render(hdc);
+
+
+	if (g_saveData.gSelectedInven == 1)
+	{
+		IMAGEMANAGER->findImage("white2")->render(hdc, WINSIZEX / 2 - IMAGEMANAGER->findImage("white2")->getWidth() / 2, 220);
+		m_pProgressBar->render(hdc);
+	}
 }
 
 Rabbit::Rabbit()

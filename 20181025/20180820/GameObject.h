@@ -8,8 +8,10 @@ protected:
 	SYNTHESIZE(float, m_fX, X);
 	SYNTHESIZE(float, m_fY, Y);
 	SYNTHESIZE(float, m_fHP, HP);
+	SYNTHESIZE(float, m_fAngle, Angle);
 	SYNTHESIZE(float, m_fMaxHP, MaxHP);
 	SYNTHESIZE(float, m_fSpeed, Speed);
+	SYNTHESIZE(float, m_fDamage, Damage);
 	SYNTHESIZE(float, m_fWeight, Weight);
 	SYNTHESIZE(float, m_fDef, Def);
 	SYNTHESIZE(bool, m_bIsInvin, IsInvin); // 무적인지 아닌지

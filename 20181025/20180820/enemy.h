@@ -3,6 +3,8 @@
 
 class image;
 class animation;
+class MyHero;
+class BulletManager;
 
 
 class Enemy : public GameObject
@@ -17,22 +19,30 @@ private:
 
 	image * m_pImage_left[2];
 	animation * m_pAni_left[2];
+	MyHero * m_pMyHero;
+	BulletManager * m_pBulletMgr;
 
-	tagEnemyState m_eState;
+	SYNTHESIZE(tagEnemyState, m_eState, State);
 
 	float m_nDetectNum;
-	RECT m_rcMoveArea;
+	SYNTHESIZE(RECT, m_rcMoveArea, rcMoveArea);
 
+	
 	SYNTHESIZE(int, m_nUpgradeNum, UpgradeNum);
 	SYNTHESIZE(tagEnemyPattern, m_ePattern, Pattern);
 	SYNTHESIZE(int, m_nEnemyNum, EnemyNumber);
-	SYNTHESIZE(float, m_fDamage, Damage);
+	SYNTHESIZE(float, m_fFixedX, FixedX);
+	SYNTHESIZE(float, m_fFixedY, FixedY);
 	SYNTHESIZE(int, m_nCurrectWidth, CurrentWidth);
 	SYNTHESIZE(int, m_nCurrectHeight, CurrectHeight);
 	SYNTHESIZE(bool, m_bIsDown, IsDown);
 	SYNTHESIZE(bool, m_bIsCollide, IsCollide);
 	SYNTHESIZE(bool, m_bIsMoving, IsMoving);
+	SYNTHESIZE(int, m_nFireDelay, FireDelay);
+	SYNTHESIZE(int, m_nFireDelayTemp, FireDelayTemp);
+	SYNTHESIZE(bool, m_bFollowOn, FollowOn);
 
+					
 
 	// Pattern에 필요한 변수들
 	int m_nCountStep;
@@ -49,6 +59,7 @@ public:
 	void release();
 	void render(HDC hdc);
 
+	void DetectHero(MyHero * myHero);
 
 	Enemy();
 	~Enemy();

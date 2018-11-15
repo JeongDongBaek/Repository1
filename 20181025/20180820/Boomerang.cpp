@@ -62,7 +62,7 @@ void Boomerang::update_rotate()
 {
 	if (m_bIsReturning == true)
 	{
-		m_fAngle_Move = MY_UTIL::getAngle(m_fX, m_fY, m_fFiredX, m_fFiredY);
+		m_fAngle_Move = MY_UTIL::getAngle(m_rc.left, m_rc.top, m_fFiredX, m_fFiredY);
 		m_fAngle_Move += 0.22f;
 	}
 

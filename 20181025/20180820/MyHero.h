@@ -19,6 +19,7 @@ protected:
 	SYNTHESIZE(float, m_fJumpPower, JumpPower);
 	SYNTHESIZE(float, m_fJumpTemp, JumpTemp);
 	SYNTHESIZE(int, m_nCoolDown, CoolDown);
+	SYNTHESIZE(int, m_nCoolDownTemp, CoolDownTemp);
 	SYNTHESIZE(float, m_fAccrancy, Accrancy); // 작을수록 좋다
 
 	//RECT m_rc_Collide;
@@ -30,6 +31,8 @@ protected:
 	SYNTHESIZE(RECT, m_rc_Collide, RectCollide);
 	SYNTHESIZE(int, m_nHurtCount, HurtCount);
 	SYNTHESIZE(int, m_nHurtCountTemp, HurtCountTemp);
+	SYNTHESIZE(int, m_nFireDelay_Fireball, FireDelay_Fireball); // 작을수록 좋다 , 실제값	
+	SYNTHESIZE(int, m_nFireDelayTemp_Fireball, FireDelayTemp_Fireball); // 작을수록 좋다 , 실제값을 잠시 담고있는 변수 유동적이다.
 
 public:
 	virtual HRESULT init();

@@ -1,8 +1,10 @@
 #pragma once
 #include "MyHero.h"
 
+class BulletManager;
 class animation;
 class image;
+class progressBar;
 
 class Squirrel : public MyHero
 {
@@ -13,12 +15,22 @@ private:
 
 	animation * m_pAni[6];
 	animation * m_pAni_left[6];
+	BulletManager * m_pBulletMgr;
+
+	progressBar * m_pProgressBar;
+
 
 public:
-	virtual HRESULT init();
-	virtual void update();
-	virtual void release();
-	virtual void render(HDC hdc);
+	HRESULT init();
+	void update();
+	void KeyEvent();
+	void Gravity(float Gravity);
+	void Damaged(float damage);
+
+	void release();
+	void render(HDC hdc);
+
+
 
 	Squirrel();
 	~Squirrel();

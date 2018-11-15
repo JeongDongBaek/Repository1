@@ -43,8 +43,8 @@ HRESULT Title_Scene::init()
 	IMAGEMANAGER->addImage("left_eagle_idle", "image/enemy/left_eagle_idle_ani.bmp", 160, 41, 4, 1, true, RGB(255, 255, 255));
 	IMAGEMANAGER->addImage("frog_idle", "image/enemy/frog_idle_ani.bmp", 140, 30, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("left_frog_idle", "image/enemy/left_frog_idle_ani.bmp", 140, 30, 4, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("frog_jump", "image/enemy/frog_jump_ani.bmp", 105, 35, 3, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("left_frog_jump", "image/enemy/left_frog_jump_ani.bmp", 105, 35, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("frog_jump", "image/enemy/frog_jump_ani.bmp", 70, 35, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("left_frog_jump", "image/enemy/left_frog_jump_ani.bmp", 70, 35, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("oposum_idle", "image/enemy/oposum_idle_ani.bmp", 216, 28, 6, 1, true, RGB(255, 255, 255));
 	IMAGEMANAGER->addImage("left_oposum_idle", "image/enemy/left_oposum_idle_ani.bmp", 216, 28, 6, 1, true, RGB(255, 255, 255));
 	IMAGEMANAGER->addImage("slug_idle", "image/enemy/slug_idle_ani.bmp", 128 * 6, 21 * 6, 4, 1, true, RGB(255, 0, 255));
@@ -125,6 +125,12 @@ HRESULT Title_Scene::init()
 	IMAGEMANAGER->addImage("fireball", "image/fireball.bmp", 768 / 2, 128 / 2, 6, 1, true, RGB(0, 0, 0));
 	IMAGEMANAGER->addImage("fireball_left", "image/left_fireball.bmp", 768 / 2, 128 / 2, 6, 1, true, RGB(0, 0, 0));
 	IMAGEMANAGER->addImage("text2", "image/text2.bmp", 280 , 220, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("label", "image/ui/label.bmp", (WINSIZEX / 10) * 5, (WINSIZEY / 12) * 5, true, RGB(255, 0, 255));
+
+	/*IMAGEMANAGER->addImage("health_bar", "image/ui/health_bar.bmp", 220, 24, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("empty_bar", "image/ui/empty_bar.bmp", 220, 24, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("mana_bar", "image/ui/mana_bar.bmp", 220, 24, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("stamina_bar", "image/ui/stamina_bar.bmp", 220, 24, true, RGB(255, 0, 255));*/
 
 	
 	///////////////////

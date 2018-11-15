@@ -13,7 +13,7 @@ char szFileName1[512];
 
 void StageScene::FixedLoad()
 {
-	TXTDATA->getSingleton()->mapLoad("SaveFile/te3.map", m_pTiles);
+	TXTDATA->getSingleton()->mapLoad("SaveFile/te9.map", m_pTiles);
 
 }
 
@@ -69,6 +69,7 @@ HRESULT StageScene::init()
 	m_bMiniMapOn = false;
 	m_fUIscaleUp = 1.0f;
 	m_nSelectedInven = NULL_CLICK; // 0여우 1토끼 2다람쥐
+	g_saveData.gSelectedInven = 3;
 
 	m_pImg_Back = IMAGEMANAGER->findImage("back");
 	m_pImg_Middle[0] = IMAGEMANAGER->findImage("middle");
@@ -185,6 +186,8 @@ void StageScene::update()
 {
 	SCROLL->update(m_pMyHero->getX(), m_pMyHero->getY());
 	m_pRabbit->update();
+	m_pFox->update();
+	m_pSquirrel->update();
 	ENEMYMANAGER->update();
 
 	m_nNumberOfTemp = 0;
@@ -209,20 +212,31 @@ void StageScene::update()
 	for (int i = 0; i < m_nNumberOfBlock; ++i)
 	{
 		RECT temp_rc;
-		if (IntersectRect(&temp_rc, &(m_pRabbit->getRect()), &(m_Collide_Tiles[i])))
+		if (IntersectRect(&temp_rc, &(m_pMyHero->getRect()), &(m_Collide_Tiles[i])))
 		{
 
-			if (m_Collide_Tiles[i].bottom >= m_pMyHero->getRect().top && m_pMyHero->getState() == st_isFall || m_pMyHero->getState() == st_isJump)
+			if (m_pMyHero->getRect().top <= m_Collide_Tiles[i].bottom &&
+				m_pMyHero->getRect().bottom >= m_Collide_Tiles[i].bottom
+				&& m_pMyHero->getState() == st_isFall || m_pMyHero->getState() == st_isJump)  // 벽이 위에 있고 캐릭터가 위로감
 			{
-				m_pMyHero->setIsRected(false);
-				m_pMyHero->setIsGravity(true);
+
+				
+					m_pMyHero->setIsRected(false);
+					m_pMyHero->setIsGravity(true);
+				
 			}
 
-			if (m_Collide_Tiles[i].top <= m_pMyHero->getRect().bottom)
+			if (m_pMyHero->getRect().bottom >= m_Collide_Tiles[i].top &&
+				m_pMyHero->getRect().top <= m_Collide_Tiles[i].top
+				&& m_pMyHero->getState() == st_isFall || m_pMyHero->getState() == st_isJump)  // 벽이 아래에 있고 캐릭터가 아래로감
 			{
-				m_pMyHero->setIsRected(true);
-				m_pMyHero->setY(m_pMyHero->getY() + (temp_rc.top - temp_rc.bottom));
-				m_pMyHero->setIsGravity(false);
+
+				
+					m_pMyHero->setIsRected(true);
+					m_pMyHero->setY(m_Collide_Tiles[i].top - 5.0f);
+					m_pMyHero->setIsGravity(false);
+				
+				
 			}
 			
 
@@ -287,7 +301,7 @@ void StageScene::UI_Click()
 			if (PtInRect(&m_rcUIcharacter[i], g_ptMouse))
 			{
 				st_mouse = tagMOUSE_STATE::st_MouseUp;
-				m_nSelectedInven = i;
+				g_saveData.gSelectedInven = i;
 			}
 			else
 			{
@@ -334,13 +348,40 @@ void StageScene::Item_Collide()
 
 }
 
-void StageScene::Unit_TileCollide() // 유닛과 벽의 충돌
+void StageScene::Unit_TileCollide() // 에니미과 벽의 충돌
 {
 
 	std::vector<Enemy*> vEnemy = ENEMYMANAGER->getVec();
 	std::vector<Enemy*>::iterator EnemyIter;
 	for (EnemyIter = vEnemy.begin(); EnemyIter != vEnemy.end(); EnemyIter++)
 	{
+
+
+			if ((*EnemyIter)->getPattern() == Pattern_Stop)
+			{
+				RECT temp_rc5;
+				if (IntersectRect(&temp_rc5, (&m_pMyHero->getRect()), &(*EnemyIter)->getrcMoveArea()))
+				{
+
+					if ((*EnemyIter)->getX() <= m_pMyHero->getX())
+					{
+						(*EnemyIter)->setIsRight(true);
+					}
+					else
+						(*EnemyIter)->setIsRight(false);
+
+					(*EnemyIter)->setState(st_isAttack_Enemy);
+					
+				}
+				else
+				{
+					(*EnemyIter)->setState(st_isIdle_Enemy);
+
+				}
+			}
+		
+
+
 		for (int i = 0; i < m_nNumberOfBlock; ++i)
 		{
 			RECT temp_rc;
@@ -369,7 +410,30 @@ void StageScene::Unit_TileCollide() // 유닛과 벽의 충돌
 						if ((*EnemyIter)->getRect().right >= m_Collide_Tiles[i].left && (*EnemyIter)->getRect().left <= m_Collide_Tiles[i].left) // 위(캐릭터) 아래(벽)
 							(*EnemyIter)->setIsRight(false);
 					}
-					
+				}
+
+				else if ((*EnemyIter)->getPattern() == Pattern_moveNormal) // 바닥은 인식못하니 벽을 깔아서 벽을 인식하게하자
+				{
+					if ((*EnemyIter)->getRect().bottom - 20.0f > m_Collide_Tiles[i].top)
+					{
+						if ((*EnemyIter)->getRect().left <= m_Collide_Tiles[i].right && (*EnemyIter)->getRect().right >= m_Collide_Tiles[i].right) // 위(캐릭터) 아래(벽)
+							(*EnemyIter)->setIsRight(true);
+
+						if ((*EnemyIter)->getRect().right >= m_Collide_Tiles[i].left && (*EnemyIter)->getRect().left <= m_Collide_Tiles[i].left) // 위(캐릭터) 아래(벽)
+							(*EnemyIter)->setIsRight(false);
+					}
+				}
+
+				else if ((*EnemyIter)->getPattern() == Pattern_JumpOfFlog || (*EnemyIter)->getPattern() == Pattern_JumpOfGlass) // 바닥은 인식못하니 벽을 깔아서 벽을 인식하게하자
+				{
+					if ((*EnemyIter)->getRect().bottom - 20.0f > m_Collide_Tiles[i].top)
+					{
+						if ((*EnemyIter)->getRect().left <= m_Collide_Tiles[i].right && (*EnemyIter)->getRect().right >= m_Collide_Tiles[i].right) // 위(캐릭터) 아래(벽)
+							(*EnemyIter)->setIsRight(true);
+
+						if ((*EnemyIter)->getRect().right >= m_Collide_Tiles[i].left && (*EnemyIter)->getRect().left <= m_Collide_Tiles[i].left) // 위(캐릭터) 아래(벽)
+							(*EnemyIter)->setIsRight(false);
+					}
 				}
 
 			}
@@ -389,25 +453,46 @@ void StageScene::Character_UnitCollide() // 캐릭터와 유닛과의 충돌
 		RECT temp_rc;
 		if (IntersectRect(&temp_rc, (&m_pMyHero->getRect()), &(*EnemyIter)->getRect()))
 		{
+
 			if ((*EnemyIter)->getRect().top <= (m_pMyHero)->getRect().bottom &&
 				(*EnemyIter)->getRect().bottom >= (m_pMyHero)->getRect().top && m_pMyHero->getIsRected() == false)
 			{
 				m_pMyHero->setJumpTemp(m_pMyHero->getJumpPower() / 2 - 1.0f);
-				
+				(*EnemyIter)->setDamage(m_pMyHero->getDamage());
 			}
-			
-			// 몬스터의 왼쪽 충돌
-			else if ((*EnemyIter)->getRect().left <= m_pMyHero->getRect().right &&
-				(*EnemyIter)->getRect().right >= m_pMyHero->getRect().left)
+
+			else if ((m_pMyHero)->getRect().right >= (*EnemyIter)->getRect().left &&
+				(m_pMyHero)->getRect().left <= (*EnemyIter)->getRect().left) // 몬스터의 왼쪽을 캐릭터가 충돌
+			{
+				if (m_pMyHero->getIsInvin() == false || m_pMyHero->getState() != st_isHurt)
+				{
+
+					if (m_pMyHero->getIsRight() == true)
+						m_pMyHero->setX(m_pMyHero->getX() - 45.0f);
+					else
+						m_pMyHero->setX(m_pMyHero->getX() + 45.0f);
+
+					m_pMyHero->setState(st_isHurt);
+					m_pMyHero->setHurtCountTemp(0);
+				}
+			}
+			else if ((m_pMyHero)->getRect().left <= (*EnemyIter)->getRect().right &&
+				(m_pMyHero)->getRect().right >= (*EnemyIter)->getRect().right) // 몬스터의 오른쪽을 캐릭터가 충돌
 			{
 				if (m_pMyHero->getIsRight() == true)
 					m_pMyHero->setX(m_pMyHero->getX() - 45.0f);
 				else
 					m_pMyHero->setX(m_pMyHero->getX() + 45.0f);
-				
+
 				m_pMyHero->setState(st_isHurt);
 				m_pMyHero->setHurtCountTemp(0);
-			}		
+			}
+			
+		}
+
+			
+			
+				
 		}
 		
 
@@ -424,7 +509,7 @@ void StageScene::Character_UnitCollide() // 캐릭터와 유닛과의 충돌
 	}
 */
 	
-}
+
 
 
 
@@ -459,9 +544,10 @@ void StageScene::KeyEvent()
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
 	{
-		if (m_nSelectedInven <= 2)
+		if (g_saveData.gSelectedInven <= 2)
 		{
 			m_nSelectedInven = 3;
+			g_saveData.gSelectedInven = 3;
 		}
 	}
 
@@ -502,6 +588,10 @@ void StageScene::render(HDC hdc)
 	if (g_saveData.gIsRectangleOn == true)
 	{
 		Rectangle(hdc, m_pRabbit->getRect().left, m_pRabbit->getRect().top, m_pRabbit->getRect().right, m_pRabbit->getRect().bottom);
+		Rectangle(hdc, m_pFox->getRect().left, m_pFox->getRect().top, m_pFox->getRect().right, m_pFox->getRect().bottom);
+		Rectangle(hdc, m_pSquirrel->getRect().left, m_pSquirrel->getRect().top, m_pSquirrel->getRect().right, m_pSquirrel->getRect().bottom);
+
+
 
 		for (int i = 0; i < m_nNumberOfBlock; ++i)
 			Rectangle(hdc, m_Collide_Tiles[i].left, m_Collide_Tiles[i].top, m_Collide_Tiles[i].right, m_Collide_Tiles[i].bottom);
@@ -512,11 +602,14 @@ void StageScene::render(HDC hdc)
 		SetTextColor(hdc, RGB(5, 0, 15));
 		MY_UTIL::FontOption(hdc, 22, 0);
 
-		sprintf_s(SzText1, "fX : %f /  fY : %f  ", m_pRabbit->getX(), m_pRabbit->getY());
+		sprintf_s(SzText1, "fX : %f /  fY : %f  ", m_pMyHero->getX(), m_pMyHero->getY());
 		TextOut(hdc, WINSIZEX / 2 -100, 40, SzText1, strlen(SzText1));
 
-		sprintf_s(SzText1, "left : %ld /  top : %ld  ", m_pRabbit->getRect().left, m_pRabbit->getRect().top);
+		sprintf_s(SzText1, "left : %ld /  top : %ld  ", m_pMyHero->getRect().left, m_pMyHero->getRect().top);
 		TextOut(hdc, WINSIZEX / 2 - 100, 85, SzText1, strlen(SzText1));
+
+		
+
 
 		std::vector<Enemy*> vEnemy = ENEMYMANAGER->getVec();
 		std::vector<Enemy*>::iterator EnemyIter;
@@ -535,7 +628,8 @@ void StageScene::render(HDC hdc)
 	ITEMMANAGER->render(hdc);
 
 	m_pRabbit->render(hdc);
-
+	m_pFox->render(hdc);
+	m_pSquirrel->render(hdc);
 
 
 	m_pImg_UI_char->render(hdc, 12, 12); 
@@ -555,10 +649,10 @@ void StageScene::render(HDC hdc)
 	else
 		m_pImg_UISquirrel->frameRender(hdc, 66 + 207, 22, 1, 0, m_fUIscaleUp);
 
-	if (m_nSelectedInven <= 2)
+	/*if (g_saveData.gSelectedInven <= 2)
 	{
 		IMAGEMANAGER->findImage("white2")->render(hdc, WINSIZEX / 2 - IMAGEMANAGER->findImage("white2")->getWidth() / 2, 220);
-	}
+	}*/
 
 	//////////////////////// 미니맵 ///////////////////////////
 	if (m_bMiniMapOn == true)
