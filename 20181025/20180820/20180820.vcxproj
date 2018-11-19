@@ -169,6 +169,7 @@
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="Inventory.h" />
+    <ClInclude Include="InventoryManager.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="ItemManager.h" />
     <ClInclude Include="keyManager.h" />
@@ -218,6 +219,7 @@
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="InventoryManager.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="ItemManager.cpp" />
     <ClCompile Include="keyManager.cpp" />
