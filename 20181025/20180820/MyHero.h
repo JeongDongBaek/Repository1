@@ -31,6 +31,8 @@ protected:
 
 	int m_nJumpCount;
 
+	SYNTHESIZE(RECT, m_rcLeft, rcLeft);
+	SYNTHESIZE(RECT, m_rcRight, rcRight);
 	SYNTHESIZE(RECT, m_rc_Collide, RectCollide);
 	SYNTHESIZE(int, m_nHurtCount, HurtCount);
 	SYNTHESIZE(int, m_nHurtCountTemp, HurtCountTemp);

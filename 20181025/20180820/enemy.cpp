@@ -13,6 +13,7 @@ HRESULT Enemy::init(int EnemyNum, tagEnemyPattern Pattern, int Upgrade)
 	m_pImage[1] = NULL;
 	m_pAni[1] = NULL;
 
+	m_bItemDrop = false;
 	m_pImage_left[1] = NULL;
 	m_pAni_left[1] = NULL;
 	m_bIsAlive = true;
@@ -170,6 +171,8 @@ HRESULT Enemy::init(int EnemyNum, tagEnemyPattern Pattern, int Upgrade)
 		m_fHP = 30.0f;
 		m_fDamage = 3.0f;
 		m_fSpeed = 1.8f;
+		m_nCountStep = 280;
+		m_nCountSteptemp = 0;
 		if (m_ePattern == Pattern_ofRule) m_ePattern = Pattern_Slug;
 		break;
 	case 9:
@@ -246,6 +249,9 @@ HRESULT Enemy::init(int EnemyNum, tagEnemyPattern Pattern, int Upgrade)
 void Enemy::update()
 {
 	if (!m_bIsAlive == true) return;
+
+	if (m_fHP <= 0)
+		m_bIsAlive = false;
 
 	m_rc = RectMake(m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY(), m_nCurrectWidth, m_nCurrectHeight);
 
@@ -504,8 +510,46 @@ void Enemy::Pattern_move()
 
 		break;
 	case Pattern_Slug:
+
+		if (m_bIsMoving == false)
+		{
+			m_nStopCount++;
+			if (m_nStopCount > RANDOM->getFromIntTo(80, 100))
+			{
+				m_nStopCount = 0;
+			}
+		}
+
+
+		if (m_bIsMoving == true)
+		{
+			if (m_bIsRight == true)
+				m_fX += m_fSpeed;
+			else
+				m_fX -= m_fSpeed;
+
+			m_nCountStep++;
+			if (m_nCountStep > m_nCountSteptemp)
+			{
+				m_nCountSteptemp = RANDOM->getFromIntTo(90, 120);
+				m_nCountStep = 0;
+				if (m_bIsRight == true)
+					m_fX += m_fSpeed * RANDOM->getFromFloatTo(1.0f, 4.0f);
+				else
+					m_fX -= m_fSpeed * RANDOM->getFromFloatTo(1.0f, 4.0f);;
+			}
+		}
+
+
+
 		break;
 	}
+}
+
+void Enemy::Damaged(float damageNum)
+{
+	m_fHP -= damageNum;
+
 }
 
 
@@ -695,9 +739,9 @@ void Enemy::render(HDC hdc)
 		break;
 	case 8:
 		if (m_bIsRight == true)
-			m_pImage[0]->aniRender(hdc, m_rc.left - 36, m_rc.top - 45, m_pAni[0], 1.7f, false, 100);
+			m_pImage[0]->aniRender(hdc, m_rc.left - SLUG_WIDTH / 2, m_rc.top - SLUG_HEIGHT / 2, m_pAni[0], 1.7f, false, 100);
 		else
-			m_pImage_left[0]->aniRender(hdc, m_rc.left - 36, m_rc.top - 45, m_pAni_left[0], 1.7f, false, 100);
+			m_pImage_left[0]->aniRender(hdc, m_rc.left - SLUG_WIDTH / 2, m_rc.top - SLUG_HEIGHT / 2, m_pAni_left[0], 1.7f, false, 100);
 		break;
 	case 9:
 		if (m_bIsRight == true)

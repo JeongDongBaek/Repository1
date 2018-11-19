@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Title_Scene.h"
 #include "image.h"
+#include "animation.h"
 
 HRESULT Title_Scene::init()
 {
@@ -57,6 +58,7 @@ HRESULT Title_Scene::init()
 	IMAGEMANAGER->addImage("enemy_box", "image/enemy_box.bmp", 120, 110,1,1, true, RGB(255,255,255));
 	IMAGEMANAGER->addImage("boss_box", "image/boss_box.bmp", 216, 198,1,1, true, RGB(255,255,255));
 	IMAGEMANAGER->addImage("text", "image/text.bmp", 260, 210, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("BG1", "image/BG1.bmp", WINSIZEX * 16, WINSIZEY,16,1, true, RGB(255, 0, 255));
 
 	// Player///////////
 	IMAGEMANAGER->addImage("fox_idle", "image/fox/player-idle-1-horz.bmp", 132, 32, 4, 1, true, RGB(255, 0, 255));
@@ -147,7 +149,13 @@ HRESULT Title_Scene::init()
 	m_pImg_BG = IMAGEMANAGER->addImage("black", "image/black.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	m_pImg_Parchment = IMAGEMANAGER->addImage("parchment", "image/parchment.bmp", (WINSIZEX / 4) * 3, (WINSIZEY / 4) * 3, true, RGB(255, 255, 255));
 	
+	m_pImg_BG = IMAGEMANAGER->findImage("BG1");
 
+	m_pAni = new animation;
+	m_pAni->init(m_pImg_BG->getWidth(), m_pImg_BG->getHeight(), m_pImg_BG->getFrameWidth(), m_pImg_BG->getFrameHeight());
+	m_pAni->setDefPlayFrame(false, true);
+	m_pAni->setFPS(10);
+	m_pAni->start();
 
 	AddFontResourceA("BMHANNAAir_ttf.ttf");
 
@@ -156,6 +164,7 @@ HRESULT Title_Scene::init()
 
 void Title_Scene::update()
 {
+	m_pAni->frameUpdate(TIMEMANAGER->getElapsedTime());
 	KeyEvent();
 
 }
@@ -206,7 +215,7 @@ void Title_Scene::release()
 
 void Title_Scene::render(HDC hdc)
 {
-	m_pImg_BG->render(hdc, 0, 0);
+	m_pImg_BG->aniRender(hdc, 0, 0, m_pAni, 1.0f,false);
 
 	m_pImg_Menu[m_nindex_Scene]->render(hdc, WINSIZEX / 2 - m_pImg_Menu[0]->getWidth() / 2 , WINSIZEY / 2 + 200);
 
@@ -261,7 +270,7 @@ void Title_Scene::render(HDC hdc)
 		sprintf_s(SzText2, "%s  ", "2018.10.01 ~ 2018.10.22");
 		TextOut(hdc, WINSIZEX / 2 - 163, tempS + temp, SzText2, strlen(SzText2)); temp += 58;
 
-		MY_UTIL::FontDelete(hdc);
+		//MY_UTIL::FontDelete(hdc);
 
 	}
 

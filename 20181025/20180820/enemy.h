@@ -41,6 +41,7 @@ private:
 	SYNTHESIZE(int, m_nFireDelay, FireDelay);
 	SYNTHESIZE(int, m_nFireDelayTemp, FireDelayTemp);
 	SYNTHESIZE(bool, m_bFollowOn, FollowOn);
+	SYNTHESIZE(bool, m_bItemDrop, ItemDrop);
 
 					
 
@@ -55,6 +56,7 @@ public:
 	HRESULT init(int EnemyNum, tagEnemyPattern Pattern, int Upgrade);
 	void update();
 	void Pattern_move();
+	void Damaged(float damageNum);
 
 	void release();
 	void render(HDC hdc);

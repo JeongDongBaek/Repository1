@@ -70,7 +70,8 @@ void Editor_SetSize::render(HDC hdc)
 	// TRANSPARENT : 투명, OPAQUE : 불투명
 	SetBkMode(hdc, TRANSPARENT);
 	SetTextColor(hdc, RGB(255, 240, 200));
-	MY_UTIL::FontOption(hdc, 42, 0);
+	g_hFont = CreateFont(48, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN, "배달의민족 한나체 Air");
+	g_OldFont = (HFONT)SelectObject(hdc, g_hFont);
 
 	sprintf_s(SzText2, "%s :  %d", "X축 크기" , m_nTileCountX);
 	TextOut(hdc, WINSIZEX / 2 - 110, 100 + temp, SzText2, strlen(SzText2)); temp += 58;

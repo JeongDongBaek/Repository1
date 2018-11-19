@@ -47,13 +47,14 @@ HRESULT Squirrel::init()
 	m_fWeight = 1.0f;
 	m_bIsRight = true;
 	m_bIsJumped = false;
-	m_bHaveWand = true;
+	m_bHaveWand = false;
 	m_bIsFloating = false;
 	m_bIsRected = false;
 	m_bIsFalling = false;
 	m_bIsGravity = true;
 	m_bIsAlive = true;
 
+	m_fDamage = 1.0f;
 	m_fHP = m_fMaxHP = 5.0f;
 	m_fStamina = m_fMaxStamina = 5.0f;
 	m_fMana = m_fMaxMana = 5.0f;
@@ -73,8 +74,17 @@ HRESULT Squirrel::init()
 
 void Squirrel::update()
 {
-	m_rc = RectMake(m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY(), SQUIRREL_WIDTH, SQUIRREL_HEIGHT);
+	if (g_saveData.gGamePause == true) return;
 
+	if (m_fHP <= 0)
+	{
+		m_fHP = 0;
+		m_bIsAlive = false;
+	}
+
+	m_rc = RectMake(m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY(), SQUIRREL_WIDTH, SQUIRREL_HEIGHT);
+	m_rcLeft = RectMake(m_fX - SQUIRREL_WIDTH / 4 + 10 - SCROLL->GetX(), m_fY - SCROLL->GetY() + 20, 28, 5);
+	m_rcRight = RectMake(m_fX + SQUIRREL_WIDTH / 2 + 15 - SCROLL->GetX(), m_fY - SCROLL->GetY() + 20, 28, 5);
 
 	if (m_fX < 0) m_fX = 0;
 	if (m_fX > g_saveData.gTileMaxCountX * TILESIZEX_STAGE) g_saveData.gTileMaxCountX * TILESIZEX_STAGE;
@@ -138,7 +148,13 @@ void Squirrel::update()
 		}
 	}/////////////////////////////
 
-
+	if (m_bIsGravity == true)
+	{
+		m_nGravityTemp += 0.9f;
+		m_fY += 2.3f + m_nGravityTemp;
+	}
+	else
+		m_nGravityTemp = 0;
 
 
 

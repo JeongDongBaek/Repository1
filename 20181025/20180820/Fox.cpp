@@ -49,7 +49,7 @@ HRESULT Fox::init()
 	m_fJumpPower = -20.5f;
 	m_fWeight = 0.95f;
 	m_bIsJumped = false;
-	m_bHaveWand = true;
+	m_bHaveWand = false;
 	m_bIsFloating = false;
 	m_bIsRight = true;
 	m_bIsRected = false;
@@ -58,7 +58,7 @@ HRESULT Fox::init()
 	m_bIsAlive = true;
 	m_bIsGravity = true;
 
-
+	m_fDamage = 1.0f;
 	m_fHP = m_fMaxHP = 5.0f;
 	m_fStamina = m_fMaxStamina = 5.0f;
 	m_fMana = m_fMaxMana = 5.0f;
@@ -77,7 +77,26 @@ HRESULT Fox::init()
 
 void Fox::update()
 {
+
+
+
+	if (g_saveData.gGamePause == true) return;
+
+	if (m_pBulletMgr)
+		m_pBulletMgr->update();
+
+	if (m_bIsAlive == false) return;
+
+	if (m_fHP <= 0)
+	{
+		m_fHP = 0;
+		m_bIsAlive = false;
+	}
+
 	m_rc = RectMake(m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY(), FOX_WIDTH, FOX_HEIGHT);
+	m_rcLeft = RectMake(m_fX - FOX_WIDTH / 4 + 10 - SCROLL->GetX(), m_fY - SCROLL->GetY() + 20, 28, 5);
+	m_rcRight = RectMake(m_fX + FOX_WIDTH / 2 + 15 - SCROLL->GetX(), m_fY - SCROLL->GetY() + 20, 28, 5);
+
 
 	if (m_fX < 0) m_fX = 0;
 	if (m_fX > g_saveData.gTileMaxCountX * TILESIZEX_STAGE) g_saveData.gTileMaxCountX * TILESIZEX_STAGE;
@@ -143,7 +162,13 @@ void Fox::update()
 		}
 	}/////////////////////////////
 
-
+	if (m_bIsGravity == true)
+	{
+		m_nGravityTemp += 0.9f;
+		m_fY += 2.3f + m_nGravityTemp;
+	}
+	else
+		m_nGravityTemp = 0;
 
 
 
@@ -152,8 +177,6 @@ void Fox::update()
 	if (m_nFireDelayTemp_Fireball >= 0)
 		m_nFireDelayTemp_Fireball--;
 
-	if (m_pBulletMgr)
-		m_pBulletMgr->update();
 }
 
 void Fox::KeyEvent()
@@ -293,6 +316,12 @@ void Fox::release()
 
 void Fox::render(HDC hdc)
 {
+
+
+	m_pBulletMgr->render(hdc);
+
+	if (m_bIsAlive == false) return;
+
 	if (m_bIsChoosed == true)
 	{
 		if (m_eState == st_isIdle)
@@ -384,8 +413,6 @@ void Fox::render(HDC hdc)
 				m_pImage_left[5]->aniRender(hdc, m_rc.left - 45, m_rc.top - 59, m_pAni_left[5], PLAYER_RATIO, true, UNSELECTED_STATE);
 		}
 	}
-
-	m_pBulletMgr->render(hdc);
 
 	if (g_saveData.gSelectedInven == 0)
 	{

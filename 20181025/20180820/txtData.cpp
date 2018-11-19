@@ -141,6 +141,7 @@ void txtData::mapLoad(const char * loadFileName, tagTILE* tiles)
 
 	ReadFile(hFile, tiles, sizeof(tagTILE) *g_saveData.gTileMaxCountX *g_saveData.gTileMaxCountY, &read, NULL);
 
+
 	CloseHandle(hFile);
 }
 

@@ -368,6 +368,8 @@ void Editor_Scene::update()
 
 void Editor_Scene::KeyEvent()
 {
+	m_pTiles[0].unitID = g_saveData.gTileMaxCountX;
+	m_pTiles[1].unitID = g_saveData.gTileMaxCountY;
 	if (KEYMANAGER->isOnceKeyDown(VK_F1))
 	{
 		if (m_bIsHelpOn == true)
@@ -640,10 +642,11 @@ void Editor_Scene::render(HDC hdc)
 				char SzText3[24];
 				SetBkMode(hdc, TRANSPARENT);
 				SetTextColor(hdc, RGB(255, 244, 210));
-				MY_UTIL::FontOption(hdc, 11, 0);
+				g_hFont = CreateFont(11, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN, "배달의민족 한나체 Air");
+				g_OldFont = (HFONT)SelectObject(hdc, g_hFont);
 				sprintf_s(SzText3, "%d %d", m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left  , m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top  );
 				TextOut(hdc, m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left , m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top , SzText3, strlen(SzText3));
-				MY_UTIL::FontDelete(hdc);
+				//MY_UTIL::FontDelete(hdc);
 
 			}
 
@@ -871,7 +874,7 @@ void Editor_Scene::render(HDC hdc)
 				break;
 			}
 			DrawText(hdc, SzText1, strlen(SzText1), &temp_rc, DT_WORDBREAK);
-			MY_UTIL::FontDelete(hdc);
+			//MY_UTIL::FontDelete(hdc);
 
 		}
 
@@ -926,7 +929,7 @@ void Editor_Scene::render(HDC hdc)
 				break;
 			}
 			DrawText(hdc, SzText1, strlen(SzText1), &temp_rc, DT_WORDBREAK);
-			MY_UTIL::FontDelete(hdc);
+			//MY_UTIL::FontDelete(hdc);
 
 		}
 
@@ -946,7 +949,8 @@ void Editor_Scene::render(HDC hdc)
 		200,
 		90
 	);;
-	MY_UTIL::FontOption(hdc, 42, 0);
+	g_hFont = CreateFont(42, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN, "배달의민족 한나체 Air");
+	g_OldFont = (HFONT)SelectObject(hdc, g_hFont);
 	SetTextColor(hdc, RGB(240, 200, 98));
 	sprintf_s(SzText2, "도움말 : F1");
 	DrawText(hdc, SzText2, strlen(SzText2), &temp_rc2, DT_WORDBREAK);
@@ -957,7 +961,8 @@ void Editor_Scene::render(HDC hdc)
 
 		char SzText9[64];
 		int tempG = 0;
-		MY_UTIL::FontOption(hdc, 36, 0);
+		g_hFont = CreateFont(36, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN, "배달의민족 한나체 Air");
+		g_OldFont = (HFONT)SelectObject(hdc, g_hFont);
 		SetTextColor(hdc, RGB(40, 10, 20));
 		sprintf_s(SzText9, "UI창 ON / OFF : F2");
 		TextOut(hdc, WINSIZEX / 2 - 180, 160, SzText9, strlen(SzText9)); tempG += 77;
@@ -976,7 +981,7 @@ void Editor_Scene::render(HDC hdc)
 
 		sprintf_s(SzText9, "PAGEUP / PAGEDOWN");
 		TextOut(hdc, WINSIZEX / 2 - 180, 160 + tempG, SzText9, strlen(SzText9)); tempG += 77;
-		MY_UTIL::FontDelete(hdc);
+		//MY_UTIL::FontDelete(hdc);
 	}
 
 }

@@ -50,12 +50,12 @@ HRESULT Rabbit::init()
 	m_nHurtCount = 55;
 	m_nHurtCountTemp = 0;
 	m_fSpeed = 4.0f;
-	m_fJumpPower = -24.0f;
-	m_fWeight = 0.9f;
+	m_fJumpPower = -21.2f;
+	m_fWeight = 0.95f;
 	m_fAccrancy = 0.15f; // 1레벨 0.15 2레벨 0.11f 3레벨 0.07f  //-0.04씩 줄어듬
 	m_bIsBoomerangOn = true;
 	m_bIsJumped = false;
-	m_bHaveWand = true;
+	m_bHaveWand = false;
 	m_bIsFloating = false;
 	m_bIsRected = false;
 	m_bIsFalling = false;
@@ -66,6 +66,7 @@ HRESULT Rabbit::init()
 	m_nFireDelay = 150; // 1레벨 150 2레벨 130 3레벨 110 
 	m_nFireDelayTemp = m_nFireDelay;
 
+	m_fDamage = 1.0f;
 	m_fHP = m_fMaxHP = 5.0f;
 	m_fStamina = m_fMaxStamina = 5.0f;
 	m_fMana = m_fMaxMana = 5.0f;
@@ -77,6 +78,8 @@ HRESULT Rabbit::init()
 
 	m_rc = RectMake(m_fX, m_fY, RABBIT_WIDTH, RABBIT_HEIGHT);
 
+	m_rcLeft = RectMakeCenter(m_fX - 25, m_fY, 30, 30);
+	m_rcLeft = RectMakeCenter(m_fX + 25, m_fY, 30, 30);
 
 	return S_OK;
 }
@@ -85,9 +88,17 @@ void Rabbit::update()
 {
 	if (g_saveData.gGamePause == true) return;
 
+	if (m_fHP <= 0)
+	{
+		m_fHP = 0;
+		m_bIsAlive = false;
+	}
+
 	//Gravity(GRAVITY);
 
 	m_rc = RectMake(m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY(), RABBIT_WIDTH, RABBIT_HEIGHT);
+	m_rcLeft = RectMake(m_fX - RABBIT_WIDTH / 4 + 10 - SCROLL->GetX(), m_fY - SCROLL->GetY() + 20, 28, 5);
+	m_rcRight = RectMake(m_fX + RABBIT_WIDTH / 2 + 15 - SCROLL->GetX(), m_fY - SCROLL->GetY() + 20, 28, 5);
 
 	// getIsAlive가 없어도 되는것들
 	if (m_fX < 0) m_fX = 0;
@@ -160,7 +171,7 @@ void Rabbit::update()
 	if (m_bIsGravity == true)
 	{
 		m_nGravityTemp += 0.9f;
-		m_fY += 2.0f + m_nGravityTemp;
+		m_fY += 2.8f + m_nGravityTemp;
 	}
 	else
 		m_nGravityTemp = 0;
@@ -194,11 +205,6 @@ void Rabbit::Gravity(float Gravity)
 void Rabbit::Damaged(float damage)
 {
 	m_fHP -= damage;
-	if (m_fHP <= 0)
-	{
-		m_fHP = 0;
-		m_bIsAlive = false;
-	}
 
 	if (m_pProgressBar)
 	{

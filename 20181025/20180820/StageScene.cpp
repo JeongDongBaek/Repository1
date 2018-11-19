@@ -4,16 +4,21 @@
 #include "Squirrel.h"
 #include "Rabbit.h"
 #include "MyHero.h"
+#include "effectManager.h"
+#include "soundManager.h"
 
 char szFileName1[512];
 
 
-
-
-
 void StageScene::FixedLoad()
 {
-	TXTDATA->getSingleton()->mapLoad("SaveFile/t2.map", m_pTiles);
+	g_saveData.gTileMaxCountX = 64;
+	g_saveData.gTileMaxCountY = 32;
+	TXTDATA->getSingleton()->mapLoad("SaveFile/t7.map", m_pTiles);
+	/*g_saveData.gTileMaxCountX = m_pTiles[0].unitID;
+	g_saveData.gTileMaxCountY = m_pTiles[1].unitID;
+	g_saveData.gTileMaxCountX = 64 ;
+	g_saveData.gTileMaxCountY = 32;*/
 
 }
 
@@ -52,6 +57,12 @@ void StageScene::CustomLoad()
 
 HRESULT StageScene::init()
 {	
+	m_nYipeeCount = 0;
+	m_bYipeeOn = false;
+
+	m_nochCount = 0;
+	m_bochOn = false;
+
 	m_pFox = new Fox;
 	m_pFox->init();
 	m_pRabbit = new Rabbit;
@@ -60,7 +71,22 @@ HRESULT StageScene::init()
 	m_pSquirrel->init();
 	ITEMMANAGER->init(20); // 
 	m_pMyHero = new MyHero;
-	
+	m_bIsHelpON = false;
+
+	m_pEffectMgr = new effectManager;
+	m_pEffectMgr->init();
+	m_pEffectMgr->addEffect("effect2", "image/effect2.bmp", 2048, 256, 256, 256, 5, 50);
+	m_pEffectMgr->addEffect("effect1", "image/effect1.bmp", 1100, 100, 100, 100, 10, 50);
+	m_pEffectMgr->addEffect("wind1", "image/wind1.bmp", 320 * 2, 31 * 2, 64 * 2, 31 * 2, 10, 50);
+	m_pEffectMgr->addEffect("wind2", "image/wind2.bmp", 320 * 2, 31 * 2, 80 * 2, 31 * 2, 10, 50);
+	m_pSoundMgr = new soundManager;
+	m_pSoundMgr->init();
+	m_pSoundMgr->addSound("sound/yahoo.wav", false, false);
+	m_pSoundMgr->addSound("sound/yi.wav", false, false);
+	m_pSoundMgr->addSound("sound/bgm.wav", true, true);
+	m_pSoundMgr->addSound("sound/pain.wav", false, false);
+
+	m_pSoundMgr->play("sound/bgm.wav");
 	m_nNumberOfBlock = 0;
 	m_nNumberOfTemp = 0;
 
@@ -109,8 +135,6 @@ HRESULT StageScene::init()
 	{
 		FixedLoad();
 	}
-	g_saveData.gTileMaxCountX = m_pTiles[0].unitID;
-	g_saveData.gTileMaxCountY = m_pTiles[1].unitID;
 	
 
 
@@ -167,21 +191,14 @@ HRESULT StageScene::init()
 
 	SCROLL->init(m_pRabbit->getX(), m_pRabbit->getY());
 
-	ITEMMANAGER->ItemCreate(300, 100, 4, false);
-	ITEMMANAGER->ItemCreate(340, 100, 4, false);
-	ITEMMANAGER->ItemCreate(380, 100, 4, false);
-	ITEMMANAGER->ItemCreate(420, 100, 4, false);
-	ITEMMANAGER->ItemCreate(480, 100, 4, false);
-	ITEMMANAGER->ItemCreate(560, 100, 4, false);
-	ITEMMANAGER->ItemCreate(720, 100, 4, false);
-	ITEMMANAGER->ItemCreate(780, 100, 4, false);
-	ITEMMANAGER->ItemCreate(880, 100, 4, false);
-	ITEMMANAGER->ItemCreate(920, 100, 4, false);
+	ITEMMANAGER->ItemCreate(300, 170, 4, false);
+	ITEMMANAGER->ItemCreate(340, 170, 4, false);
+	ITEMMANAGER->ItemCreate(380, 170, 4, false);
+	ITEMMANAGER->ItemCreate(420, 170, 4, false);
+	ITEMMANAGER->ItemCreate(480, 170, 8, false);
 
-	ITEMMANAGER->ItemCreate(300, 20, 7, false);
-	ITEMMANAGER->ItemCreate(340, 20, 7, false);
-	ITEMMANAGER->ItemCreate(380, 20, 7, false);
-	ITEMMANAGER->ItemCreate(420, 20, 7, false);
+	ITEMMANAGER->ItemCreate(200, 166, 7, false);
+	ITEMMANAGER->ItemCreate(100, 166, 7, false);
 
 	return S_OK;
 }
@@ -231,10 +248,21 @@ void StageScene::update()
 			
 		}
 	}
-	
+
+
 	for (int i = 0; i < m_nNumberOfBlock; ++i)
 	{
 		RECT temp_rc;
+
+		if (IntersectRect(&temp_rc, &m_pMyHero->getrcLeft(), &m_Collide_Tiles[i])) // 왼쪽벽을 왼쪽으로 박음
+		{
+			m_pMyHero->setX((m_Collide_Tiles[i].right) + SCROLL->GetX() + 15.0f); continue;
+		}
+
+		if (IntersectRect(&temp_rc, &m_pMyHero->getrcRight(), &m_Collide_Tiles[i])) // 오른쪽벽을 오른쪽으로 박음
+		{
+			m_pMyHero->setX((m_Collide_Tiles[i].left) + SCROLL->GetX() - RABBIT_WIDTH - 15.0f); continue;
+		}
 
 
 		if (IntersectRect(&temp_rc, &(m_pMyHero->getRect()), &(m_Collide_Tiles[i])))
@@ -247,51 +275,65 @@ void StageScene::update()
 			{
 				m_pMyHero->setY(m_Collide_Tiles[i].bottom + SCROLL->GetY() );
 				m_pMyHero->setIsGravity(true);
-
+				continue;
 			}
 
 			else if (m_pMyHero->getRect().bottom >= m_Collide_Tiles[i].top &&
-				m_pMyHero->getRect().top <= m_Collide_Tiles[i].top
+				m_pMyHero->getRect().top <= m_Collide_Tiles[i].top 
 				)  // 벽이 아래에 있고 캐릭터가 아래로감
 			{
-
 
 				m_pMyHero->setIsRected(true);
 				m_pMyHero->setY(m_Collide_Tiles[i].top + SCROLL->GetY() - RABBIT_HEIGHT);
 				m_pMyHero->setIsGravity(false);
-
-
-			}
-
-			else if (m_pMyHero->getRect().left <= m_Collide_Tiles[i].right &&
-				m_pMyHero->getRect().right >= m_Collide_Tiles[i].right
-				)  // 벽이 왼쪽에 있고 캐릭터가 왼쪽으로감
-			{
-
-				m_pMyHero->setY(m_Collide_Tiles[i].right + SCROLL->GetX() + RABBIT_WIDTH);
-			}
-
-			else if (m_pMyHero->getRect().right >= m_Collide_Tiles[i].left &&
-				m_pMyHero->getRect().left <= m_Collide_Tiles[i].left
-				)  // 벽이 오른쪽에 있고 캐릭터가 오른쪽으로감
-			{
-
-				m_pMyHero->setY(m_Collide_Tiles[i].left + SCROLL->GetX() - RABBIT_WIDTH);
+				continue;
 			}
 
 
+
+			
+
+	
+			
 		}
 		else
 		{
 			m_pMyHero->setIsGravity(true);
-		}
 
+		}
+		
 
 		
 	}
 
+	m_nYipeeCount++;
+	if (m_nYipeeCount > 280)
+	{
+		m_bYipeeOn = true;
+		m_nYipeeCount = 0;
+	}
+
+	if (KEYMANAGER->isOnceKeyUp(VK_SPACE) && m_bYipeeOn == true)
+	{
+		m_pSoundMgr->play("sound/yi.wav", 1.0f);
+		m_bYipeeOn = false;
+	}
+
+	m_nochCount++;
+	if (m_nochCount > 150)
+	{
+		m_bochOn = true;
+		m_nochCount = 0;
+	}
+
+	if (KEYMANAGER->isOnceKeyUp(VK_SPACE) && m_bochOn == true)
+	{
+		m_pSoundMgr->play("sound/pain.wav", 1.0f);
+		m_bochOn = false;
+	}
 
 
+	m_pEffectMgr->update();
 	ChangeCharacter();
 	KeyEvent();
 	UI_Click();
@@ -313,6 +355,7 @@ void StageScene::ChangeCharacter()
 		m_pSquirrel->setIsChoosed(false);
 		m_pSquirrel->setIsInvin(true);
 		m_pMyHero = m_pFox;
+
 	}
 	if (mySelectedCh == sel_rabbit)
 	{
@@ -323,6 +366,7 @@ void StageScene::ChangeCharacter()
 		m_pSquirrel->setIsChoosed(false);
 		m_pSquirrel->setIsInvin(true);
 		m_pMyHero = m_pRabbit;
+
 	}
 	if (mySelectedCh == sel_Squirrel)
 	{
@@ -370,10 +414,9 @@ void StageScene::Item_Collide()
 		RECT Item_tempRC;
 		if (IntersectRect(&Item_tempRC, &(m_pMyHero->getRect()), &(*ItemIter)->getRect()))
 		{
-			if ((*ItemIter)->getIsAlive() == false) continue;
+			if (!(*ItemIter)->getIsAlive() == true) continue;
 
-			if (m_pMyHero->getIsAlive() == true)
-			{
+			m_pEffectMgr->play("effect1", m_pMyHero->getRect().left, m_pMyHero->getRect().top);
 				m_pMyHero->setSpeed(m_pMyHero->getSpeed() + (*ItemIter)->getItemInformation().m_fSpeed);
 				m_pMyHero->setDef(m_pMyHero->getDef() + (*ItemIter)->getItemInformation().m_fDef);
 				m_pMyHero->sethaveWand((*ItemIter)->getItemInformation().m_bFireball);
@@ -386,8 +429,9 @@ void StageScene::Item_Collide()
 				m_pMyHero->setWeight(m_pMyHero->getWeight() + (*ItemIter)->getItemInformation().m_fWeight);
 				m_pMyHero->setAccrancy(m_pMyHero->getAccrancy() + (*ItemIter)->getItemInformation().m_fAccuracy);
 				m_pMyHero->setCoolDown(m_pMyHero->getCoolDown() + (*ItemIter)->getItemInformation().m_nCharacterChange); // 줄어들수록 쿨다운
+				m_pSoundMgr->play("sound/yahoo.wav", 1.0f);
 				(*ItemIter)->setIsAlive(false);
-			}
+			
 
 		}
 
@@ -485,6 +529,18 @@ void StageScene::Unit_TileCollide() // 에니미과 벽의 충돌
 					}
 				}
 
+				else if ((*EnemyIter)->getPattern() == Pattern_Slug ) // 바닥은 인식못하니 벽을 깔아서 벽을 인식하게하자
+				{
+					if ((*EnemyIter)->getRect().bottom - 40.0f > m_Collide_Tiles[i].top)
+					{
+						if ((*EnemyIter)->getRect().left <= m_Collide_Tiles[i].right && (*EnemyIter)->getRect().right >= m_Collide_Tiles[i].right) // 위(캐릭터) 아래(벽)
+							(*EnemyIter)->setIsRight(true);
+
+						if ((*EnemyIter)->getRect().right >= m_Collide_Tiles[i].left && (*EnemyIter)->getRect().left <= m_Collide_Tiles[i].left) // 위(캐릭터) 아래(벽)
+							(*EnemyIter)->setIsRight(false);
+					}
+				}
+
 			}
 		
 		}
@@ -499,15 +555,27 @@ void StageScene::Character_UnitCollide() // 캐릭터와 유닛과의 충돌
 	std::vector<Enemy*>::iterator EnemyIter;
 	for (EnemyIter = vEnemy.begin(); EnemyIter != vEnemy.end(); EnemyIter++)
 	{
+
+		if ((*EnemyIter)->getHP() <= 0 && (*EnemyIter)->getItemDrop() == false)
+		{
+			ITEMMANAGER->ItemCreate((*EnemyIter)->getX(), (*EnemyIter)->getY(), RANDOM->getFromIntTo(0, 36), false);
+			(*EnemyIter)->setItemDrop(true);
+		}
+
+		if (!(*EnemyIter)->getIsAlive() == true) continue;
+
 		RECT temp_rc;
 		if (IntersectRect(&temp_rc, (&m_pMyHero->getRect()), &(*EnemyIter)->getRect()))
 		{
+
 
 			if ((*EnemyIter)->getRect().top <= (m_pMyHero)->getRect().bottom &&
 				(*EnemyIter)->getRect().bottom >= (m_pMyHero)->getRect().top && m_pMyHero->getIsRected() == false)
 			{
 				m_pMyHero->setJumpTemp(m_pMyHero->getJumpPower() / 2 - 1.0f);
+				(*EnemyIter)->Damaged(m_pMyHero->getDamage() / 4);
 				(*EnemyIter)->setDamage(m_pMyHero->getDamage());
+				
 			}
 
 			else if ((m_pMyHero)->getRect().right >= (*EnemyIter)->getRect().left &&
@@ -522,18 +590,49 @@ void StageScene::Character_UnitCollide() // 캐릭터와 유닛과의 충돌
 						m_pMyHero->setX(m_pMyHero->getX() + 45.0f);
 
 					m_pMyHero->setState(st_isHurt);
+
+					switch (mySelectedCh)
+					{
+					case sel_rabbit:
+						m_pRabbit->Damaged((*EnemyIter)->getDamage());
+						break;
+					case sel_Fox:
+						m_pFox->Damaged((*EnemyIter)->getDamage());
+						break;
+					case sel_Squirrel:
+						m_pSquirrel->Damaged((*EnemyIter)->getDamage());
+						break;
+
+					}
 					m_pMyHero->setHurtCountTemp(0);
 				}
 			}
 			else if ((m_pMyHero)->getRect().left <= (*EnemyIter)->getRect().right &&
 				(m_pMyHero)->getRect().right >= (*EnemyIter)->getRect().right) // 몬스터의 오른쪽을 캐릭터가 충돌
 			{
-				if (m_pMyHero->getIsRight() == true)
-					m_pMyHero->setX(m_pMyHero->getX() - 45.0f);
-				else
-					m_pMyHero->setX(m_pMyHero->getX() + 45.0f);
+				if (m_pMyHero->getIsInvin() == false || m_pMyHero->getState() != st_isHurt)
+				{
+					if (m_pMyHero->getIsRight() == true)
+						m_pMyHero->setX(m_pMyHero->getX() - 45.0f);
+					else
+						m_pMyHero->setX(m_pMyHero->getX() + 45.0f);
 
-				m_pMyHero->setState(st_isHurt);
+					m_pMyHero->setState(st_isHurt);
+					switch (mySelectedCh)
+					{
+					case sel_rabbit:
+						m_pRabbit->Damaged((*EnemyIter)->getDamage());
+
+						break;
+					case sel_Fox:
+						m_pFox->Damaged((*EnemyIter)->getDamage());
+						break;
+					case sel_Squirrel:
+						m_pSquirrel->Damaged((*EnemyIter)->getDamage());
+						break;
+
+					}
+				}
 				m_pMyHero->setHurtCountTemp(0);
 			}
 			
@@ -576,6 +675,13 @@ void StageScene::KeyEvent()
 			m_bIsPixelOn = false;
 		else
 			m_bIsPixelOn = true;
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_F5))
+	{
+		if (m_bIsHelpON == true)
+			m_bIsHelpON = false;
+		else
+			m_bIsHelpON = true;
 	}
 		
 	if (KEYMANAGER->isOnceKeyDown(VK_F7))
@@ -660,9 +766,17 @@ void StageScene::render(HDC hdc)
 	if (g_saveData.gIsRectangleOn == true)
 	{
 		Rectangle(hdc, m_pRabbit->getRect().left, m_pRabbit->getRect().top, m_pRabbit->getRect().right, m_pRabbit->getRect().bottom);
-		Rectangle(hdc, m_pFox->getRect().left, m_pFox->getRect().top, m_pFox->getRect().right, m_pFox->getRect().bottom);
-		Rectangle(hdc, m_pSquirrel->getRect().left, m_pSquirrel->getRect().top, m_pSquirrel->getRect().right, m_pSquirrel->getRect().bottom);
+		Rectangle(hdc, m_pRabbit->getrcLeft().left, m_pRabbit->getrcLeft().top, m_pRabbit->getrcLeft().right, m_pRabbit->getrcLeft().bottom);
+		Rectangle(hdc, m_pRabbit->getrcRight().left, m_pRabbit->getrcRight().top, m_pRabbit->getrcRight().right, m_pRabbit->getrcRight().bottom);
 
+
+		Rectangle(hdc, m_pFox->getRect().left, m_pFox->getRect().top, m_pFox->getRect().right, m_pFox->getRect().bottom);
+		Rectangle(hdc, m_pFox->getrcLeft().left, m_pFox->getrcLeft().top, m_pFox->getrcLeft().right, m_pFox->getrcLeft().bottom);
+		Rectangle(hdc, m_pFox->getrcRight().left, m_pFox->getrcRight().top, m_pFox->getrcRight().right, m_pFox->getrcRight().bottom);
+		
+		Rectangle(hdc, m_pSquirrel->getRect().left, m_pSquirrel->getRect().top, m_pSquirrel->getRect().right, m_pSquirrel->getRect().bottom);
+		Rectangle(hdc, m_pSquirrel->getrcLeft().left, m_pSquirrel->getrcLeft().top, m_pSquirrel->getrcLeft().right, m_pSquirrel->getrcLeft().bottom);
+		Rectangle(hdc, m_pSquirrel->getrcRight().left, m_pSquirrel->getrcRight().top, m_pSquirrel->getrcRight().right, m_pSquirrel->getrcRight().bottom);
 
 
 		for (int i = 0; i < m_nNumberOfBlock; ++i)
@@ -672,7 +786,8 @@ void StageScene::render(HDC hdc)
 		// TRANSPARENT : 투명, OPAQUE : 불투명
 		SetBkMode(hdc, TRANSPARENT);
 		SetTextColor(hdc, RGB(5, 0, 15));
-		MY_UTIL::FontOption(hdc, 22, 0);
+		g_hFont = CreateFont(22, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN, "배달의민족 한나체 Air");
+		g_OldFont = (HFONT)SelectObject(hdc, g_hFont);
 
 		sprintf_s(SzText1, "fX : %f /  fY : %f  ", m_pMyHero->getX(), m_pMyHero->getY());
 		TextOut(hdc, WINSIZEX / 2 -100, 40, SzText1, strlen(SzText1));
@@ -777,7 +892,12 @@ void StageScene::render(HDC hdc)
 		}
 	}/////////////////////////////////////////////////////////////
 
+	m_pEffectMgr->render(hdc);
 
+	if (m_bIsHelpON)
+	{
+		IMAGEMANAGER->findImage("parchment");
+	}
 	// 미니맵 UI
 	//m_pImg_UIMiniMap->render(hdc, WINSIZEX - (IMAGEMANAGER->findImage("ui_minimap")->getWidth() + 3), 5);
 }

@@ -71,6 +71,8 @@ void ItemManager::update()
 
 void ItemManager::ItemCreate(float x, float y, int ItemNumber, bool persisting)
 {
+	if (ItemNumber >= 12) return;
+
 	for (m_iter = m_vecItem.begin(); m_iter != m_vecItem.end(); m_iter++) // 중간에 end가 바뀌면 안된다.
 	{
 		if ((*m_iter)->getIsAlive() == false)

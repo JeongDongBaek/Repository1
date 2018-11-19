@@ -46,7 +46,7 @@ void uiTxt::render(HDC hdc)
 	SetTextColor(hdc, RGB(255, 255, 255));
 	sprintf_s(szText, "%.1f", m_fDamageValue);
 	TextOut(hdc, m_fPosX, m_fPosY, szText, strlen(szText));
-	MY_UTIL::FontDelete(hdc);
+	//MY_UTIL::FontDelete(hdc);
 }
 
 uiTxt::uiTxt()

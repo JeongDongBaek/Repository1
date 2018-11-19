@@ -3,6 +3,7 @@
 #include "scene.h"
 
 class image;
+class animation;
 
 class Title_Scene : public scene
 {
@@ -10,6 +11,7 @@ class Title_Scene : public scene
 	image * m_pImg_Menu[5]; // 게임시작 / 에디트씬 / 옵션 / 만든이 / 나가기
 	image * m_pImg_Parchment;
 
+	animation * m_pAni;
 
 	int m_nindex_Scene;
 	bool m_bIsOptionOn;
