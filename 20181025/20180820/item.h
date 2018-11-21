@@ -13,6 +13,10 @@ class item
 
 	float m_fX;
 	float m_fY;
+
+	float Inven_m_fX;
+	float Inven_m_fY;
+
 	float m_fItemfloppingNum; // 높을수록 밑으로
 	bool m_bItemfloppingUpDown;
 	bool m_bItemPersisting;
@@ -32,15 +36,19 @@ class item
 	
 
 public:
+
 	HRESULT init(float x, float y, tagItemInfor itemNumber, bool persisting);
+	void Inven_init(float x, float y, tagItemInfor itemNumber, bool persisting);
 
 	void release();
 	void update();
+	void Inven_update();
+
 	void flopping();
 	void twinkle();
 
 	void render(HDC hdc);
-
+	void Inven_render(HDC hdc);
 
 	item();
 	~item();

@@ -27,6 +27,7 @@ protected:
 
 	//RECT m_rc_Collide;
 	SYNTHESIZE(tagCharacterState, m_eState, State);
+
 	Inventory * m_pInven;
 
 	int m_nJumpCount;
@@ -40,6 +41,7 @@ protected:
 	SYNTHESIZE(int, m_nFireDelayTemp_Fireball, FireDelayTemp_Fireball); // 작을수록 좋다 , 실제값을 잠시 담고있는 변수 유동적이다.
 
 public:
+
 	virtual HRESULT init();
 	virtual void update();
 	virtual void release() ;

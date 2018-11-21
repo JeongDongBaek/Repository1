@@ -4,10 +4,14 @@
 #include "animation.h"
 #include "BulletManager.h"
 #include "progressBar.h"
-
+#include "Inventory.h"
 
 HRESULT Fox::init()
 {
+
+	m_pInven = new Inventory;
+	m_pInven->init(12);
+	
 
 	m_pImage[0] = IMAGEMANAGER->findImage("fox_idle");
 	m_pImage[1] = IMAGEMANAGER->findImage("fox_jump"); // 
@@ -77,32 +81,14 @@ HRESULT Fox::init()
 
 void Fox::update()
 {
-
-
-
-	if (g_saveData.gGamePause == true) return;
-
-	if (m_pBulletMgr)
-		m_pBulletMgr->update();
-
-	if (m_bIsAlive == false) return;
-
 	if (m_fHP <= 0)
 	{
 		m_fHP = 0;
 		m_bIsAlive = false;
 	}
-
 	m_rc = RectMake(m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY(), FOX_WIDTH, FOX_HEIGHT);
 	m_rcLeft = RectMake(m_fX - FOX_WIDTH / 4 + 10 - SCROLL->GetX(), m_fY - SCROLL->GetY() + 20, 28, 5);
 	m_rcRight = RectMake(m_fX + FOX_WIDTH / 2 + 15 - SCROLL->GetX(), m_fY - SCROLL->GetY() + 20, 28, 5);
-
-
-	if (m_fX < 0) m_fX = 0;
-	if (m_fX > g_saveData.gTileMaxCountX * TILESIZEX_STAGE) g_saveData.gTileMaxCountX * TILESIZEX_STAGE;
-	if (m_fY < 0) m_fY = 0;
-	if (m_fY > g_saveData.gTileMaxCountY * TILESIZEX_STAGE) g_saveData.gTileMaxCountY * TILESIZEX_STAGE;
-
 	for (int i = 0; i < 6; ++i)
 	{
 		m_pAni[i]->frameUpdate(TIMEMANAGER->getElapsedTime());
@@ -111,6 +97,10 @@ void Fox::update()
 
 
 
+	if (g_saveData.gGamePause == true) return;
+
+	if (m_bIsAlive == false) return;
+	m_pInven->update();
 
 	if (m_bIsChoosed != true)
 	{
@@ -118,6 +108,19 @@ void Fox::update()
 		return;
 	} // 선택되지 않았을때 다음의 함수들을 건너뛴다.
 	////////////////////
+
+	if (m_pBulletMgr)
+		m_pBulletMgr->update();
+
+
+
+
+	if (m_fX < 0) m_fX = 0;
+	if (m_fX > g_saveData.gTileMaxCountX * TILESIZEX_STAGE) g_saveData.gTileMaxCountX * TILESIZEX_STAGE;
+	if (m_fY < 0) m_fY = 0;
+	if (m_fY > g_saveData.gTileMaxCountY * TILESIZEX_STAGE) g_saveData.gTileMaxCountY * TILESIZEX_STAGE;
+
+
 
 	KeyEvent();
 
@@ -417,6 +420,7 @@ void Fox::render(HDC hdc)
 	if (g_saveData.gSelectedInven == 0)
 	{
 		IMAGEMANAGER->findImage("white2")->render(hdc, WINSIZEX / 2 - IMAGEMANAGER->findImage("white2")->getWidth() / 2, 220);
+		m_pInven->render(hdc);
 		m_pProgressBar->render(hdc);
 	}
 }

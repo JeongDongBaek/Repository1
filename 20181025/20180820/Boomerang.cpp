@@ -11,7 +11,7 @@ HRESULT Boomerang::init(float x, float y, float Player_Speed, float DestiX, floa
 	m_bIsFire = false;
 	m_fAccuracy = RANDOM->getFromFloatTo(0 - Accuracy, 0 + Accuracy);
 
-	m_fAngle_Move = MY_UTIL::getAngle(x, y, DestiX, DestiY);
+	m_fAngle_Move = MY_UTIL::getAngle(x, y, DestiX,  DestiY);
 	m_rc = RectMakeCenter(m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY(), 54, 42);
 	m_fRange = 1000;
 	m_fSpeed = 9.0f + Player_Speed / 2;
@@ -40,11 +40,11 @@ void Boomerang::update()
 		m_rc = RectMakeCenter(m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY(),
 			54, 42);
 
-		if (m_fRange < MY_UTIL::getDistance(m_fFiredX - SCROLL->GetX(), m_fFiredY - SCROLL->GetY(), m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY()) && m_bIsReturning == false)
+		if (m_fRange < MY_UTIL::getDistance(m_fFiredX , m_fFiredY , m_fX , m_fY ) && m_bIsReturning == false)
 		{
 			m_bIsReturning = true;
 		}
-		if (MY_UTIL::getDistance(m_fFiredX - SCROLL->GetX(), m_fFiredY - SCROLL->GetY(), m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY()) < 20 && m_bIsReturning == true)
+		if (MY_UTIL::getDistance(m_fFiredX , m_fFiredY, m_fX, m_fY ) < 20 && m_bIsReturning == true)
 		{
 			m_bIsReturning = false;
 			m_bIsFire = false;
@@ -62,7 +62,7 @@ void Boomerang::update_rotate()
 {
 	if (m_bIsReturning == true)
 	{
-		m_fAngle_Move = MY_UTIL::getAngle(m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY(), m_fFiredX - -SCROLL->GetX(), m_fFiredY - SCROLL->GetY());
+		m_fAngle_Move = MY_UTIL::getAngle(m_fX , m_fY , m_fFiredX , m_fFiredY);
 		m_fAngle_Move += 0.22f;
 	}
 

@@ -22,6 +22,30 @@ HRESULT item::init(float x, float y, tagItemInfor itemNumber, bool persisting)
 	return S_OK;
 }
 
+void item::Inven_init(float x, float y, tagItemInfor itemNumber, bool persisting)
+{
+	m_bIsAlive = true;
+	Inven_m_fX = x;
+	Inven_m_fY = y;
+	m_bItemPersisting = persisting;
+	m_nAlphaBlendNum = 22; // 높을수록 투명
+	m_fItemfloppingNum = 0;
+	m_nTwinkleNum = 0;
+	m_nCountTemp = 0;
+	m_bItemfloppingUpDown = false; // 트루면 위로
+	m_bAlpahBlendUpDown = false;
+	m_pImg_item = IMAGEMANAGER->findImage("item");
+	m_pImg_Text = IMAGEMANAGER->findImage("text2");
+	m_tItemInfor = itemNumber;
+	m_rc = RectMake(Inven_m_fX, Inven_m_fY , ITEM_WIDTH, ITEM_HEIGHT);
+
+}
+
+
+
+
+
+
 void item::release()
 {
 }
@@ -36,7 +60,14 @@ void item::update()
 
 }
 
+void item::Inven_update()
+{
+	if (!m_bIsAlive == true) return;
 
+	m_rc = RectMake(Inven_m_fX, Inven_m_fY, ITEM_WIDTH, ITEM_HEIGHT);
+	flopping();
+	twinkle();
+}
 
 
 
@@ -137,6 +168,14 @@ void item::render(HDC hdc)
 	}
 
 	m_pImg_item->frameAlphaRender(hdc, m_rc.left, (m_rc.top-8) + m_fItemfloppingNum, m_tItemInfor.m_nItemFrameX, m_tItemInfor.m_nItemFrameY, 1.0f, m_nAlphaBlendNum);
+}
+
+void item::Inven_render(HDC hdc)
+{
+	if (!m_bIsAlive == true) return;
+
+	m_pImg_item->frameAlphaRender(hdc, Inven_m_fX, Inven_m_fY + m_fItemfloppingNum, m_tItemInfor.m_nItemFrameX, m_tItemInfor.m_nItemFrameY, 1.0f, m_nAlphaBlendNum);
+
 }
 
 item::item()

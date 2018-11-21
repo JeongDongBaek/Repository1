@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Bullet.h"
 #include "animation.h"
+#include "effectManager.h"
 
 Bullet::Bullet()
 {
@@ -50,6 +51,23 @@ HRESULT Bullet::init(const char * ImageName, float x, float y, float Speed, floa
 	m_fRange = Range;
 	m_fSpeed = Speed;
 
+	switch (RANDOM->getFromIntTo(1, 4))
+	{
+	case 1:
+		m_effName = "Bullet_End_0";
+		break;
+	case 2:
+		m_effName = "Bullet_End_1";
+		break;
+	case 3:
+		m_effName = "Bullet_End_2";
+		break;
+	case 4:
+		m_effName = "Bullet_End_3";
+		break;
+	}
+
+	m_pEffectMgr = new effectManager;
 	//if (istarget)
 
 	return S_OK;
@@ -82,6 +100,12 @@ void Bullet::update()
 		m_bIsFire = false;
 	}
 
+}
+
+void Bullet::HitEff()
+{
+	m_pEffectMgr->play(m_effName, m_rc.left, m_rc.top);
+	m_bIsFire = false;
 }
 
 void Bullet::release()

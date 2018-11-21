@@ -2,11 +2,14 @@
 
 class animation;
 class image;
+class effectManager;
 
 
 class Bullet
 {
 private :
+	const char * m_effName;
+	effectManager * m_pEffectMgr;
 	animation * m_pAni;
 	animation * m_pAni_Left;
 	image * m_pImage;
@@ -27,6 +30,7 @@ private :
 public:
 	HRESULT init(const char* ImageName, float x, float y, float Speed, float Range, int BulletType, bool isRight, bool istarget = false);
 	void update();
+	void HitEff();
 
 	void release();
 	void render(HDC hdc);

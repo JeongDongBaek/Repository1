@@ -6,6 +6,7 @@ class animation;
 class image;
 class progressBar;
 
+
 class Squirrel : public MyHero
 {
 private:
@@ -18,7 +19,6 @@ private:
 	BulletManager * m_pBulletMgr;
 
 	progressBar * m_pProgressBar;
-
 
 public:
 	HRESULT init();

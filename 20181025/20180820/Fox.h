@@ -22,7 +22,7 @@ private:
 	BulletManager * m_pBulletMgr;
 	animation * m_pAni[6];
 	animation * m_pAni_left[6];
-	
+
 	progressBar * m_pProgressBar;
 
 public:

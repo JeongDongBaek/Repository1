@@ -216,9 +216,6 @@
     <ClInclude Include="Inventory.h">
       <Filter>MainGame\Inventory</Filter>
     </ClInclude>
-    <ClInclude Include="InventoryManager.h">
-      <Filter>MainGame\Inventory</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -348,9 +345,6 @@
       <Filter>MainGame\GameObject\Player</Filter>
     </ClCompile>
     <ClCompile Include="Inventory.cpp">
-      <Filter>MainGame\Inventory</Filter>
-    </ClCompile>
-    <ClCompile Include="InventoryManager.cpp">
       <Filter>MainGame\Inventory</Filter>
     </ClCompile>
   </ItemGroup>

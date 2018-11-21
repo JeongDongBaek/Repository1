@@ -6,6 +6,8 @@
 #include "MyHero.h"
 #include "effectManager.h"
 #include "soundManager.h"
+#include "Inventory.h"
+#include "BulletManager.h"
 
 char szFileName1[512];
 
@@ -79,6 +81,15 @@ HRESULT StageScene::init()
 	m_pEffectMgr->addEffect("effect1", "image/effect1.bmp", 1100, 100, 100, 100, 10, 50);
 	m_pEffectMgr->addEffect("wind1", "image/wind1.bmp", 320 * 2, 31 * 2, 64 * 2, 31 * 2, 10, 50);
 	m_pEffectMgr->addEffect("wind2", "image/wind2.bmp", 320 * 2, 31 * 2, 80 * 2, 31 * 2, 10, 50);
+	
+	m_pEffectMgr->addEffect("Bullet_End_0", "image/Bullet_End_0.bmp", 238, 30, 34, 30, 15, 50);
+	m_pEffectMgr->addEffect("Bullet_End_1", "image/Bullet_End_1.bmp", 238, 34, 34, 34, 15, 50);
+	m_pEffectMgr->addEffect("Bullet_End_2", "image/Bullet_End_2.bmp", 224, 32, 32, 32, 15, 50);
+	m_pEffectMgr->addEffect("Bullet_End_3", "image/Bullet_End_3.bmp", 210, 24, 30, 24, 15, 50);
+
+	
+	
+	
 	m_pSoundMgr = new soundManager;
 	m_pSoundMgr->init();
 	m_pSoundMgr->addSound("sound/yahoo.wav", false, false);
@@ -288,19 +299,19 @@ void StageScene::update()
 				m_pMyHero->setIsGravity(false);
 				continue;
 			}
-
-
-
 			
-
-	
 			
 		}
+		
 		else
 		{
+			
 			m_pMyHero->setIsGravity(true);
-
+			
 		}
+		
+
+		
 		
 
 		
@@ -417,20 +428,40 @@ void StageScene::Item_Collide()
 			if (!(*ItemIter)->getIsAlive() == true) continue;
 
 			m_pEffectMgr->play("effect1", m_pMyHero->getRect().left, m_pMyHero->getRect().top);
-				m_pMyHero->setSpeed(m_pMyHero->getSpeed() + (*ItemIter)->getItemInformation().m_fSpeed);
-				m_pMyHero->setDef(m_pMyHero->getDef() + (*ItemIter)->getItemInformation().m_fDef);
-				m_pMyHero->sethaveWand((*ItemIter)->getItemInformation().m_bFireball);
-				m_pMyHero->setMaxHP(m_pMyHero->getMaxHP() + (*ItemIter)->getItemInformation().m_fMaxHP);
-				m_pMyHero->setMaxStamina(m_pMyHero->getMaxStamina() + (*ItemIter)->getItemInformation().m_fMaxStamina);
-				m_pMyHero->setMaxMana(m_pMyHero->getMaxMana() + (*ItemIter)->getItemInformation().m_fMaxMana);
-				m_pMyHero->setHP(m_pMyHero->getHP() + (*ItemIter)->getItemInformation().m_fHP);
-				m_pMyHero->setStamina(m_pMyHero->getStamina() + (*ItemIter)->getItemInformation().m_fStamina);
-				m_pMyHero->setMana(m_pMyHero->getMana() + (*ItemIter)->getItemInformation().m_fMana);
-				m_pMyHero->setWeight(m_pMyHero->getWeight() + (*ItemIter)->getItemInformation().m_fWeight);
-				m_pMyHero->setAccrancy(m_pMyHero->getAccrancy() + (*ItemIter)->getItemInformation().m_fAccuracy);
-				m_pMyHero->setCoolDown(m_pMyHero->getCoolDown() + (*ItemIter)->getItemInformation().m_nCharacterChange); // 줄어들수록 쿨다운
-				m_pSoundMgr->play("sound/yahoo.wav", 1.0f);
-				(*ItemIter)->setIsAlive(false);
+			m_pMyHero->setSpeed(m_pMyHero->getSpeed() + (*ItemIter)->getItemInformation().m_fSpeed);
+			m_pMyHero->setDef(m_pMyHero->getDef() + (*ItemIter)->getItemInformation().m_fDef);
+			m_pMyHero->sethaveWand(true);
+			m_pMyHero->setMaxHP(m_pMyHero->getMaxHP() + (*ItemIter)->getItemInformation().m_fMaxHP);
+			m_pMyHero->setMaxStamina(m_pMyHero->getMaxStamina() + (*ItemIter)->getItemInformation().m_fMaxStamina);
+			m_pMyHero->setMaxMana(m_pMyHero->getMaxMana() + (*ItemIter)->getItemInformation().m_fMaxMana);
+			m_pMyHero->setHP(m_pMyHero->getHP() + (*ItemIter)->getItemInformation().m_fHP);
+			m_pMyHero->setStamina(m_pMyHero->getStamina() + (*ItemIter)->getItemInformation().m_fStamina);
+			m_pMyHero->setMana(m_pMyHero->getMana() + (*ItemIter)->getItemInformation().m_fMana);
+			m_pMyHero->setWeight(m_pMyHero->getWeight() + (*ItemIter)->getItemInformation().m_fWeight);
+			m_pMyHero->setAccrancy(m_pMyHero->getAccrancy() + (*ItemIter)->getItemInformation().m_fAccuracy);
+			m_pMyHero->setCoolDown(m_pMyHero->getCoolDown() + (*ItemIter)->getItemInformation().m_nCharacterChange); // 줄어들수록 쿨다운
+			m_pSoundMgr->play("sound/yahoo.wav", 1.0f);
+			(*ItemIter)->setIsAlive(false);
+
+			if ( (*ItemIter)->getItemInformation().m_nItemDivision != 2)
+			{
+				switch (mySelectedCh)
+				{
+				case sel_rabbit:
+					m_pRabbit->m_pInven->AddItem((*ItemIter)->getItemInformation());
+					m_pRabbit->m_pInven->setQuantity(m_pRabbit->m_pInven->getQuantity() + 1);
+					break;
+				case sel_Fox:
+					m_pFox->m_pInven->AddItem((*ItemIter)->getItemInformation());
+					m_pFox->m_pInven->setQuantity(m_pFox->m_pInven->getQuantity() + 1);
+					break;
+				case sel_Squirrel:
+					m_pSquirrel->m_pInven->AddItem((*ItemIter)->getItemInformation());
+					m_pSquirrel->m_pInven->setQuantity(m_pSquirrel->m_pInven->getQuantity() + 1);
+					break;				
+				}
+
+			}
 			
 
 		}
@@ -722,7 +753,11 @@ void StageScene::KeyEvent()
 
 void StageScene::release()
 {
-
+	m_pSoundMgr->release();
+	m_pEffectMgr->release();
+	m_pRabbit->release();
+	m_pSquirrel->release();
+	m_pFox->release();
 }
 
 void StageScene::render(HDC hdc)

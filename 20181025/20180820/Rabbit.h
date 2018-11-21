@@ -31,7 +31,6 @@ private:
 
 	progressBar * m_pProgressBar;
 
-
 	bool m_bIsBoomerangOn;
 
 	// item 적용가능 변수들

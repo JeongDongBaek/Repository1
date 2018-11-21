@@ -4,10 +4,15 @@
 #include "BoomerangMgr.h"
 #include "BulletManager.h"
 #include "progressBar.h"
-
+#include "Inventory.h"
 
 HRESULT Rabbit::init()
 {
+
+	m_pInven = new Inventory;
+	m_pInven->init(12);
+
+
 	m_pImage_boomerang = IMAGEMANAGER->findImage("boomerang");
 	m_pBoomerang = new BoomerangMgr;
 	m_pBoomerang->init(5);
@@ -86,19 +91,40 @@ HRESULT Rabbit::init()
 
 void Rabbit::update()
 {
-	if (g_saveData.gGamePause == true) return;
-
 	if (m_fHP <= 0)
 	{
 		m_fHP = 0;
 		m_bIsAlive = false;
 	}
-
-	//Gravity(GRAVITY);
-
 	m_rc = RectMake(m_fX - SCROLL->GetX(), m_fY - SCROLL->GetY(), RABBIT_WIDTH, RABBIT_HEIGHT);
 	m_rcLeft = RectMake(m_fX - RABBIT_WIDTH / 4 + 10 - SCROLL->GetX(), m_fY - SCROLL->GetY() + 20, 28, 5);
 	m_rcRight = RectMake(m_fX + RABBIT_WIDTH / 2 + 15 - SCROLL->GetX(), m_fY - SCROLL->GetY() + 20, 28, 5);
+	for (int i = 0; i < 6; ++i)
+	{
+		m_pAni[i]->frameUpdate(TIMEMANAGER->getElapsedTime());
+		m_pAni_left[i]->frameUpdate(TIMEMANAGER->getElapsedTime());
+	}
+
+
+
+	if (g_saveData.gGamePause == true) return;
+
+	if (m_bIsAlive == false) return;
+	m_pInven->update();
+
+	if (m_bIsChoosed != true)
+	{
+		m_eState = st_isIdle;
+		return;
+	} // 선택되지 않았을때 다음의 함수들을 건너뛴다.
+	////////////////////
+
+	//Gravity(GRAVITY);
+	if (m_pBulletMgr)
+		m_pBulletMgr->update();
+
+
+
 
 	// getIsAlive가 없어도 되는것들
 	if (m_fX < 0) m_fX = 0;
@@ -113,18 +139,7 @@ void Rabbit::update()
 	}
 	
 
-	for (int i = 0; i < 6; ++i)
-	{
-		m_pAni[i]->frameUpdate(TIMEMANAGER->getElapsedTime());
-		m_pAni_left[i]->frameUpdate(TIMEMANAGER->getElapsedTime());
-	}
- 
-	if (m_bIsChoosed != true)
-	{
-		m_eState = st_isIdle;
-		return;
-	} // 선택되지 않았을때 다음의 함수들을 건너뛴다.
-	////////////////////
+
 	KeyEvent();
 
 
@@ -170,12 +185,12 @@ void Rabbit::update()
 
 	if (m_bIsGravity == true)
 	{
+			
 		m_nGravityTemp += 0.9f;
 		m_fY += 2.8f + m_nGravityTemp;
 	}
 	else
 		m_nGravityTemp = 0;
-
 
 
 	if (m_nFireDelayTemp >= 0)
@@ -187,8 +202,6 @@ void Rabbit::update()
 	if (m_pBoomerang)
 		m_pBoomerang->update();
 
-	if (m_pBulletMgr)
-		m_pBulletMgr->update();
 }
 
 
@@ -440,6 +453,7 @@ void Rabbit::render(HDC hdc)
 	if (g_saveData.gSelectedInven == 1)
 	{
 		IMAGEMANAGER->findImage("white2")->render(hdc, WINSIZEX / 2 - IMAGEMANAGER->findImage("white2")->getWidth() / 2, 220);
+		m_pInven->render(hdc);
 		m_pProgressBar->render(hdc);
 	}
 }
