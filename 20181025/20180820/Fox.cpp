@@ -27,6 +27,12 @@ HRESULT Fox::init()
 	m_pImage_left[4] = IMAGEMANAGER->findImage("left_fox_hurt"); // 
 	m_pImage_left[5] = IMAGEMANAGER->findImage("left_fox_climb"); // 
 
+	left_m_pImage_Bug[0] = IMAGEMANAGER->findImage("left_bug_walk");
+	m_pImage_Bug[0]	= IMAGEMANAGER->findImage("bug_walk");
+		IMAGEMANAGER->findImage("left_bug_idle");
+		IMAGEMANAGER->findImage("bug_idle");
+
+
 	for (int i = 0; i < 6; ++i)
 	{
 		m_pAni[i] = new animation;

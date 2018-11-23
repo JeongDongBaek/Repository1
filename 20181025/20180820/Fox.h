@@ -19,6 +19,12 @@ private:
 
 	image * m_pImage_left[6];
 
+	image * m_pImage_Bug[2];
+	image * left_m_pImage_Bug[2];
+
+	animation * m_pAni_Bug[2];
+	animation * left_m_pAni_Bug[2];
+
 	BulletManager * m_pBulletMgr;
 	animation * m_pAni[6];
 	animation * m_pAni_left[6];

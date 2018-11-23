@@ -76,6 +76,14 @@ HRESULT Title_Scene::init()
 	IMAGEMANAGER->addImage("left_fox_hurt", "image/fox/left_player-hurt-1-horz.bmp", 66, 32, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("left_fox_climb", "image/fox/left_player-climb-1-horz.bmp", 99, 32, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("left_fox_crouch", "image/fox/left_player-crouch-1-horz.bmp", 66, 32, 2, 1, true, RGB(255, 0, 255));
+	
+	IMAGEMANAGER->addImage("left_bug_walk", "image/fox/left_bug_walk.bmp", 42, 21, 6, 1, true, RGB(0, 248, 0));
+	IMAGEMANAGER->addImage("bug_walk", "image/fox/left_bug_walk.bmp", 42, 21, 6, 1, true, RGB(0, 248, 0));
+	IMAGEMANAGER->addImage("left_bug_idle", "image/fox/left_bug_idle.bmp", 36, 21, 4, 1, true, RGB(0, 248, 0));
+	IMAGEMANAGER->addImage("bug_idle", "image/fox/left_bug_idle.bmp", 36, 21, 4, 1, true, RGB(0, 248, 0));
+
+
+
 	/////////////////////
 
 	////////////////////////
