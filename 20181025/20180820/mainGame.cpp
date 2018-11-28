@@ -48,7 +48,7 @@ HRESULT mainGame::init()
 	m_pStageScene = new StageScene;
 	SCENEMANAGER->addScene("stage", m_pStageScene);
 
-	SCENEMANAGER->changeScene("title");
+	SCENEMANAGER->changeScene("ending");
 
 	return S_OK;
 }

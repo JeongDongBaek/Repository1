@@ -164,13 +164,13 @@ HRESULT StageScene::init()
 
 			if (m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID == 10)
 			{
-				m_pFox->setX(m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left);
+				m_pFox->setX(m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left );
 				m_pFox->setY(m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top);
 			}
 
 			if (m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID == 11)
 			{
-				m_pRabbit->setX(m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left);
+				m_pRabbit->setX(m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left );
 				m_pRabbit->setY(m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top);
 			}
 
@@ -178,6 +178,12 @@ HRESULT StageScene::init()
 			{
 				m_pSquirrel->setX(m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left);
 				m_pSquirrel->setY(m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top);
+			}
+
+			if (m_pTiles[y *  g_saveData.gTileMaxCountX + x].unitID == 13)
+			{
+				m_House.m_fX = (m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.left);
+				m_House.m_fY = (m_pTiles[y *  g_saveData.gTileMaxCountX + x].rc.top);
 			}
 
 			if (m_pTiles[y * g_saveData.gTileMaxCountX + x].terrain == isBlock)
@@ -201,6 +207,7 @@ HRESULT StageScene::init()
 	g_saveData.gCollideCount = m_nNumberOfBlock;
 
 	SCROLL->init(m_pRabbit->getX(), m_pRabbit->getY());
+
 
 	ITEMMANAGER->ItemCreate(300, 170, 4, false);
 	ITEMMANAGER->ItemCreate(340, 170, 4, false);
@@ -233,8 +240,17 @@ void StageScene::update()
 	//	}
 	//}
 
+	RECT temp_finish;
+	if (IntersectRect(&temp_finish, &m_pMyHero->getRect(), &m_House.rc))
+	{
+		SCENEMANAGER->changeScene("ending");
+		//g_saveData.bIsGameOver = true;
+	}
+
 
 	SCROLL->update(m_pMyHero->getX(), m_pMyHero->getY());
+	m_House.rc = RectMake(m_House.m_fX - SCROLL->GetX(), m_House.m_fY - SCROLL->GetY(), 100, 100);
+
 	m_pRabbit->update();
 	m_pFox->update();
 	m_pSquirrel->update();
@@ -766,8 +782,6 @@ void StageScene::render(HDC hdc)
 	m_pImg_Middle[0]->render(hdc, 0, 377);
 	m_pImg_Middle[1]->render(hdc, m_pImg_Middle[0]->getX() + m_pImg_Middle[1]->getWidth(), 377);
 	
-
-
 	for (int y = 0; y < g_saveData.gTileMaxCountY; y++)
 	{
 		for (int x = 0; x < g_saveData.gTileMaxCountX; x++)
@@ -833,14 +847,14 @@ void StageScene::render(HDC hdc)
 		
 
 
-		std::vector<Enemy*> vEnemy = ENEMYMANAGER->getVec();
-		std::vector<Enemy*>::iterator EnemyIter;
-		for (EnemyIter = vEnemy.begin(); EnemyIter != vEnemy.end(); EnemyIter++) // 플레이어 총알 백터
-		{
-			if ((*EnemyIter)->getIsAlive() == false) continue;
+		//std::vector<Enemy*> vEnemy = ENEMYMANAGER->getVec();
+		//std::vector<Enemy*>::iterator EnemyIter;
+		//for (EnemyIter = vEnemy.begin(); EnemyIter != vEnemy.end(); EnemyIter++) // 플레이어 총알 백터
+		//{
+		//	if ((*EnemyIter)->getIsAlive() == false) continue;
 
-			Rectangle(hdc, (*EnemyIter)->getRect().left, (*EnemyIter)->getRect().top, (*EnemyIter)->getRect().right, (*EnemyIter)->getRect().bottom);
-		}
+		//	//Rectangle(hdc, (*EnemyIter)->getRect().left, (*EnemyIter)->getRect().top, (*EnemyIter)->getRect().right, (*EnemyIter)->getRect().bottom);
+		//}
 
 
 
@@ -849,9 +863,13 @@ void StageScene::render(HDC hdc)
 	ENEMYMANAGER->render(hdc);
 	ITEMMANAGER->render(hdc);
 
+	m_pImg_House->frameRender(hdc, m_House.rc.left - 50, m_House.rc.top- 272,0,0,9.0f);
+
 	m_pRabbit->render(hdc);
 	m_pFox->render(hdc);
 	m_pSquirrel->render(hdc);
+	
+	
 
 
 	m_pImg_UI_char->render(hdc, 12, 12); 

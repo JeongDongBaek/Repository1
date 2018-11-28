@@ -121,7 +121,7 @@ void Bullet::render(HDC hdc)
 	case 0:
 		break;
 	case 1:
-		Rectangle(hdc, m_rc.left, m_rc.top, m_rc.right, m_rc.bottom);
+		//Rectangle(hdc, m_rc.left, m_rc.top, m_rc.right, m_rc.bottom);
 
 		if(m_bIsRight == true)
 			m_pImage->aniRender(hdc, m_rc.left - 8, m_rc.top - 11, m_pAni, 1.2f, false, 100);

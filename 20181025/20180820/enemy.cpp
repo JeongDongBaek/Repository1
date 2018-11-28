@@ -138,7 +138,7 @@ HRESULT Enemy::init(int EnemyNum, tagEnemyPattern Pattern, int Upgrade)
 		m_pImage[0] = IMAGEMANAGER->findImage("eagle_idle");
 		m_pImage_left[0] = IMAGEMANAGER->findImage("left_eagle_idle");
 		m_rcMoveArea = RectMake(m_fX - SCROLL->GetX(), SCROLL->GetY(), 780, 600);
-		m_fHP = 10.0f;
+		m_fHP = 50.0f;
 		m_fDamage = 4.0f;
 		m_fSpeed = 3.5f;
 		if (m_ePattern == Pattern_ofRule) m_ePattern = Pattern_moveFly;

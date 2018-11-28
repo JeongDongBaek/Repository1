@@ -5,10 +5,13 @@
 #include "BulletManager.h"
 #include "progressBar.h"
 #include "Inventory.h"
+#include "effectManager.h"
 
 HRESULT Fox::init()
 {
-
+	m_pEffectMgr = new effectManager;
+	m_pEffectMgr->init();
+	m_pEffectMgr->addEffect("wind1", "image/wind1.bmp", 320 * 2, 31 * 2, 64 * 2, 31 * 2, 10, 50);
 	m_pInven = new Inventory;
 	m_pInven->init(12);
 	
@@ -29,8 +32,8 @@ HRESULT Fox::init()
 
 	left_m_pImage_Bug[0] = IMAGEMANAGER->findImage("left_bug_walk");
 	m_pImage_Bug[0]	= IMAGEMANAGER->findImage("bug_walk");
-		IMAGEMANAGER->findImage("left_bug_idle");
-		IMAGEMANAGER->findImage("bug_idle");
+	left_m_pImage_Bug[1] = IMAGEMANAGER->findImage("left_bug_idle");
+	m_pImage_Bug[1] = IMAGEMANAGER->findImage("bug_idle");
 
 
 	for (int i = 0; i < 6; ++i)
@@ -47,6 +50,22 @@ HRESULT Fox::init()
 		m_pAni_left[i]->setFPS(12);
 		m_pAni_left[i]->start();
 	}
+
+	for (int d = 0; d < 2; ++d)
+	{
+		m_pAni_Bug[d] = new animation;
+		m_pAni_Bug[d]->init(m_pImage_Bug[d]->getWidth(), m_pImage_Bug[d]->getHeight(), m_pImage_Bug[d]->getFrameWidth(), m_pImage_Bug[d]->getFrameHeight());
+		m_pAni_Bug[d]->setDefPlayFrame(false, true);
+		m_pAni_Bug[d]->setFPS(12);
+		m_pAni_Bug[d]->start();
+
+		left_m_pAni_Bug[d] = new animation;
+		left_m_pAni_Bug[d]->init(left_m_pImage_Bug[d]->getWidth(), left_m_pImage_Bug[d]->getHeight(), left_m_pImage_Bug[d]->getFrameWidth(), left_m_pImage_Bug[d]->getFrameHeight());
+		left_m_pAni_Bug[d]->setDefPlayFrame(false, true);
+		left_m_pAni_Bug[d]->setFPS(12);
+		left_m_pAni_Bug[d]->start();
+	}
+
 	m_eState = st_isIdle;
 
 	m_pBulletMgr = new BulletManager;
@@ -101,6 +120,11 @@ void Fox::update()
 		m_pAni_left[i]->frameUpdate(TIMEMANAGER->getElapsedTime());
 	}
 
+	for (int i = 0; i < 2; ++i)
+	{
+		m_pAni_Bug[i]->frameUpdate(TIMEMANAGER->getElapsedTime());
+		left_m_pAni_Bug[i]->frameUpdate(TIMEMANAGER->getElapsedTime());
+	}
 
 
 	if (g_saveData.gGamePause == true) return;
@@ -118,7 +142,7 @@ void Fox::update()
 	if (m_pBulletMgr)
 		m_pBulletMgr->update();
 
-
+	m_pEffectMgr->update();
 
 
 	if (m_fX < 0) m_fX = 0;
@@ -280,6 +304,14 @@ void Fox::KeyEvent()
 		if (m_fJumpTemp < -4.0f)
 			m_fJumpTemp = -4.0f;
 	}
+	if (KEYMANAGER->isOnceKeyDown(VK_CONTROL))
+	{
+		if(FoxCurrMode == Mode_isFox)
+			FoxCurrMode = Mode_isBug;
+		else
+			FoxCurrMode = Mode_isFox;
+		m_pEffectMgr->play("wind1", m_rc.left, m_rc.top);
+	}
 
 
 
@@ -328,53 +360,76 @@ void Fox::render(HDC hdc)
 
 
 	m_pBulletMgr->render(hdc);
+	m_pEffectMgr->render(hdc);
 
 	if (m_bIsAlive == false) return;
 
 	if (m_bIsChoosed == true)
 	{
-		if (m_eState == st_isIdle)
+		if (FoxCurrMode == Mode_isFox)
 		{
-			if(m_bIsRight == true)
-				m_pImage[0]->aniRender(hdc, m_rc.left - 40, m_rc.top - 59, m_pAni[0], PLAYER_RATIO, false, UNSELECTED_STATE);
-			else
-				m_pImage_left[0]->aniRender(hdc, m_rc.left - 45, m_rc.top - 59, m_pAni_left[0], PLAYER_RATIO, false, UNSELECTED_STATE);
+			if (m_eState == st_isIdle)
+			{
+				if (m_bIsRight == true)
+					m_pImage[0]->aniRender(hdc, m_rc.left - 40, m_rc.top - 59, m_pAni[0], PLAYER_RATIO, false, UNSELECTED_STATE);
+				else
+					m_pImage_left[0]->aniRender(hdc, m_rc.left - 45, m_rc.top - 59, m_pAni_left[0], PLAYER_RATIO, false, UNSELECTED_STATE);
+			}
+			else if (m_eState == st_isJump)
+			{
+				if (m_bIsRight == true)
+					m_pImage[1]->frameAlphaRender(hdc, m_rc.left - 40, m_rc.top - 59, 0, 0, PLAYER_RATIO, 0);
+				else
+					m_pImage_left[1]->frameAlphaRender(hdc, m_rc.left - 45, m_rc.top - 59, 0, 0, PLAYER_RATIO, 0);
+			}
+			else if (m_eState == st_isFall)
+			{
+				if (m_bIsRight == true)
+					m_pImage[2]->frameAlphaRender(hdc, m_rc.left - 40, m_rc.top - 59, 0, 0, PLAYER_RATIO, 0);
+				else
+					m_pImage_left[2]->frameAlphaRender(hdc, m_rc.left - 45, m_rc.top - 59, 0, 0, PLAYER_RATIO, 0);
+			}
+			else if (m_eState == st_isRun)
+			{
+				if (m_bIsRight == true)
+					m_pImage[3]->aniRender(hdc, m_rc.left - 40, m_rc.top - 59, m_pAni[3], PLAYER_RATIO, false, UNSELECTED_STATE);
+				else
+					m_pImage_left[3]->aniRender(hdc, m_rc.left - 45, m_rc.top - 59, m_pAni_left[3], PLAYER_RATIO, false, UNSELECTED_STATE);
+			}
+			else if (m_eState == st_isHurt)
+			{
+				if (m_bIsRight == true)
+					m_pImage[4]->aniRender(hdc, m_rc.left - 40, m_rc.top - 59, m_pAni[4], PLAYER_RATIO, false, UNSELECTED_STATE);
+				else
+					m_pImage_left[4]->aniRender(hdc, m_rc.left - 45, m_rc.top - 59, m_pAni_left[4], PLAYER_RATIO, false, UNSELECTED_STATE);
+			}
+			else if (m_eState == st_isClimb)
+			{
+				if (m_bIsRight == true)
+					m_pImage[5]->aniRender(hdc, m_rc.left - 40, m_rc.top - 59, m_pAni[5], PLAYER_RATIO, false, UNSELECTED_STATE);
+				else
+					m_pImage_left[5]->aniRender(hdc, m_rc.left - 45, m_rc.top - 59, m_pAni_left[5], PLAYER_RATIO, false, UNSELECTED_STATE);
+			}
 		}
-		else if (m_eState == st_isJump)
+		else if (FoxCurrMode == Mode_isBug)
 		{
-			if (m_bIsRight == true)
-				m_pImage[1]->frameAlphaRender(hdc, m_rc.left - 40, m_rc.top - 59, 0, 0, PLAYER_RATIO, 0);
-			else
-				m_pImage_left[1]->frameAlphaRender(hdc, m_rc.left - 45, m_rc.top - 59, 0, 0, PLAYER_RATIO, 0);
+			if (m_eState == st_isRun)
+			{
+				if (m_bIsRight == true)
+					m_pImage_Bug[0]->aniRender(hdc, m_rc.left - 10, m_rc.top - 10, m_pAni_Bug[0], PLAYER_RATIO, false, UNSELECTED_STATE);
+				else
+					left_m_pImage_Bug[0]->aniRender(hdc, m_rc.left - 10, m_rc.top - 10, left_m_pAni_Bug[0], PLAYER_RATIO, false, UNSELECTED_STATE);
+			}
+			else if (m_eState == st_isIdle)
+			{
+				if (m_bIsRight == true)
+					m_pImage_Bug[1]->aniRender(hdc, m_rc.left - 10, m_rc.top - 10, m_pAni_Bug[1], PLAYER_RATIO, false, UNSELECTED_STATE);
+				else
+					left_m_pImage_Bug[1]->aniRender(hdc, m_rc.left - 10, m_rc.top - 10, left_m_pAni_Bug[1], PLAYER_RATIO, false, UNSELECTED_STATE);
+			}
+
 		}
-		else if (m_eState == st_isFall)
-		{
-			if (m_bIsRight == true)
-				m_pImage[2]->frameAlphaRender(hdc, m_rc.left - 40, m_rc.top - 59, 0,0, PLAYER_RATIO, 0);
-			else
-				m_pImage_left[2]->frameAlphaRender(hdc, m_rc.left - 45, m_rc.top - 59, 0, 0, PLAYER_RATIO, 0);
-		}
-		else if (m_eState == st_isRun)
-		{
-			if (m_bIsRight == true)
-				m_pImage[3]->aniRender(hdc, m_rc.left - 40, m_rc.top - 59, m_pAni[3], PLAYER_RATIO, false, UNSELECTED_STATE);
-			else
-				m_pImage_left[3]->aniRender(hdc, m_rc.left - 45, m_rc.top - 59, m_pAni_left[3], PLAYER_RATIO, false, UNSELECTED_STATE);
-		}
-		else if (m_eState == st_isHurt)
-		{
-			if (m_bIsRight == true)
-				m_pImage[4]->aniRender(hdc, m_rc.left - 40, m_rc.top - 59, m_pAni[4], PLAYER_RATIO, false, UNSELECTED_STATE);
-			else
-				m_pImage_left[4]->aniRender(hdc, m_rc.left - 45, m_rc.top - 59, m_pAni_left[4], PLAYER_RATIO, false, UNSELECTED_STATE);
-		}
-		else if (m_eState == st_isClimb)
-		{
-			if (m_bIsRight == true)
-				m_pImage[5]->aniRender(hdc, m_rc.left - 40, m_rc.top - 59, m_pAni[5], PLAYER_RATIO, false, UNSELECTED_STATE);
-			else
-				m_pImage_left[5]->aniRender(hdc, m_rc.left - 45, m_rc.top - 59, m_pAni_left[5], PLAYER_RATIO, false, UNSELECTED_STATE);
-		}
+		
 	}
 	else
 	{

@@ -5,7 +5,9 @@
 
 HRESULT EndingScene::init()
 {
-
+	m_pImg_BG;
+	m_pImg_Alice;
+	m_pAni;
 
 
 	return S_OK;
@@ -29,7 +31,7 @@ void EndingScene::render(HDC hdc)
 	SetBkMode(hdc, TRANSPARENT);
 	SetTextColor(hdc, RGB(255, 240, 200));
 	MY_UTIL::FontOption(hdc, 42, 0);
-	sprintf_s(SzText1, "%s : ", "만 든 이 들");
+	sprintf_s(SzText1, "%s : ", "만 든 이");
 	TextOut(hdc, WINSIZEX/2 - 86, 570, SzText1, strlen(SzText1));
 	MY_UTIL::FontDelete(hdc);
 
@@ -37,9 +39,12 @@ void EndingScene::render(HDC hdc)
 	SetBkMode(hdc, TRANSPARENT);
 	SetTextColor(hdc, RGB(255, 240, 200));
 	MY_UTIL::FontOption(hdc, 42, 0);
-	sprintf_s(SzText1, "%s  ", "사워게코[정지수, 정민욱, 이순현]");
-	TextOut(hdc, WINSIZEX / 2 - 252, 620, SzText1, strlen(SzText1));
+	sprintf_s(SzText1, "%s  ", "정민욱");
+	TextOut(hdc, WINSIZEX / 2 - 86, 620, SzText1, strlen(SzText1));
+
 	MY_UTIL::FontDelete(hdc);
+	sprintf_s(SzText1, "%s  ", "감사합니다.");
+	TextOut(hdc, WINSIZEX / 2 - 86, 690, SzText1, strlen(SzText1));
 
 }
 

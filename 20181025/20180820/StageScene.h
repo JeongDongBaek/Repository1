@@ -23,6 +23,7 @@ class StageScene : public scene
 {
 private:
 
+	tagHouse m_House;
 	tagTILE m_pTiles[TILE_MAX_COUNTX * TILE_MAX_COUNTY];
 	
 	RECT m_Collide_Tiles[(TILE_MAX_COUNTX * TILE_MAX_COUNTY) / 2 ];

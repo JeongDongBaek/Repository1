@@ -5,10 +5,18 @@ class image;
 class animation;
 class BulletManager;
 class progressBar;
+class effectManager;
+
+enum tagFoxMode
+{
+	Mode_isFox, Mode_isBug 
+};
 
 class Fox : public MyHero
 {
 private:
+
+	tagFoxMode FoxCurrMode;
 	int m_nCurrentFrame;
 	image * m_pImage[6];					//;
 											//_Jump;
@@ -30,6 +38,7 @@ private:
 	animation * m_pAni_left[6];
 
 	progressBar * m_pProgressBar;
+	effectManager * m_pEffectMgr;
 
 public:
 	HRESULT init();
